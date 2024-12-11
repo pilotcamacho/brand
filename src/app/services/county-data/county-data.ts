@@ -258,7 +258,8 @@ export const COLUMNS_DATA: ColumnData[] = [
 ]
 
 export const COLUMNS_RENAME_BY_STATE: ColumnRenameByState[] = [
-  { "state": "USA", "code": "medicaid_pop_under_18", "name": "USA NAME - Medicaid Enrolled Children with Autism" }
+  { "state": "USA", "code": "medicaid_pop_under_18", "name": "COUNTRY - Medicaid Enrolled Children with Autism" },
+  { "state": "CA", "code": "medicaid_pop_under_18", "name": "Medi-Cal Enrolled Children with Autism" }
 ]
 
 

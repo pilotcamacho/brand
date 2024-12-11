@@ -67,6 +67,6 @@ export class EntitiesService {
         });
     }
 
-    return [new ColumnInfoByRegion(region, columData, filteredData)]
+    return [new ColumnInfoByRegion('commercial', region, columData, filteredData)]
   }
 }

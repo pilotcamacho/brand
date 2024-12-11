@@ -28,12 +28,13 @@ export class CountyDataSrvService {
   }
 
   updateCountiesData(region: Region) {
+    console.log("CountyDataSrvService::updateCountiesData()::region: " + JSON.stringify(region))
     const stateInfo = this.data
       .filter((countyData) => (countyData.state === region.code))
       .map((countyData) => new DataRowByCounty(countyData));
     this.columnsInfo = this.columns.map((colData) => {
       colData.name = this.replaceNameByState(region, colData.code, colData.name)
-      return new ColumnInfoByRegion(region, colData, stateInfo)
+      return new ColumnInfoByRegion('medicare', region, colData, stateInfo)
     });
     // console.log(">>>>>> CountyDataSrvService::updateCountiesData()::this.columnsInfo: " + JSON.stringify(this.columnsInfo))
     // this.columns.forEach(col => { console.log(col.code + " - " + col.min + " - " + col.max) })
@@ -44,8 +45,9 @@ export class CountyDataSrvService {
     return found ? found.name : originalName;
   }
 
-  get parameters(): ColumnInfoByRegion[] {
-    console.log("CountyDataSrvService::getParameters()::this.columnsInfo: " + this.columnsInfo)
+  getParameters(region: Region): ColumnInfoByRegion[] {
+    this.updateCountiesData(region)
+    console.log("CountyDataSrvService::getParameters()::this.columnsInfo: " + JSON.stringify(this.columnsInfo))
     return this.columnsInfo.filter(column => (column.type === "number" as keyof DataRowByCounty));
   }
 

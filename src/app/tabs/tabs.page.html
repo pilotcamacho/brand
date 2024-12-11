@@ -3,21 +3,27 @@
   <ion-grid class="full-height-grid">
 
     <!-- <ion-row (click)="toggleCountyVisibility()"> -->
-    <ion-row>
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Board Certified Behavior Analyst - Data: {{ selectedCountyFromChild }}
-            </ion-title>
-            <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
-            <!-- <ion-button slot="end" (click)="setOpen(true)" fill="outline">
-            <ion-icon name="pricetag-outline"></ion-icon>
-            Open Rates
-          </ion-button> -->
-          </ion-toolbar>
-        </ion-header>
-      </ion-col>
-    </ion-row>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+          <ion-header>
+            <ion-toolbar>
+              <!-- Title on the left -->
+              <ion-title>
+                Board Certified Behavior Analyst - Data: {{ selectedCountyFromChild }} - {{usuarioSrv.email}}
+              </ion-title>
+  
+              <!-- Sign Out button on the right -->
+              <ion-buttons slot="end">
+                <ion-button (click)="signOut()" fill="clear" shape="round">
+                  Sign Out
+                </ion-button>
+                <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
+              </ion-buttons>
+  
+            </ion-toolbar>
+          </ion-header>
+        </ion-col>
+      </ion-row>
 
     <ion-row *ngIf="countiesVisible">
 
@@ -25,47 +31,49 @@
 
         <!-- Variables List -->
         <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('variablesList')">
+          <ion-list-header (click)="toggleList('medicaidList')">
             <ion-label>Medicaid</ion-label>
-            <ion-icon [name]="isListOpen.variablesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+            <ion-icon [name]="isListOpen.medicaidList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
           </ion-list-header>
-      
-          <ion-radio-group *ngIf="isListOpen.variablesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columns">
+
+          <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsMedicaid">
               <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ion-list>
-      
+
         <!-- Second List -->
         <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('secondList')">
-            <ion-label>Rates</ion-label>
-            <ion-icon [name]="isListOpen.secondList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          <ion-list-header (click)="toggleList('commercialList')">
+            <ion-label>Commercial</ion-label>
+            <ion-icon [name]="isListOpen.commercialList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
           </ion-list-header>
-      
-          <ion-list *ngIf="isListOpen.secondList">
-            <ion-item *ngFor="let item of secondListItems">
-              <ion-label>{{ item.name }}</ion-label>
+
+          <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsCommercial">
+              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
-          </ion-list>
+          </ion-radio-group>
         </ion-list>
-      
+
         <!-- Third List -->
         <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('thirdList')">
+          <ion-list-header (click)="toggleList('generalList')">
             <ion-label>General</ion-label>
-            <ion-icon [name]="isListOpen.thirdList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+            <ion-icon [name]="isListOpen.generalList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
           </ion-list-header>
-      
-          <ion-list *ngIf="isListOpen.thirdList">
-            <ion-item *ngFor="let item of thirdListItems">
-              <ion-label>{{ item.name }}</ion-label>
+
+          <ion-radio-group *ngIf="isListOpen.generalList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsGeneral">
+              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
-          </ion-list>
+          </ion-radio-group>
         </ion-list>
-      
+
       </ion-col>
 
       <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8">
@@ -120,7 +128,7 @@
         </ion-row>
 
 
-        <ion-row *ngIf="atLeaseOneSelected && chartStandardView">
+        <ion-row *ngIf="atLeastOneSelected && chartStandardView">
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <!-- Tab Content -->
 
@@ -163,7 +171,7 @@
 
 
 
-        <ion-row *ngIf="atLeaseOneSelected && chartStandardView" class="full-height-row">
+        <ion-row *ngIf="atLeastOneSelected && chartStandardView" class="full-height-row">
 
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <!-- Description Section -->
@@ -191,7 +199,7 @@
                 <ion-grid>
                   <ion-row>
                     <ion-col><strong>Statistic</strong></ion-col>
-                    <ion-col *ngFor="let sc of getSelectedColumns()" ><strong>{{
+                    <ion-col *ngFor="let sc of getSelectedColumns()"><strong>{{
                         sc.colInfo.name}}</strong></ion-col>
                   </ion-row>
                   <ion-row>
@@ -239,7 +247,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="atLeaseOneSelected && chartStandardView">
+        <ion-row *ngIf="atLeastOneSelected && chartStandardView">
           <ion-col>
             <ion-card-content>
               <p>{{ selectedColumn.colInfo.description }}</p>
@@ -247,7 +255,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="!atLeaseOneSelected && chartStandardView">
+        <ion-row *ngIf="!atLeastOneSelected && chartStandardView">
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol"
             style="text-align: center; padding: 20px;">
 

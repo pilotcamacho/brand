@@ -11,6 +11,9 @@ import { DataService } from '../services/data.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { EntitiesService } from '../services/entities/entities.service';
 // import { CountyInfo } from '../services/county-data/county-info';
+import { getCurrentUser, signOut } from 'aws-amplify/auth'
+import { StatesService } from '../services/states/states.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-tabs',
@@ -31,7 +34,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   countiesVisible: boolean = true;
   ratesVisible: boolean = true;
 
-  atLeaseOneSelected: boolean = false;
+  atLeastOneSelected: boolean = false;
 
   // mapStandardView = true;
   chartStandardView = true;
@@ -49,7 +52,9 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   // selectedTab: string = 'map';  // Default selected tab
 
-  columns: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
+  columnsMedicaid: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
+  columnsCommercial: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
+  columnsGeneral: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
 
   // selectedColumns: { colInfo: ColumnInfo, selected: boolean, format: string, pScale: number, pSymbol: string }[] = [];
   selectedColumn!: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
@@ -69,32 +74,23 @@ export class TabsPage implements AfterViewInit, OnInit {
     private toastController: ToastController,
     private route: ActivatedRoute,
     private countyDataSrv: CountyDataSrvService,
+    private statesSrv: StatesService,
     private rateDs: RateDataService,
     private dataSrv: DataService,
-    private entitiesSrv: EntitiesService
+    private entitiesSrv: EntitiesService,
+    public usuarioSrv: UsuarioService
   ) {
     console.log('TabsPage::constructor')
 
-    // This is the same as getStateInfo(region) but filtering out colums that are numeric
-    const parms = [
-      ...countyDataSrv.parameters,
-      ...this.entitiesSrv.getStateInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' })
-    ]
-    console.log('TabsPage::constructor::parms: ' + JSON.stringify(parms))
-
-    this.columns = parms.map(column => {
-      return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
-    })
-
-    console.log('TabsPage::constructor::this.columns: ' + JSON.stringify(this.columns))
+    this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' })
 
     // this.selectedColumns = [this.columns[0], this.columns[1]]
 
     // this.columns[0].selected = true;
     // this.columns[1].selected = true;
     // this.columns[2].selected = true;
-    this.atLeaseOneSelected = true;
-    this.selectedColumn = this.columns[0]
+    this.atLeastOneSelected = true;
+    this.selectedColumn = this.columnsMedicaid[0]
 
     this.mapInput = dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo)
 
@@ -105,22 +101,63 @@ export class TabsPage implements AfterViewInit, OnInit {
     // console.log('TabsPage::constructor::this.qChartData: ' + JSON.stringify(this.qChartData))
   }
 
+  updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
+    console.log(`TabsPage::updateColumnsInfo::type|name|code|codeFP: ${countyInfo.type}, ${countyInfo.name}, ${countyInfo.code}`)
+
+    const region: Region = {
+      type: countyInfo.type,
+      name: countyInfo.name,
+      code: countyInfo.code,
+      codeFP: countyInfo.codeFP
+    }
+    // This is the same as getStateInfo(region) but filtering out colums that are numeric
+    const parms = [
+      ...this.countyDataSrv.getParameters(region),
+      ...this.entitiesSrv.getStateInfo(countyInfo)
+    ]
+    console.log('TabsPage::constructor::parms: ' + JSON.stringify(parms))
+
+
+    this.columnsMedicaid = parms.filter(col => (col.columnGroup === 'medicare')).map(column => {
+      return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
+    })
+
+    this.columnsCommercial = parms.filter(col => (col.columnGroup === 'commercial')).map(column => {
+      return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
+    })
+
+    this.columnsGeneral = parms.filter(col => (col.columnGroup === 'general')).map(column => {
+      return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
+    })
+
+
+    console.log('TabsPage::constructor::this.columnsMedicaid: ' + JSON.stringify(this.columnsMedicaid))
+    console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
+    console.log('TabsPage::constructor::this.columnsGeneral: ' + JSON.stringify(this.columnsGeneral))
+
+  }
+
+  signOut() {
+    console.log('about to signOut ....')
+    signOut().then(() => console.log('signed out!'));
+  }
+
   isListOpen = {
-    variablesList: true,
-    secondList: false,
-    thirdList: false
+    medicaidList: true,
+    commercialList: false,
+    generalList: false
   };
 
-  toggleList(listName: 'variablesList' | 'secondList' | 'thirdList'): void {
+  toggleList(listName: 'medicaidList' | 'commercialList' | 'generalList'): void {
     this.isListOpen[listName] = !this.isListOpen[listName];
   }
 
-  secondListItems = [
+  commercialListItems = [
     { name: 'Item 1' },
     { name: 'Item 2' }
   ];
 
-  thirdListItems = [
+  generalListItems = [
     { name: 'Item A' },
     { name: 'Item B' }
   ];
@@ -133,6 +170,7 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   onClickMapa(event: any) {
     console.log('TabsPage::onClickMapaGrande')
+    this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' });
     this.mapInput = this.dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo)
     this.onClickChart(event)
   }
@@ -162,7 +200,7 @@ export class TabsPage implements AfterViewInit, OnInit {
 
 
   getSelectedColumns() {
-    return this.columns.filter(sc => sc.selected);
+    return this.columnsMedicaid.filter(sc => sc.selected);
   }
 
   getQChartDataFromSelectedCode(selectedCode: CodeData, byPayer: boolean): qChartComponentDataI {
@@ -209,7 +247,7 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     // Code to run after the page is fully loaded
-    this.selectedColumn = this.columns[1]
+    this.selectedColumn = this.columnsMedicaid[1]
     console.log('TabsPage::ngAfterViewInit::Page fully loaded and view initialized');
     // this.selectedColumn = this.columns[0]
   }
@@ -298,7 +336,18 @@ export class TabsPage implements AfterViewInit, OnInit {
     this.selectedCountyFromChild = county;
     // this.countyDataSrv.countyInfo
     console.log('TabsPage::onSelectedCountyChange::Selected county from child: ', this.selectedCountyFromChild);
-    this.calculateRanking();
+
+    const out = this.statesSrv.getStateDetailsByName(county)
+
+    if (out !== null) {
+      this.calculateRanking();
+      const countyInfo: { type: RegionType, name: string, code: string, codeFP: string } = {
+        type: RegionType.STATE, name: county, code: out.state_code, codeFP: out.state_fp
+      };
+      this.updateColumnsInfo(countyInfo);
+    }
+
+
     this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo)
     // console.log('TabsPage::onSelectedCountyChange::mapInput: ' + JSON.stringify(this.mapInput))
   }
@@ -314,9 +363,9 @@ export class TabsPage implements AfterViewInit, OnInit {
     // You can also access column.selected to see the new state
     console.log('Selected:', column.selected);
 
-    console.log('this.selectedColumns.length::' + this.columns.length)
+    console.log('this.selectedColumns.length::' + this.columnsMedicaid.length)
 
-    this.atLeaseOneSelected = this.columns.filter(c => c.selected).length > 0;
+    this.atLeastOneSelected = this.columnsMedicaid.filter(c => c.selected).length > 0;
     // Additional logic can be added here
   }
 

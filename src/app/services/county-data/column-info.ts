@@ -4,6 +4,7 @@ import { DataRowByCounty } from "./county-info";
 
 
 export class ColumnInfoByRegion {
+    columnGroup: 'medicare'| 'commercial'| 'general';
     region: Region;
     code: keyof DataRowByCounty;
     name: string;
@@ -20,11 +21,13 @@ export class ColumnInfoByRegion {
     countiesInfo: { subRegion: string, value: (string | number | undefined) }[]
 
     constructor(
+        columnGroup: 'medicare'| 'commercial'| 'general',
         region: Region,
         countyData: ColumnData,
         countiesInfo: DataRowByCounty[]
     ) {
         console.log("ColumnInfo::constructor")
+        this.columnGroup = columnGroup;
         this.region = region;
         this.code = countyData.code;
         this.name = countyData.name;
