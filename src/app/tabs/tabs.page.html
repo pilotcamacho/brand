@@ -1,0 +1,382 @@
+<ion-content>
+
+  <ion-grid class="full-height-grid">
+
+    <!-- <ion-row (click)="toggleCountyVisibility()"> -->
+    <ion-row>
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Board Certified Behavior Analyst - Data: {{ selectedCountyFromChild }}
+            </ion-title>
+            <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
+            <!-- <ion-button slot="end" (click)="setOpen(true)" fill="outline">
+            <ion-icon name="pricetag-outline"></ion-icon>
+            Open Rates
+          </ion-button> -->
+          </ion-toolbar>
+        </ion-header>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="countiesVisible">
+
+      <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
+
+        <!-- Variables List -->
+        <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('variablesList')">
+            <ion-label>Medicaid</ion-label>
+            <ion-icon [name]="isListOpen.variablesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+      
+          <ion-radio-group *ngIf="isListOpen.variablesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columns">
+              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      
+        <!-- Second List -->
+        <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('secondList')">
+            <ion-label>Rates</ion-label>
+            <ion-icon [name]="isListOpen.secondList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+      
+          <ion-list *ngIf="isListOpen.secondList">
+            <ion-item *ngFor="let item of secondListItems">
+              <ion-label>{{ item.name }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      
+        <!-- Third List -->
+        <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('thirdList')">
+            <ion-label>General</ion-label>
+            <ion-icon [name]="isListOpen.thirdList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+      
+          <ion-list *ngIf="isListOpen.thirdList">
+            <ion-item *ngFor="let item of thirdListItems">
+              <ion-label>{{ item.name }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-list>
+      
+      </ion-col>
+
+      <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8">
+
+        <!-- this is the County content -->
+
+
+        <!-- <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-lg="12">
+                <! -- Dropdown Selector Section -- >
+                <div>
+                  <ion-item>
+                    <! -- <ion-label>Select data:</ion-label> -- >
+                    <ion-select justify="start" [(ngModel)]="selectedColumn.colInfo" interface="action-sheet"
+                      placeholder="Select data to show" (ionChange)="onColumnChange($event)">
+                      <ion-select-option *ngFor="let column of columns" [value]="column">
+                        {{ column.name }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </div>
+              </ion-col>
+            </ion-row> -->
+
+
+        <ion-row *ngIf="!chartStandardView" class="full-height-row">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <div class="custom-card" (contextmenu)="onClickMapa($event)">
+              <!-- Map goes here -->
+              <div class="map-section">
+                <div id="map">
+                  <app-map-component [mapInput]="mapInput"
+                    (selectedCountyChange)="onSelectedCountyChange($event)"></app-map-component>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="!chartStandardView && false" class="full-height-row">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <div class="custom-card" (contextmenu)="onClickChart($event);">
+              <!-- Chart goes here -->
+              <div class="chart-section">
+                <div id="chart">
+                  <app-bar-chart [selectedColumn]="selectedColumn.colInfo"
+                    [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+
+        <ion-row *ngIf="atLeaseOneSelected && chartStandardView">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <!-- Tab Content -->
+
+            <div class="custom-card" (contextmenu)="onClickMapa($event);">
+              <!-- Map goes here -->
+              <div class="map-section">
+                <div id="map">
+                  <app-map-component [mapInput]="mapInput"
+                    (selectedCountyChange)="onSelectedCountyChange($event)"></app-map-component>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+
+          <!-- <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="6" id="ionCol">
+            < !-- Description Section -- >
+
+            <div class="custom-card" (contextmenu)="onClickChart($event);">
+              < !-- Chart goes here -- >
+              <div class="chart-section">
+                <div id="chart">
+                  <app-bar-chart [selectedColumn]="selectedColumn.colInfo"
+                    [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
+                </div>
+              </div>
+            </div>
+          </ion-col> -->
+
+          <!-- <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="4" id="ionCol">
+            <div class="custom-card">
+              < !-- Boxplot goes here -- >
+              <div class="box-plot-section">
+                <div id="box-plot">
+                  <app-box-plot [selectedColumn]="selectedColumn.colInfo"></app-box-plot>
+                </div>
+              </div>
+            </div>
+          </ion-col> -->
+        </ion-row>
+
+
+
+        <ion-row *ngIf="atLeaseOneSelected && chartStandardView" class="full-height-row">
+
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <!-- Description Section -->
+            <!-- <div class="description-section">
+                <p>
+                  <b>Description:</b> {{ selectedColumn.colInfo.description }}<br>
+                  <b>Statistics:</b>
+                  min:{{ selectedColumn.colInfo.min | number:'1.2-2' }},
+                  max:{{ selectedColumn.colInfo.max | number:'1.2-2'}}</p>
+              </div> -->
+
+            <!-- Description Section -->
+            <!-- <ion-card>
+              <ion-card-header>
+                <ion-card-title>Description of Population</ion-card-title>
+              </ion-card-header>
+            </ion-card> -->
+
+            <!-- Statistics Table -->
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>Description of Population</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col><strong>Statistic</strong></ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()" ><strong>{{
+                        sc.colInfo.name}}</strong></ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>Minimum</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.min * sc.pScale |
+                      number:sc.format
+                      }}{{sc.pSymbol}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>First Quartile (Q1)</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.q1 * sc.pScale |
+                      number:sc.format
+                      }}{{sc.pSymbol}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>Median</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.median * sc.pScale |
+                      number:sc.format
+                      }}{{sc.pSymbol}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>Third Quartile (Q3)</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.q3 * sc.pScale |
+                      number:sc.format
+                      }}{{sc.pSymbol}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>Maximum</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.max * sc.pScale |
+                      number:sc.format
+                      }}{{sc.pSymbol}}</ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>Number of Values</ion-col>
+                    <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.num_values | number:'1.0'
+                      }}</ion-col>
+                  </ion-row>
+                  <!-- <ion-row>
+                        <ion-col>County rank</ion-col>
+                        <ion-col *ngFor="let sc of getSelectedColumns()">{{ sc.colInfo.r | number:'1.0-0' }}</ion-col>
+                      </ion-row> -->
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="atLeaseOneSelected && chartStandardView">
+          <ion-col>
+            <ion-card-content>
+              <p>{{ selectedColumn.colInfo.description }}</p>
+            </ion-card-content>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="!atLeaseOneSelected && chartStandardView">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol"
+            style="text-align: center; padding: 20px;">
+
+            <div
+              style="border: 2px solid #e0e0e0; padding: 20px; border-radius: 10px; background-color: #f9f9f9; color: #333;">
+              <h2 style="font-weight: bold; color: #333;">Welcome!</h2>
+              <p style="font-size: 16px; line-height: 1.5; text-align: justify;">
+                To get started, please select a <strong>variable</strong> from the <em>"Variable List"</em> on the left.
+                This selection will allow you to explore and analyze different aspects of the dataset.
+              </p>
+              <p style="font-size: 16px; line-height: 1.5; text-align: justify;">
+                By choosing multiple variables, you can interact with the <strong>dynamic map</strong> and <strong>bar
+                  graph</strong>
+                by hovering over the <em>Description of Population</em> titles. The map and the graph will update
+                automatically to reflect your selection.
+              </p>
+              <p style="font-size: 16px; line-height: 1.5; text-align: justify;">
+                You can also <strong>expand or collapse the map</strong> using the <strong>right-click</strong> on your
+                mouse for better viewing of the data. The map provides a detailed visual representation of your selected
+                variables.
+              </p>
+              <p style="font-size: 16px; line-height: 1.5; text-align: justify;">
+                In the <strong>bottom half of the page</strong>, you will find detailed information on the rates by
+                service code, allowing you to explore the specific codes in depth.
+              </p>
+              <p style="font-size: 16px; line-height: 1.5; text-align: justify;">
+                Start by picking your first variable and dive into the insights this data offers!
+              </p>
+            </div>
+
+          </ion-col>
+        </ion-row>
+
+
+
+      </ion-col>
+
+
+    </ion-row>
+
+    <!-- HERE GOES RATES -->
+
+    <ion-row (click)="toggleRateVisibility()" *ngIf="false">
+      <ion-col size-xs="12" size-sm="12" size-lg="12">
+
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Rates
+            </ion-title>
+            <ion-icon slot="end" [name]="ratesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
+          </ion-toolbar>
+        </ion-header>
+
+        <!-- <ion-card>
+          <ion-card-header>
+            <ion-card-title>Rates</ion-card-title>
+          </ion-card-header>
+        </ion-card> -->
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="ratesVisible && false">
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+        <app-rate-table></app-rate-table>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-row *ngIf="false">
+      <ion-col size-xs="3" size-sm="3" size-md="3" size-lg="3" id="ionCol">
+
+        <!-- Dropdown Selector Section -->
+        <!-- <div>
+          <ion-item>
+            <ion-label>Select data:</ion-label>
+            <ion-select justify="start" [(ngModel)]="listOfSelectedNetworks" interface="action-sheet"
+              placeholder="Select Network" (ionChange)="onNetworkSelected($event)" [multiple]="true">
+              <ion-select-option *ngFor="let network of listOfNetworks" [value]="network">
+                {{ network }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div> -->
+
+
+        <div>
+          <ion-item>
+            <ion-label>Select Network:</ion-label>
+          </ion-item>
+
+          <ion-list>
+            <ion-item *ngFor="let network of listOfSelectedNetworks">
+              <ion-label style="font-size: 12px;">{{ network.code }}</ion-label>
+              <ion-checkbox slot="end" [(ngModel)]="network.selected" (ionChange)="onNetworkSelected(network)">
+              </ion-checkbox>
+            </ion-item>
+          </ion-list>
+        </div>
+
+      </ion-col>
+
+      <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8" id="ionCol">
+        <div class="custom-card">
+          <!-- Rates go here -->
+          <div class="rates-section">
+            <div id="rates">
+
+              <div id="codeSelectorCtr">
+                <ion-item>
+                  <!-- <ion-toggle [(ngModel)]="byPayer" (ionChange)="onToggleChange($event)" style="margin-right: 15px;">
+                      Group by payer
+                    </ion-toggle> -->
+                  <label><b>Code:</b> </label>
+                  <ion-select interface="action-sheet" [(ngModel)]="selectedCode" (ionChange)="onCodeChange($event)"
+                    name="myNewSelect">
+                    <ion-select-option *ngFor="let option of listOfCodes" [value]="option">
+                      {{ option.cpt_code }}: {{ option.description }}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+
+                <app-q-chart [qChartData]="qChartData"></app-q-chart>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

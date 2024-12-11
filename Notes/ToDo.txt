@@ -1,0 +1,50 @@
+
+
+- Needs to make reference to https://simplemaps.com/data/us-zips
+- Check the values by zipcode
+- Colapse groups: County info / Rates Info
+- Expand map or tables or ... when clicked
+- Login and select data by logged user
+
+- Create Table with varaible data
+
+- Select County
+- Select Payer
+
+- Color scale for values in map
+- DATA restructure for rate data
+- DATA restructure for STATS
+- STATS: min, max, 1,2,3 quntiles, avg, ....
+- Deployment in PROD
+- Add all variables in EXCEL sheet
+- Start with empty map
+- Adjust map size to end of screen
+- Create Table TAB 
+- Create Chart TAB
+
+- Welcome page
+- Map:  Values format
+- Chart:    Values format
+- Chart:	Stats in Chart
+- Rates:	Select only by payer
+- Rates:	Show payers grouping
+- Rates:	Open reates by hovering
+- Rates:    Median value line thickness
+- Rates:    Show additional rates info
+
+
+--- DONE ----------------
+- Create Repository
+- Make selector wider
+- Responsive all the sizes
+- Add descriptions
+- Chart:	Chart at start size the correct way (as when going back and forth)
+- Map:	Map starts with selected column at start
+- Map:	Map starts with selected columnwhen back from chart
+- Map:	Map put population, area and density close toghther
+- Rates:	$ sign in scale
+- Rates:	Show values between 0 and 5%
+- Rates:	Line to show median value
+- Rates:    Start with data OK
+- Rates:	Definition of code
+- Rates:	Sometimes the "Open rates" does not open: I think is when "closed" by clicking outside

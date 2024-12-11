@@ -1,0 +1,36 @@
+::ng-deep .map-title {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slightly more opaque for readability */
+  padding: 7px 10px; /* Increased padding for a cleaner look */
+  font-size: 12px; /* Standard readable font size */
+  font-weight: bold; /* Emphasizes the title */
+  color: #333; /* Darker color for contrast against the background */
+  border-radius: 8px; /* Rounded corners for a modern feel */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adds depth with a soft shadow */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Light border for a defined edge */
+  text-align: center; /* Center-aligns the text within the box */
+  max-width: 100%; /* Restricts width to avoid overflow on smaller screens */
+  margin: 0 auto; /* Centers the title horizontally */
+}
+
+::ng-deep .leaflet-tile-pane {
+  opacity: 0.5;
+}
+
+// ::ng-deep .info.legend i {
+//   width: 18px;
+//   height: 18px;
+//   float: left;
+//   margin-right: 8px;
+//   opacity: 0.7;
+// }
+
+::ng-deep .info.legend {
+  font-size: 12px;
+  color: #333;
+  text-align: center;
+}

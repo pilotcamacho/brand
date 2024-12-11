@@ -1,0 +1,17 @@
+
+<div style="height: 360px; width: 100%;">
+  <canvas baseChart 
+    [data]="barChartData" 
+    [options]="barChartOptions" 
+    [type]="'bar'"
+    [title]="title"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
+<div>
+  <ion-toggle [(ngModel)]="sordByValue" (ionChange)="onToggleChange($event)">
+    Sort by value
+  </ion-toggle>
+</div>
+

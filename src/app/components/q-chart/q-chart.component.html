@@ -1,0 +1,5 @@
+<div class="chart-container">
+  <canvas id="qChartCanvas" baseChart [data]="barChartData" [options]="barChartOptions" [type]="'bar'" [title]="title"
+    (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+  </canvas>
+</div>

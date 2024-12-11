@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'co.peopleart.brand',
-  appName: 'brand',
+  appId: 'io.ionic.starter',
+  appName: 'california-map',
   webDir: 'www'
 };
 

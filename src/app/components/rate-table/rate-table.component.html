@@ -1,0 +1,150 @@
+<div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="3" size-sm="3" size-md="3" size-lg="3">
+
+        <ion-list class="scrollable-list">
+          <ion-list-header>
+            <ion-label>Codes</ion-label>
+          </ion-list-header>
+
+          <ion-radio-group name="auto" [(ngModel)]="selectedCode" (ionChange)="onCodeChange($event)">
+            <ion-item *ngFor="let option of listOfCodes">
+              <ion-label style="font-size: 12px;"><b>{{ option.cpt_code }}</b>: {{ option.description }}
+              </ion-label>
+              <ion-radio slot="end" [value]="option">
+              </ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+      </ion-col>
+
+      <ion-col size-xs="9" size-sm="9" size-md="9" size-lg="9">
+        <ngx-datatable class="material" [columnMode]="ColumnMode.flex" [headerHeight]="50" [footerHeight]="40"
+          rowHeight="auto" [treeFromRelation]="'payer'" [treeToRelation]="'network'" [rows]="filteredRows"
+          (treeAction)="onTreeAction($event)">
+
+          <ngx-datatable-column name="Network" [flexGrow]="3" [isTreeColumn]="true">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngClass]="{'bold-text': row.shouldBeBold}">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p005" name="Q: 5%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p010" name="Q: 10%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p025" name="Q: 25%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p050" name="Q: 50%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p075" name="Q: 75%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p090" name="Q: 90%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="p095" name="Q: 95%" [flexGrow]="1">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span [ngStyle]="getStyle(value, row.shouldBeBold)">
+                {{ value }}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <!-- <ngx-datatable-column name="Hide" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <ng-container *ngIf="!row.shouldBeBold; else noAction">
+                <ion-icon name="eye-off-outline" (click)="hideRow(row)" style="cursor: pointer;"></ion-icon>
+              </ng-container>
+              <ng-template #noAction>
+
+              </ng-template>
+            </ng-template>
+          </ngx-datatable-column> -->
+
+          <ngx-datatable-column prop="selected" [flexGrow]="1">
+
+            <ng-template ngx-datatable-header-template>
+              <span (click)="onHeaderClick()" style="cursor: pointer;">
+                <span style="white-space: normal; text-align: center; display: block; font-size: 12px; font-weight: bold;">
+                  {{showSelectColumn ? 'Show All':'Selected Only'}}
+                </span>
+              </span>
+            </ng-template>
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <!-- <ng-container *ngIf="!row.shouldBeBold; else noAction"> -->
+              <input type="checkbox" [(ngModel)]="row.selected" (change)="onCheckboxChange(row)" />
+              <!-- </ng-container> -->
+              <!-- <ng-template #noAction> -->
+              <!-- Optionally display something else or leave it empty -->
+              <!-- </ng-template> -->
+            </ng-template>
+          </ngx-datatable-column>
+          <!-- (click)="onClickSelect()" -->
+
+        </ngx-datatable>
+
+
+        <!-- <ngx-datatable class="bootstrap" [rows]="getRows()" [columns]="columns" rowHeight="auto">
+    <-!-- Grouping row -- >
+    <ngx-datatable-column [width]="100">
+      <ng-template ngx-datatable-cell-template let-row>
+        <span *ngIf="row.isGroup" (click)="toggleGroup(row)" style="cursor: pointer;">
+          <ion-icon [name]="row.expanded ? 'chevron-down' : 'chevron-forward'"></ion-icon>
+          {{ row.name }}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+  
+    < !-- Child rows (sets) -- >
+    <ngx-datatable-column *ngFor="let col of columns" [prop]="col.prop">
+      <ng-template ngx-datatable-cell-template let-row>
+        <span *ngIf="!row.isGroup">{{ row[col.prop] }}</span>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable> -->
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</div>
