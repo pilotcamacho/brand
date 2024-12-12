@@ -333,23 +333,29 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   // Method to capture the selected country value emitted from the child component
   onSelectedCountyChange(county: any): void {
-    this.selectedCountyFromChild = county;
-    // this.countyDataSrv.countyInfo
-    console.log('TabsPage::onSelectedCountyChange::Selected county from child: ', this.selectedCountyFromChild);
 
-    const out = this.statesSrv.getStateDetailsByName(county)
+    if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
 
-    if (out !== null) {
-      this.calculateRanking();
-      const countyInfo: { type: RegionType, name: string, code: string, codeFP: string } = {
-        type: RegionType.STATE, name: county, code: out.state_code, codeFP: out.state_fp
-      };
-      this.updateColumnsInfo(countyInfo);
+      this.selectedCountyFromChild = county;
+      // this.countyDataSrv.countyInfo
+      console.log('TabsPage::onSelectedCountyChange::Selected county from child: ', this.selectedCountyFromChild);
+
+      const out = this.statesSrv.getStateDetailsByName(county)
+
+      if (out !== null) {
+        this.calculateRanking();
+        const countyInfo: { type: RegionType, name: string, code: string, codeFP: string } = {
+          type: RegionType.STATE, name: county, code: out.state_code, codeFP: out.state_fp
+        };
+        this.updateColumnsInfo(countyInfo);
+      }
+
+
+      this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo)
+      // console.log('TabsPage::onSelectedCountyChange::mapInput: ' + JSON.stringify(this.mapInput))
+    } else {
+      this.showErrorMessage('Available only for Juniper users.')
     }
-
-
-    this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo)
-    // console.log('TabsPage::onSelectedCountyChange::mapInput: ' + JSON.stringify(this.mapInput))
   }
 
   calculateRanking() {
