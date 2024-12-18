@@ -16,7 +16,8 @@ export interface CountyData {
 
   ratio_real_providers?: number;
 
-  entities_count_by_county?: number;
+  cnt_entities?: number;
+  value?: number; // Placeholder for other methods.
 }
 
 

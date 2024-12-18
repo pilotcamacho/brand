@@ -18,7 +18,13 @@ export class DataRowByCounty {
   bcba_d?: number;
   bcba?: number;
 
-  entities_count_by_county?: number;
+  cnt_entities?: number;
+  bcaba?: number;
+  rbt?: number;
+
+  value?: number; // This is a value place holder for other methods to use.
+
+  // [key: string]: number; // Allow dynamic properties
 
   constructor(
     countyData: CountyData
@@ -32,7 +38,7 @@ export class DataRowByCounty {
     this.actual_bcba = countyData.actual_bcba ?? 0;
     this.area = countyData.area ?? 0;
     this.ratio_real_providers = countyData.ratio_real_providers ?? 0;
-    this.entities_count_by_county = countyData.entities_count_by_county ?? 0;
+    this.cnt_entities = countyData.cnt_entities ?? 0;
 
     // this.medi_cal_e_under_21 = countyData.medi_cal_e_under_21;
     this.bcba_d = countyData.bcba_d;
