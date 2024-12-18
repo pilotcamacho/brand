@@ -22,6 +22,57 @@ export class EntitiesService {
   }
 
   updateCountiesData(region: Region): ColumnInfoByRegion[] {
+
+    
+    // V2
+    const columData_bcba_d: ColumnData = {
+      code: "bcba_d",
+      name: "bcba_d count by county",
+      formula: "#",
+      description: "bcba_d count by county: description.",
+      type: "",
+      format: "0"
+    }
+    // const filteredData: DataRowByCounty[] = this.data.filter((item) => item.state_name === region.name).map((item) => {
+    //   return new DataRowByCounty({state: item.state_id, county_name: item.county_name, entities_count_by_county: item.cnt_entities})
+    // })
+
+
+    let filteredData_bcba_d: DataRowByCounty[];
+
+    if (region.name === 'USA') {
+      // Group by state_name and sum cnt_entities
+      const groupedByState = this.data.reduce((acc, item) => {
+        if (!acc[item.state_name]) {
+          acc[item.state_name] = new DataRowByCounty({
+            state: item.state_id,
+            county_name: item.state_name, // Use state name as "county_name" for this case
+            entities_count_by_county: 0,
+          });
+        }
+        acc[item.state_name].entities_count_by_county =
+          (acc[item.state_name].entities_count_by_county ?? 0) + item.bcba_d;
+        return acc;
+      }, {} as Record<string, DataRowByCounty>);
+
+      // Convert the grouped object into an array
+      filteredData_bcba_d = Object.values(groupedByState);
+    } else {
+      // Regular filtering
+      filteredData_bcba_d = this.data
+        .filter((item) => item.state_name === region.name)
+        .map((item) => {
+          return new DataRowByCounty({
+            state: item.state_id,
+            county_name: item.county_name,
+            entities_count_by_county: item.bcba_d,
+          });
+        });
+    }
+
+
+
+    // V1
     const columData: ColumnData = {
       code: "entities_count_by_county",
       name: "Entities count by county",
@@ -67,6 +118,8 @@ export class EntitiesService {
         });
     }
 
-    return [new ColumnInfoByRegion('commercial', region, columData, filteredData)]
+    return [
+      new ColumnInfoByRegion('commercial', region, columData, filteredData), 
+      new ColumnInfoByRegion('commercial', region, columData_bcba_d, filteredData_bcba_d)]
   }
 }
