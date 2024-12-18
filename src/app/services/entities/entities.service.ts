@@ -148,6 +148,9 @@ export class EntitiesService {
 
       this.generateData(region, 'cnt_entities', "Entities count by county", "#", "Entities count by county: description.", "", "0"),
       this.generateData(region, 'bcba_d', "bcba_d count by county", "#", "bcba_d count by county: description.", "", "0"),
+      this.generateData(region, 'bcba', "bcba count by county", "#", "bcba count by county: description.", "", "0"),
+      this.generateData(region, 'bcaba', "bcaba count by county", "#", "bcaba count by county: description.", "", "0"),
+      this.generateData(region, 'rbt', "rbt count by county", "#", "rbt count by county: description.", "", "0"),
     ]
   }
 
