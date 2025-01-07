@@ -96,8 +96,14 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.inUSAView = this.mapInput.region.code === 'USA';
 
-    console.log('MapComponent::initMap')
-    this.map = L.map('map').setView(GEOJSON_MAP_SETTINGS[this.mapInput.region.code].coordinates, GEOJSON_MAP_SETTINGS[this.mapInput.region.code].zoom);
+    console.log('MapComponent::initMap::A')
+
+    const coorJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].coordinates
+    const zoomJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].zoom
+    console.log('MapComponent::initMap::B')
+
+    this.map = L.map('map').setView(coorJson, zoomJson);
+    console.log('MapComponent::initMap::C')   
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,

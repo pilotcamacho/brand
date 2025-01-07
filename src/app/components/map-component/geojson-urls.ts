@@ -2,7 +2,7 @@
 
 export const GEOJSON_URLS: { [key: string]: string } = {
     USA: 'assets/geojson/us-states.json',
-    
+
     AL: 'assets/geojson/counties.geojson',
     AK: 'assets/geojson/counties.geojson',
     AZ: 'assets/geojson/counties.geojson',
