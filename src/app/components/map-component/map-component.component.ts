@@ -109,6 +109,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(this.map);
+    console.log('MapComponent::initMap::D')   
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
@@ -120,6 +121,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     }
 
     this.addColorScaleLegend(minV, maxV, decimals);
+    console.log('MapComponent::initMap::E')   
+
   }
 
 
@@ -184,6 +187,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
   }
 
   private addTitle(title: string): void {
+    console.log('MapComponent::addTitle')
     const TitleControl = L.Control.extend({
       options: { position: 'topright' },
       onAdd: () => {
