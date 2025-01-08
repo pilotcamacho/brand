@@ -2,7 +2,6 @@
 
 export const GEOJSON_URLS: { [key: string]: string } = {
     USA: 'assets/geojson/us-states.json',
-
     AL: 'assets/geojson/counties.geojson',
     AK: 'assets/geojson/counties.geojson',
     AZ: 'assets/geojson/counties.geojson',
@@ -52,77 +51,7 @@ export const GEOJSON_URLS: { [key: string]: string } = {
     WA: 'assets/geojson/counties.geojson',
     WV: 'assets/geojson/counties.geojson',
     WI: 'assets/geojson/counties.geojson',
-    WY: 'assets/geojson/counties.geojson',
-    // // USA: 'assets/geojson/counties.geojson',
-    // USA: 'assets/geojson/us-states.json',
-    // // USA: 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json',
-    
-    // AL: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/alabama-counties.geojson',
-    // AK: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/alaska-counties.geojson',
-    // AZ: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/arizona-counties.geojson',
-    // AR: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/arkansas-counties.geojson',
-
-    // CA: 'assets/geojson/counties.geojson',
-    // // CA: 'assets/geojson/california-counties.geojson',
-    // // CA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/california-counties.geojson',
-
-    // CO: 'assets/geojson/counties.geojson',
-    // // CO: 'assets/geojson/colorado-counties.geojson',
-    // // CO: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/colorado-counties.geojson',
-    // CT: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/connecticut-counties.geojson',
-
-    // DE: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/delaware-counties.geojson',
-    // FL: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/florida-counties.geojson',
-    // GA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/georgia-counties.geojson',
-    // HI: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/hawaii-counties.geojson',
-    // ID: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/idaho-counties.geojson',
-    // IL: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/illinois-counties.geojson',
-    // IN: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/indiana-counties.geojson',
-    // IA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/iowa-counties.geojson',
-    // KS: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/kansas-counties.geojson',
-    // KY: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/kentucky-counties.geojson',
-    // LA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/louisiana-counties.geojson',
-    // ME: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/maine-counties.geojson',
-    // MD: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/maryland-counties.geojson',
-    // MA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/massachusetts-counties.geojson',
-    // MI: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/michigan-counties.geojson',
-    // MN: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/minnesota-counties.geojson',
-    // MS: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/mississippi-counties.geojson',
-    // MO: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/missouri-counties.geojson',
-    // MT: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/montana-counties.geojson',
-    // NE: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/nebraska-counties.geojson',
-    // NV: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/nevada-counties.geojson',
-    // NH: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/new-hampshire-counties.geojson',
-
-    // NJ: 'assets/geojson/counties.geojson',
-    // // NJ: 'assets/geojson/new-jersey-counties.geojson',
-    // // NJ: 'https://github.com/njam-data/new-jersey-counties/blob/main/data/new-jersey-counties.geojson',
-    // // NJ: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/new-jersey-counties.geojson',
-    // NM: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/new-mexico-counties.geojson',
-
-    // NY: 'assets/geojson/counties.geojson',
-    // // NY: 'assets/geojson/new-york-counties.geojson',
-    // // NY: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/new-york-counties.geojson',
-    // NC: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/north-carolina-counties.geojson',
-    // ND: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/north-dakota-counties.geojson',
-    // OH: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/ohio-counties.geojson',
-    // OK: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/oklahoma-counties.geojson',
-    // OR: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/oregon-counties.geojson',
-    // PA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/pennsylvania-counties.geojson',
-    // RI: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/rhode-island-counties.geojson',
-    // SC: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/south-carolina-counties.geojson',
-    // SD: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/south-dakota-counties.geojson',
-    // TN: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/tennessee-counties.geojson',
-
-    // TX: 'assets/geojson/counties.geojson',
-    // // TX: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/texas-counties.geojson',
-    // UT: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/utah-counties.geojson',
-    // VT: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/vermont-counties.geojson',
-    // VA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/virginia-counties.geojson',
-    // WA: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/washington-counties.geojson',
-    // WV: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/west-virginia-counties.geojson',
-    // WI: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/wisconsin-counties.geojson',
-    // WY: 'https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/wyoming-counties.geojson'
+    WY: 'assets/geojson/counties.geojson'
 };
 
 
