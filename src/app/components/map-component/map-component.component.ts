@@ -7,6 +7,8 @@ import { GEOJSON_URLS, GEOJSON_MAP_SETTINGS } from './geojson-urls';
 import { StatesService } from 'src/app/services/states/states.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { MapInput } from './map-input';
+import { GEODATA_COUNTIES } from './geodata-counties';
+import { GEODATA_STATES } from './geodata-states';
 
 @Component({
   selector: 'app-map-component',
@@ -133,76 +135,84 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
   private addMapElements(mapInput: MapInput, us: UtilsService, isRedGree: boolean): void {
     console.log("MapComponentComponent::addMapElements:: mapInput: " + JSON.stringify(mapInput))
     console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
-    fetch(GEOJSON_URLS[this.mapInput.region.code])
-      .then(response => {
-        if (!response.ok) { // Check if the response status indicates an error
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json()
-          .catch(error => { // Catch parsing errors specifically
-            console.error("Failed to parse JSON error:", error);
-            console.error("Failed to parse JSON text:", response.text);
-            throw new Error("Invalid JSON response");
-          });
-      })
-      .then(data => {
-        console.log("MapComponentComponent::addMapElements::data: " + data)
-        console.log("MapComponentComponent::addMapElements::JSON.stringify(data): " + JSON.stringify(data))
 
-        let filteredData = data.features.filter((feature: any) => feature.properties.STATEFP === this.mapInput.region.codeFP);
-        if (filteredData.length == 0) {
-          filteredData = data
-        }
-        console.log("MapComponentComponent::addMapElements::filteredData: " + JSON.stringify(filteredData))
+    let data: { "features": any[] } = { "features": [] }
+    if (GEOJSON_URLS[this.mapInput.region.code] === 'assets/geojson/us-states.json') {
+      data = GEODATA_STATES
+    } else {
+      data = GEODATA_COUNTIES
+    }
 
-        L.geoJSON(filteredData, {
-          onEachFeature: this.createOnEachFeature(mapInput),
-          // style: {
-          //   color: 'blue',
-          //   weight: 2,
-          //   opacity: 0.65
-          // }
-          style: function (feature) {
-            // console.log(feature)
-            var color = "#ff7800"
-            var opacity = 0.7
-            var fillOpacity = 0.9; // Ensures solid color
-            var borderColor = "#ffffff"; // White border color
-            var borderWeight = 0.5; // Thin border
-            var valor: [number | null, number | null, string] = [null, null, '']
-            console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
-            if (feature) {
-              valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
-              if (feature.properties.NAME === 'Washington') {
-                console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
-                console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
-              }
-              console.log('MapComponent::style::valor: ' + valor)
-            }
-            console.log('MapComponent::valor:: ' + valor)
-            return {
-              color: borderColor,
-              fillColor: us.getColor(valor[0], isRedGree),
-              weight: borderWeight,
-              opacity: opacity,
-              fillOpacity: fillOpacity
-            };
+    // fetch(GEOJSON_URLS[this.mapInput.region.code])
+    //   .then(response => {
+    //     if (!response.ok) { // Check if the response status indicates an error
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     return response.json()
+    //       .catch(error => { // Catch parsing errors specifically
+    //         console.error("Failed to parse JSON error:", error);
+    //         console.error("Failed to parse JSON text:", response.text);
+    //         throw new Error("Invalid JSON response");
+    //       });
+    //   })
+    //   .then(data => {
+    //     console.log("MapComponentComponent::addMapElements::data: " + data)
+    //     console.log("MapComponentComponent::addMapElements::JSON.stringify(data): " + JSON.stringify(data))
+
+    let filteredData = data.features.filter((feature: any) => feature.properties.STATEFP === this.mapInput.region.codeFP);
+    if (filteredData.length == 0) {
+      filteredData = data.features
+    }
+    console.log("MapComponentComponent::addMapElements::filteredData: " + JSON.stringify(filteredData))
+
+    L.geoJSON(filteredData, {
+      onEachFeature: this.createOnEachFeature(mapInput),
+      // style: {
+      //   color: 'blue',
+      //   weight: 2,
+      //   opacity: 0.65
+      // }
+      style: function (feature) {
+        // console.log(feature)
+        var color = "#ff7800"
+        var opacity = 0.7
+        var fillOpacity = 0.9; // Ensures solid color
+        var borderColor = "#ffffff"; // White border color
+        var borderWeight = 0.5; // Thin border
+        var valor: [number | null, number | null, string] = [null, null, '']
+        console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
+        if (feature) {
+          valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
+          if (feature.properties.NAME === 'Washington') {
+            console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
+            console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
           }
-        }).addTo(this.map);
-      })
-      .then(r => {
-        setTimeout(() => {
-          this.map.invalidateSize();
-        }, 300);
-      })
-      .catch(error => {
-        console.error("Error fetching or parsing data:", error);
-      });
+          console.log('MapComponent::style::valor: ' + valor)
+        }
+        console.log('MapComponent::valor:: ' + valor)
+        return {
+          color: borderColor,
+          fillColor: us.getColor(valor[0], isRedGree),
+          weight: borderWeight,
+          opacity: opacity,
+          fillOpacity: fillOpacity
+        };
+      }
+    }).addTo(this.map);
+    // })
+    // .then(r => {
+    //   setTimeout(() => {
+    //     this.map.invalidateSize();
+    //   }, 300);
+    // })
+    // .catch(error => {
+    //   console.error("Error fetching or parsing data:", error);
+    // });
 
     // Trigger the resize event to ensure the map size is correct
-    // setTimeout(() => {
-    //   this.map.invalidateSize();
-    // }, 0);
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 500);
   }
 
   private addTitle(title: string): void {
