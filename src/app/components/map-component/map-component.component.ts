@@ -131,15 +131,17 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
 
   private addMapElements(mapInput: MapInput, us: UtilsService, isRedGree: boolean): void {
-    console.log("MapComponentComponent::addMapElements::data: mapInput: " + JSON.stringify(mapInput))
-    console.log("MapComponentComponent::addMapElements::data: this.stateId: " + this.mapInput.region.code)
+    console.log("MapComponentComponent::addMapElements:: mapInput: " + JSON.stringify(mapInput))
+    console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
     fetch(GEOJSON_URLS[this.mapInput.region.code])
       .then(response => {
-        console.log("MapComponentComponent::addMapElements::data: response: " + response)
-        console.log("MapComponentComponent::addMapElements::data: JSON.stringify(response): " + JSON.stringify(response))
-        return response.json()})
+        const respJson = response.json()
+        console.log("MapComponentComponent::addMapElements::respJson: " + respJson)
+        console.log("MapComponentComponent::addMapElements::JSON.stringify(respJson): " + JSON.stringify(respJson))
+        return respJson})
       .then(data => {
-        console.log("MapComponentComponent::addMapElements::data: " + JSON.stringify(data))
+        console.log("MapComponentComponent::addMapElements::data: " + data)
+        console.log("MapComponentComponent::addMapElements::JSON.stringify(data): " + JSON.stringify(data))
 
         let filteredData = data.features.filter((feature: any) => feature.properties.STATEFP === this.mapInput.region.codeFP);
         if (filteredData.length == 0) {
@@ -186,6 +188,9 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         setTimeout(() => {
           this.map.invalidateSize();
         }, 300);
+      })  
+      .catch(error => {
+        console.error("Error fetching or parsing data:", error);
       });
 
     // Trigger the resize event to ensure the map size is correct
