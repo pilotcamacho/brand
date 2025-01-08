@@ -140,7 +140,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         }
         return response.json()
           .catch(error => { // Catch parsing errors specifically
-            console.error("Failed to parse JSON:", error);
+            console.error("Failed to parse JSON error:", error);
+            console.error("Failed to parse JSON text:", response.text);
             throw new Error("Invalid JSON response");
           });
       })
