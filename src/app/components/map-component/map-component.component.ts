@@ -134,7 +134,10 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     console.log("MapComponentComponent::addMapElements::data: mapInput: " + JSON.stringify(mapInput))
     console.log("MapComponentComponent::addMapElements::data: this.stateId: " + this.mapInput.region.code)
     fetch(GEOJSON_URLS[this.mapInput.region.code])
-      .then(response => response.json())
+      .then(response => {
+        console.log("MapComponentComponent::addMapElements::data: response: " + response)
+        console.log("MapComponentComponent::addMapElements::data: JSON.stringify(response): " + JSON.stringify(response))
+        return response.json()})
       .then(data => {
         console.log("MapComponentComponent::addMapElements::data: " + JSON.stringify(data))
 
