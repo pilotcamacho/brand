@@ -62,7 +62,11 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       this.map.remove()
     }
     this.initMap();
+    console.log('MapComponent::updateMap::A')   
+
     this.addMapElements(this.mapInput, this.utilsSrv, this.isRedGreen);
+    console.log('MapComponent::updateMap::B')   
+
   }
 
   // private clearMap(): void {
@@ -127,8 +131,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
 
   private addMapElements(mapInput: MapInput, us: UtilsService, isRedGree: boolean): void {
-    // console.log("MapComponentComponent::addMapElements::data: mapInput: " + JSON.stringify(mapInput))
-    // console.log("MapComponentComponent::addMapElements::data: this.stateId: " + this.mapInput.region.code)
+    console.log("MapComponentComponent::addMapElements::data: mapInput: " + JSON.stringify(mapInput))
+    console.log("MapComponentComponent::addMapElements::data: this.stateId: " + this.mapInput.region.code)
     fetch(GEOJSON_URLS[this.mapInput.region.code])
       .then(response => response.json())
       .then(data => {
@@ -154,16 +158,16 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
             var borderColor = "#ffffff"; // White border color
             var borderWeight = 0.5; // Thin border
             var valor: [number | null, number | null, string] = [null, null, '']
-            // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
+            console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
             if (feature) {
               valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
               if (feature.properties.NAME === 'Washington') {
-                // console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
-                // console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
+                console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
+                console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
               }
-              // console.log('MapComponent::style::valor: ' + valor)
+              console.log('MapComponent::style::valor: ' + valor)
             }
-            // console.log('MapComponent::valor:: ' + valor)
+            console.log('MapComponent::valor:: ' + valor)
             return {
               color: borderColor,
               fillColor: us.getColor(valor[0], isRedGree),
