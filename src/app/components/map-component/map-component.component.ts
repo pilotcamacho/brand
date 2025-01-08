@@ -136,12 +136,13 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     fetch(GEOJSON_URLS[this.mapInput.region.code])
       .then(response => response.json())
       .then(data => {
-        // console.log("MapComponentComponent::addMapElements::data: " + JSON.stringify(data))
+        console.log("MapComponentComponent::addMapElements::data: " + JSON.stringify(data))
 
         let filteredData = data.features.filter((feature: any) => feature.properties.STATEFP === this.mapInput.region.codeFP);
         if (filteredData.length == 0) {
           filteredData = data
         }
+        console.log("MapComponentComponent::addMapElements::filteredData: " + JSON.stringify(filteredData))
 
         L.geoJSON(filteredData, {
           onEachFeature: this.createOnEachFeature(mapInput),
