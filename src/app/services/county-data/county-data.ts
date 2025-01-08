@@ -244,11 +244,11 @@ export const COUNTY_DATA: CountyData[] = [
 export const COLUMNS_DATA: ColumnData[] = [
   { "code": "medicaid_enrolled_lbas", "name": "Geographic Distribution of  LBAs", "formula": "#", "description": "Medicaid Enrolled LBAs", "type": "number", "format": "0", },
   { "code": "medicaid_pop_under_18", "name": "Medicaid Enrolled Children with Autism", "formula": "medicaid_pop_total_nysoh * pop_under_18_per", "description": "Medicaid population under 18 (total medicaid)", "type": "number", "format": "0", },
-  { "code": "adequate_per", "name": "Network Adequacy - Medicaid Approved LBAs (%)", "formula": "(medicaid_enrolled_lbas - needed_bcba_medicaid) / needed_bcba_medicaid", "description": "", "type": "number", "format": "0.00%", },
-  { "code": "adequate_combined_per", "name": "LBA Network Adequacy - All Payors (%)", "formula": "(actual_bcba - needed_bcba_medicaid) / needed_bcba_medicaid", "description": "", "type": "number", "format": "0.00%", },
-  { "code": "adequate_commercial_per", "name": "LBA Network Adequacy - Non Medicaid (%)", "formula": "(actual_bcba - needed_commercial) / needed_commercial", "description": "", "type": "number", "format": "0.00%", },
+  // { "code": "adequate_per", "name": "Network Adequacy - Medicaid Approved LBAs (%)", "formula": "(medicaid_enrolled_lbas - needed_bcba_medicaid) / needed_bcba_medicaid", "description": "", "type": "number", "format": "0.00%", },
+  // { "code": "adequate_combined_per", "name": "LBA Network Adequacy - All Payors (%)", "formula": "(actual_bcba - needed_bcba_medicaid) / needed_bcba_medicaid", "description": "", "type": "number", "format": "0.00%", },
+  // { "code": "adequate_commercial_per", "name": "LBA Network Adequacy - Non Medicaid (%)", "formula": "(actual_bcba - needed_commercial) / needed_commercial", "description": "", "type": "number", "format": "0.00%", },
 
-  { "code": "ratio_real_providers", "name": "Ratio of Provider coefficient over count", "formula": "#", "description": "Ratio of Provider coefficient over count", "type": "number", "format": "0.00%", },
+  // { "code": "ratio_real_providers", "name": "Ratio of Provider coefficient over count", "formula": "#", "description": "Ratio of Provider coefficient over count", "type": "number", "format": "0.00%", },
 
 
   // { "code": "medi_cal_e_under_21", "name": "Medi-Cal Enrollees Under Age 21", "formula": "#", "description": "Enrollees under age 21.", "type": "number", "format": "0", },

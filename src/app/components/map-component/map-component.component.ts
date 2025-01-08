@@ -62,10 +62,10 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       this.map.remove()
     }
     this.initMap();
-    console.log('MapComponent::updateMap::A')   
+    console.log('MapComponent::updateMap::A')
 
     this.addMapElements(this.mapInput, this.utilsSrv, this.isRedGreen);
-    console.log('MapComponent::updateMap::B')   
+    console.log('MapComponent::updateMap::B')
 
   }
 
@@ -107,13 +107,13 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     console.log('MapComponent::initMap::B')
 
     this.map = L.map('map').setView(coorJson, zoomJson);
-    console.log('MapComponent::initMap::C')   
+    console.log('MapComponent::initMap::C')
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(this.map);
-    console.log('MapComponent::initMap::D')   
+    console.log('MapComponent::initMap::D')
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
@@ -125,7 +125,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     }
 
     this.addColorScaleLegend(minV, maxV, decimals);
-    console.log('MapComponent::initMap::E')   
+    console.log('MapComponent::initMap::E')
 
   }
 
@@ -135,10 +135,15 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
     fetch(GEOJSON_URLS[this.mapInput.region.code])
       .then(response => {
-        const respJson = response.json()
-        console.log("MapComponentComponent::addMapElements::respJson: " + respJson)
-        console.log("MapComponentComponent::addMapElements::JSON.stringify(respJson): " + JSON.stringify(respJson))
-        return respJson})
+        if (!response.ok) { // Check if the response status indicates an error
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json()
+          .catch(error => { // Catch parsing errors specifically
+            console.error("Failed to parse JSON:", error);
+            throw new Error("Invalid JSON response");
+          });
+      })
       .then(data => {
         console.log("MapComponentComponent::addMapElements::data: " + data)
         console.log("MapComponentComponent::addMapElements::JSON.stringify(data): " + JSON.stringify(data))
@@ -188,7 +193,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         setTimeout(() => {
           this.map.invalidateSize();
         }, 300);
-      })  
+      })
       .catch(error => {
         console.error("Error fetching or parsing data:", error);
       });
