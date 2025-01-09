@@ -64,10 +64,10 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       this.map.remove()
     }
     this.initMap();
-    console.log('MapComponent::updateMap::A')
+    // console.log('MapComponent::updateMap::A')
 
     this.addMapElements(this.mapInput, this.utilsSrv, this.isRedGreen);
-    console.log('MapComponent::updateMap::B')
+    // console.log('MapComponent::updateMap::B')
 
   }
 
@@ -102,20 +102,20 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.inUSAView = this.mapInput.region.code === 'USA';
 
-    console.log('MapComponent::initMap::A')
+    // console.log('MapComponent::initMap::A')
 
     const coorJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].coordinates
     const zoomJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].zoom
-    console.log('MapComponent::initMap::B')
+    // console.log('MapComponent::initMap::B')
 
     this.map = L.map('map').setView(coorJson, zoomJson);
-    console.log('MapComponent::initMap::C')
+    // console.log('MapComponent::initMap::C')
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(this.map);
-    console.log('MapComponent::initMap::D')
+    // console.log('MapComponent::initMap::D')
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
@@ -127,14 +127,14 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     }
 
     this.addColorScaleLegend(minV, maxV, decimals);
-    console.log('MapComponent::initMap::E')
+    // console.log('MapComponent::initMap::E')
 
   }
 
 
   private addMapElements(mapInput: MapInput, us: UtilsService, isRedGree: boolean): void {
-    console.log("MapComponentComponent::addMapElements:: mapInput: " + JSON.stringify(mapInput))
-    console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
+    // console.log("MapComponentComponent::addMapElements:: mapInput: " + JSON.stringify(mapInput))
+    // console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
 
     let data: { "features": any[] } = { "features": [] }
     if (GEOJSON_URLS[this.mapInput.region.code] === 'assets/geojson/us-states.json') {
@@ -163,7 +163,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     if (filteredData.length == 0) {
       filteredData = data.features
     }
-    console.log("MapComponentComponent::addMapElements::filteredData: " + JSON.stringify(filteredData))
+    // console.log("MapComponentComponent::addMapElements::filteredData: " + JSON.stringify(filteredData))
 
     L.geoJSON(filteredData, {
       onEachFeature: this.createOnEachFeature(mapInput),
@@ -180,16 +180,16 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
         var valor: [number | null, number | null, string] = [null, null, '']
-        console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
+        // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
           if (feature.properties.NAME === 'Washington') {
-            console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
-            console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
+            // console.log('--->>>   MapComponent::style::valor::Washington: mapInput.' + JSON.stringify(mapInput))
+            // console.log('--->>>   MapComponent::style::valor::Washington: valor.' + valor)
           }
-          console.log('MapComponent::style::valor: ' + valor)
+          // console.log('MapComponent::style::valor: ' + valor)
         }
-        console.log('MapComponent::valor:: ' + valor)
+        // console.log('MapComponent::valor:: ' + valor)
         return {
           color: borderColor,
           fillColor: us.getColor(valor[0], isRedGree),

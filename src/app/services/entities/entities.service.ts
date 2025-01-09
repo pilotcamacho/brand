@@ -67,7 +67,7 @@ export class EntitiesService {
 
       const updatedJson = this.renameFieldInJson(groupedByState, "value", code);
 
-      console.log('EntitiesService::generateData::updatedJson: ' + JSON.stringify(updatedJson))
+      // console.log('EntitiesService::generateData::updatedJson: ' + JSON.stringify(updatedJson))
 
 
       // Convert the grouped object into an array
@@ -84,8 +84,8 @@ export class EntitiesService {
           });
         });
     }
-    console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
-    console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
+    // console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
+    // console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
 
 
     return new ColumnInfoByRegion('commercial', region, columData, filteredData);

@@ -102,6 +102,9 @@ export class TabsPage implements AfterViewInit, OnInit {
   }
 
   updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
+
+    const previousSelectionCode: string = this.selectedColumn?.colInfo?.code ?? "NA";
+
     console.log(`TabsPage::updateColumnsInfo::type|name|code|codeFP: ${countyInfo.type}, ${countyInfo.name}, ${countyInfo.code}`)
 
     const region: Region = {
@@ -132,8 +135,27 @@ export class TabsPage implements AfterViewInit, OnInit {
 
 
     console.log('TabsPage::constructor::this.columnsMedicaid: ' + JSON.stringify(this.columnsMedicaid))
-    console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
-    console.log('TabsPage::constructor::this.columnsGeneral: ' + JSON.stringify(this.columnsGeneral))
+    // console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
+    // console.log('TabsPage::constructor::this.columnsGeneral: ' + JSON.stringify(this.columnsGeneral))
+
+
+    console.log(`TabsPage::updateColumnsInfo::previousSelectionCode: ${previousSelectionCode}`)
+
+    if (previousSelectionCode === "NA") {
+      this.selectedColumn = this.columnsMedicaid[1]
+    } else {
+
+      const theSelectionMedicaid = this.columnsMedicaid.filter(c => c.colInfo.code === previousSelectionCode)
+      const theSelectionCommercial = this.columnsCommercial.filter(c => c.colInfo.code === previousSelectionCode)
+      const theSelectionGeneral = this.columnsGeneral.filter(c => c.colInfo.code === previousSelectionCode)
+
+      console.log(`TabsPage::updateColumnsInfo::theSelection: ${JSON.stringify(theSelectionMedicaid)}`)
+
+
+      this.selectedColumn = [...theSelectionMedicaid, ...theSelectionCommercial, ...theSelectionGeneral][0]
+    }
+
+
 
   }
 
