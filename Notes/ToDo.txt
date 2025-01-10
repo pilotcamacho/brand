@@ -1,5 +1,4 @@
 - Fix problem with CA data
-- Add colum Area in General
 - Agregar nuevo grupo con elnombre que puso en Slak y dejar commerical solo para lo de payers
 - Data Colorado
 - hacer un esquema de la data
@@ -44,6 +43,7 @@
 
 
 --- DONE ----------------
+- Add colum Area in General
 - Different names for the same columns for different States: mantain the name by state
 - Mantain selection
 - Create Repository
