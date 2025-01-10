@@ -44,7 +44,7 @@ export class DataService {
       selectedColumn.format
     );
 
-    console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
+    // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
     return mapInput;
   }
 

@@ -1,3 +1,13 @@
+- Fix problem with CA data
+- Add colum Area in General
+- Agregar nuevo grupo con elnombre que puso en Slak y dejar commerical solo para lo de payers
+- Data Colorado
+- hacer un esquema de la data
+- BCBA data de Google sheet agrupar po county
+	- datos de dos columnas
+- Agrupar data por Payer (en el mapa de Commercial) para ver cual payer es el más importante y cuatas peronas pertences a ese payer
+- Formulario con clientes
+- Columnas nuevas Commercial
 
 
 - Needs to make reference to https://simplemaps.com/data/us-zips
@@ -34,6 +44,8 @@
 
 
 --- DONE ----------------
+- Different names for the same columns for different States: mantain the name by state
+- Mantain selection
 - Create Repository
 - Make selector wider
 - Responsive all the sizes
