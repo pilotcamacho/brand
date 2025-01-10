@@ -47,7 +47,7 @@ export class CountyDataSrvService {
 
   getParameters(region: Region): ColumnInfoByRegion[] {
     this.updateCountiesData(region)
-    console.log("CountyDataSrvService::getParameters()::this.columnsInfo: " + JSON.stringify(this.columnsInfo))
+    // console.log("CountyDataSrvService::getParameters()::this.columnsInfo: " + JSON.stringify(this.columnsInfo))
     return this.columnsInfo.filter(column => (column.type === "number" as keyof DataRowByCounty));
   }
 

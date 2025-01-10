@@ -118,7 +118,7 @@ export class TabsPage implements AfterViewInit, OnInit {
       ...this.countyDataSrv.getParameters(region),
       ...this.entitiesSrv.getStateInfo(countyInfo)
     ]
-    console.log('TabsPage::constructor::parms: ' + JSON.stringify(parms))
+    // console.log('TabsPage::constructor::parms: ' + JSON.stringify(parms))
 
 
     this.columnsMedicaid = parms.filter(col => (col.columnGroup === 'medicare')).map(column => {
@@ -134,7 +134,7 @@ export class TabsPage implements AfterViewInit, OnInit {
     })
 
 
-    console.log('TabsPage::constructor::this.columnsMedicaid: ' + JSON.stringify(this.columnsMedicaid))
+    // console.log('TabsPage::constructor::this.columnsMedicaid: ' + JSON.stringify(this.columnsMedicaid))
     // console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
     // console.log('TabsPage::constructor::this.columnsGeneral: ' + JSON.stringify(this.columnsGeneral))
 

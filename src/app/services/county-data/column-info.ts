@@ -26,7 +26,7 @@ export class ColumnInfoByRegion {
         countyData: ColumnData,
         countiesInfo: DataRowByCounty[]
     ) {
-        console.log("ColumnInfo::constructor")
+        // console.log("ColumnInfo::constructor")
         this.columnGroup = columnGroup;
         this.region = region;
         this.code = countyData.code;
