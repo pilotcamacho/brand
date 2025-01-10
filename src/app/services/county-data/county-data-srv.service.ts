@@ -34,7 +34,11 @@ export class CountyDataSrvService {
       .map((countyData) => new DataRowByCounty(countyData));
     this.columnsInfo = this.columns.map((colData) => {
       colData.name = this.replaceNameByState(region, colData.code, colData.name)
-      return new ColumnInfoByRegion('medicare', region, colData, stateInfo)
+      if (colData.code === 'area' || colData.code === 'pop_density') {
+        return new ColumnInfoByRegion('general', region, colData, stateInfo);
+      } else {
+        return new ColumnInfoByRegion('medicare', region, colData, stateInfo);
+      }
     });
     // console.log(">>>>>> CountyDataSrvService::updateCountiesData()::this.columnsInfo: " + JSON.stringify(this.columnsInfo))
     // this.columns.forEach(col => { console.log(col.code + " - " + col.min + " - " + col.max) })

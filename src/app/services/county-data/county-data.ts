@@ -320,6 +320,9 @@ export const COLUMNS_DATA: ColumnData[] = [
   // { "code": "net_ad_medi_cal_under_18_per", "name": "% Network Adequacy Medi-Cal only (Pop. Under Age 18)", "formula": "(bcba_tot - bcba_needed_medi_cal) / bcba_needed_medi_cal", "description": "Network Adequacy (Medi-Cal only) = (Total number of BCBA - Total BCBA needed (Medi-Cal only)) / Total BCBA needed (Medi-Cal only).", "type": "number", "format": "0.00%", },
   // { "code": "net_ad_non_medi_cal_under_18_per", "name": "% Network Adequacy (excluding Medi-Cal) (Pop. Under Age 18)", "formula": "(bcba_tot - bcba_needed_non_medi_cal) / bcba_needed_non_medi_cal", "description": "Network Adequacy (not Medi-Cal only) = (Total number of BCBA - Total BCBA needed (not Medi-Cal only)) / Total BCBA needed (not Medi-Cal only).", "type": "number", "format": "0.00%", },
 
+  {"code":"area","name":"Area (km2)","formula":"#","description":"County area of land in km2.","type":"number","format":"0",},
+  {"code":"pop_density","name":"Population Density","formula":"population / area","description":"Number of inhabitants per km2.","type":"number","format":"0.00",},
+
 ]
 
 export const COLUMNS_RENAME_BY_STATE: ColumnRenameByState[] = [
