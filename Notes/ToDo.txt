@@ -1,5 +1,6 @@
 - All states bcaba
 - All states rbt
+.
 
 - Fix problem with CA data
 - Agregar nuevo grupo con elnombre que puso en Slak y dejar commerical solo para lo de payers
