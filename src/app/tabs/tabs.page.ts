@@ -356,7 +356,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   // Method to capture the selected country value emitted from the child component
   onSelectedCountyChange(county: any): void {
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
+    // if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
 
       this.selectedCountyFromChild = county;
       // this.countyDataSrv.countyInfo
@@ -375,9 +375,9 @@ export class TabsPage implements AfterViewInit, OnInit {
 
       this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo)
       // console.log('TabsPage::onSelectedCountyChange::mapInput: ' + JSON.stringify(this.mapInput))
-    } else {
-      this.showErrorMessage('Available only for Juniper users.')
-    }
+    // } else {
+    //   this.showErrorMessage('Available only for Juniper users.')
+    // }
   }
 
   calculateRanking() {
