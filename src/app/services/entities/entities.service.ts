@@ -41,6 +41,7 @@ export class EntitiesService {
       format: format,
     };
 
+    console.log(`The code is::->: "${code}".`)
     // Runtime check to ensure code is a key of EntitiesCount
     if (!(code in (this.data[0] as EntitiesCount))) {
       throw new Error(`The code "${code}" is not a key of EntitiesCount.`);
@@ -67,7 +68,7 @@ export class EntitiesService {
 
       const updatedJson = this.renameFieldInJson(groupedByState, "value", code);
 
-      // console.log('EntitiesService::generateData::updatedJson: ' + JSON.stringify(updatedJson))
+      console.log('EntitiesService::generateData::updatedJson: ' + JSON.stringify(updatedJson))
 
 
       // Convert the grouped object into an array
@@ -84,16 +85,11 @@ export class EntitiesService {
           });
         });
     }
-    // console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
-    // console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
-
+    console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
+    console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
 
     return new ColumnInfoByRegion('commercial', region, columData, filteredData);
   }
-
-
-
-
 
   updateCountiesData(region: Region): ColumnInfoByRegion[] {
 

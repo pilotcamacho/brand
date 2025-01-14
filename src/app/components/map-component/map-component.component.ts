@@ -111,10 +111,11 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.map = L.map('map').setView(coorJson, zoomJson);
     // console.log('MapComponent::initMap::C')
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(this.map);
+    // NO INTERNET
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   maxZoom: 19,
+    //   attribution: '© OpenStreetMap'
+    // }).addTo(this.map);
     // console.log('MapComponent::initMap::D')
 
     this.addTitle(this.mapTitle);
