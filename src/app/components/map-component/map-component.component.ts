@@ -112,11 +112,11 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     // console.log('MapComponent::initMap::C')
 
     // NO INTERNET
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //   maxZoom: 19,
-    //   attribution: '© OpenStreetMap'
-    // }).addTo(this.map);
-    // console.log('MapComponent::initMap::D')
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(this.map);
+    console.log('MapComponent::initMap::D')
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
