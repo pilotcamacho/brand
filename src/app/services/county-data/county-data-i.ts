@@ -17,6 +17,8 @@ export interface CountyData {
   ratio_real_providers?: number;
 
   cnt_entities?: number;
+  bcaba?: number;
+  rbt?: number;
   value?: number; // Placeholder for other methods.
 }
 

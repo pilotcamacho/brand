@@ -43,6 +43,8 @@ export class DataRowByCounty {
     // this.medi_cal_e_under_21 = countyData.medi_cal_e_under_21;
     this.bcba_d = countyData.bcba_d;
     this.bcba = countyData.bcba;
+    this.bcaba = countyData.bcaba;
+    this.rbt = countyData.rbt;
   }
 
   get empty(): number { return 0 }

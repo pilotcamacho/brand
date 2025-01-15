@@ -135,7 +135,7 @@ export class TabsPage implements AfterViewInit, OnInit {
 
 
     // console.log('TabsPage::constructor::this.columnsMedicaid: ' + JSON.stringify(this.columnsMedicaid))
-    // console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
+    console.log('TabsPage::constructor::this.columnsCommercial: ' + JSON.stringify(this.columnsCommercial))
     // console.log('TabsPage::constructor::this.columnsGeneral: ' + JSON.stringify(this.columnsGeneral))
 
 
@@ -153,6 +153,10 @@ export class TabsPage implements AfterViewInit, OnInit {
 
 
       this.selectedColumn = [...theSelectionMedicaid, ...theSelectionCommercial, ...theSelectionGeneral][0]
+
+      console.log(`TabsPage::updateColumnsInfo::selectedColumn: ${JSON.stringify(this.selectedColumn)}`)
+
+
     }
 
 
@@ -216,6 +220,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   onRadioChange() {
     console.log('TabsPage::onRadioChange::')
     this.mapInput = this.dataSrv.getMapInput(this.mapInput.region.type, this.mapInput.region.name, this.selectedColumn.colInfo)
+    console.log(`TabsPage::onRadioChange::this.mapInput: ${JSON.stringify(this.mapInput)}`)
     this.qChartData = this.getQChartDataFromSelectedCodeSelectedNetworks(this.selectedCode,
       this.listOfSelectedNetworks.filter(sn => sn.selected).map(sn => sn.code))
   }
