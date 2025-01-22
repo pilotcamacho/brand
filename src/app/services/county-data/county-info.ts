@@ -19,6 +19,7 @@ export class DataRowByCounty {
   bcba?: number;
 
   cnt_entities?: number;
+  cnt_ein?: number;
   bcaba?: number;
   rbt?: number;
 
@@ -39,6 +40,7 @@ export class DataRowByCounty {
     this.area = countyData.area ?? 0;
     this.ratio_real_providers = countyData.ratio_real_providers ?? 0;
     this.cnt_entities = countyData.cnt_entities ?? 0;
+    this.cnt_ein = countyData.cnt_ein ?? 0;
 
     // this.medi_cal_e_under_21 = countyData.medi_cal_e_under_21;
     this.bcba_d = countyData.bcba_d;

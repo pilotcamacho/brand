@@ -1,3 +1,7 @@
+- Entity count: Kings county: NY by county and state
+- Payers: rates	
+- Color
+
 - All states bcaba
 - All states rbt
 
