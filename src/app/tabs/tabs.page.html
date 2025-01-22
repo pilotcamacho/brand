@@ -29,7 +29,7 @@
 
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
-        <!-- Variables List -->
+        <!-- Medicaid -->
         <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('medicaidList')">
             <ion-label>Medicaid</ion-label>
@@ -44,7 +44,22 @@
           </ion-radio-group>
         </ion-list>
 
-        <!-- Second List -->
+        <!-- Rates List -->
+        <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('ratesList')">
+            <ion-label>Rates</ion-label>
+            <ion-icon [name]="isListOpen.ratesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.ratesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsRates">
+              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+        <!-- Commercial -->
         <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('commercialList')">
             <ion-label>Commercial</ion-label>
@@ -59,7 +74,7 @@
           </ion-radio-group>
         </ion-list>
 
-        <!-- Third List -->
+        <!-- General -->
         <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('generalList')">
             <ion-label>General</ion-label>

@@ -203,6 +203,7 @@ export const COUNTY_DATA: CountyData[] = [
   {"state":"CO","county_name":"Crowley","population":5636,"pop_under_18_per":0.112,"medicaid_pop_total":460,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":2030,"ratio_real_providers":0,},
   {"state":"CO","county_name":"Custer","population":5534,"pop_under_18_per":0.153,"medicaid_pop_total":387,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":1914,"ratio_real_providers":0,},
   {"state":"CO","county_name":"Delta","population":31746,"pop_under_18_per":0.188,"medicaid_pop_total":3566,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":2976,"ratio_real_providers":0,},
+  {"state":"CO","county_name":"Denver","population":716577,"pop_under_18_per":0.22,"medicaid_pop_total":72237,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":400,"ratio_real_providers":0,},
   {"state":"CO","county_name":"Dolores","population":2513,"pop_under_18_per":0.166,"medicaid_pop_total":234,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":2722,"ratio_real_providers":0,},
   {"state":"CO","county_name":"Douglas","population":383906,"pop_under_18_per":0.229,"medicaid_pop_total":12792,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":2182,"ratio_real_providers":0,},
   {"state":"CO","county_name":"Eagle","population":54381,"pop_under_18_per":0.198,"medicaid_pop_total":3143,"medicaid_enrolled_lbas":0,"actual_bcba":0,"area":4434,"ratio_real_providers":0,},

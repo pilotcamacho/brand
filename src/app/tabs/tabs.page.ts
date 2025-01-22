@@ -53,6 +53,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   // selectedTab: string = 'map';  // Default selected tab
 
   columnsMedicaid: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
+  columnsRates: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
   columnsCommercial: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
   columnsGeneral: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
 
@@ -125,6 +126,10 @@ export class TabsPage implements AfterViewInit, OnInit {
       return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
     })
 
+    this.columnsRates = parms.filter(col => (col.columnGroup === 'rates')).map(column => {
+      return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
+    })
+
     this.columnsCommercial = parms.filter(col => (col.columnGroup === 'commercial')).map(column => {
       return { stateId: this.selectedRegion.code, colInfo: column, selected: true, ...this.getFormatFromFormat(column.format) }
     })
@@ -170,11 +175,12 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   isListOpen = {
     medicaidList: true,
+    ratesList: false,
     commercialList: false,
     generalList: false
   };
 
-  toggleList(listName: 'medicaidList' | 'commercialList' | 'generalList'): void {
+  toggleList(listName: 'medicaidList' | 'ratesList' | 'commercialList' | 'generalList'): void {
     this.isListOpen[listName] = !this.isListOpen[listName];
   }
 
