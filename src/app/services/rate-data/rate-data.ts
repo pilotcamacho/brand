@@ -88,6 +88,10 @@ export type numberNull = number | null;
     2. Copy the data from the each sheet into the text file: Rate_data.txt
     3. To generate the text file "data_groups.txt" with the data, run the Jupyter Notebook: Read Rate_data-checkpoint.ipynb
     4. Copy the data from "data_groups.txt" into this file.
+
+    Each data block is for a specific code.
+    Each column is a quantile.
+    Each row is for a Network.
  */
 export const RATE_DATA: numberNull[][][] =
     [
