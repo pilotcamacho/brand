@@ -151,13 +151,14 @@ export class TabsPage implements AfterViewInit, OnInit {
     } else {
 
       const theSelectionMedicaid = this.columnsMedicaid.filter(c => c.colInfo.code === previousSelectionCode)
+      const theSelectionRates = this.columnsRates.filter(c => c.colInfo.code === previousSelectionCode)
       const theSelectionCommercial = this.columnsCommercial.filter(c => c.colInfo.code === previousSelectionCode)
       const theSelectionGeneral = this.columnsGeneral.filter(c => c.colInfo.code === previousSelectionCode)
 
       console.log(`TabsPage::updateColumnsInfo::theSelection: ${JSON.stringify(theSelectionMedicaid)}`)
 
 
-      this.selectedColumn = [...theSelectionMedicaid, ...theSelectionCommercial, ...theSelectionGeneral][0]
+      this.selectedColumn = [...theSelectionMedicaid, ...theSelectionRates, ...theSelectionCommercial, ...theSelectionGeneral][0]
 
       console.log(`TabsPage::updateColumnsInfo::selectedColumn: ${JSON.stringify(this.selectedColumn)}`)
 

@@ -88,7 +88,12 @@ export class EntitiesService {
     console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
     console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
 
-    return new ColumnInfoByRegion('commercial', region, columData, filteredData);
+    let group: 'commercial' | 'rates' = 'commercial'
+    if (columData.code.startsWith('cnt')) {
+      group = 'rates'
+    } 
+
+    return new ColumnInfoByRegion(group, region, columData, filteredData);
   }
 
   updateCountiesData(region: Region): ColumnInfoByRegion[] {
