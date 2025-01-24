@@ -40,7 +40,7 @@ export class DataService {
       region,
       title,
       data,
-      selectedColumn.format !== '0.00%',
+      selectedColumn.format !== '0.00%'  && false, // Force red-green color
       selectedColumn.format
     );
 
