@@ -50,7 +50,21 @@ export class EntitiesService {
 
     let filteredData: DataRowByCounty[];
 
-    if (region.name === 'USA') {
+    console.log('EntitiesService::generateData::region.name: ' + region.name)
+    // Regular filtering
+    filteredData = this.data
+    .filter((item: EntitiesCount) => item.state_name === region.name)
+    .map((item) => {
+      return new DataRowByCounty({
+        state: item.state_id,
+        county_name: item.county_name,
+        [code]: item[ecCode] as number, // Use the dynamic property
+      });
+    });
+
+    console.log('EntitiesService::generateData::filteredData (right from the beginning): ' + JSON.stringify(filteredData))
+
+    if (region.name === 'USA' && filteredData.length == 0) {
       // Group by state_name and sum the dynamic property
       const groupedByState = this.data.reduce((acc, item) => {
         if (!acc[item.state_name]) {
@@ -74,16 +88,7 @@ export class EntitiesService {
       // Convert the grouped object into an array
       filteredData = Object.values(updatedJson);
     } else {
-      // Regular filtering
-      filteredData = this.data
-        .filter((item: EntitiesCount) => item.state_name === region.name)
-        .map((item) => {
-          return new DataRowByCounty({
-            state: item.state_id,
-            county_name: item.county_name,
-            [code]: item[ecCode] as number, // Use the dynamic property
-          });
-        });
+      // Heres was filterdData read from DB. Now it tries to read it if exists. If not it does the "reduce"
     }
     console.log('EntitiesService::generateData::columData: ' + JSON.stringify(columData))
     console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
