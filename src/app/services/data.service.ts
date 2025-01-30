@@ -35,16 +35,20 @@ export class DataService {
       ? filteredRegionData[0].countiesInfo.filter((item): item is DataPoint => typeof item.value === 'number')
       : [];
 
+    const dataNoMinus = data.filter(item => (item.value > 0 || selectedColumn.code !== 'avg_rate'))
+    console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
+    console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
+
     // Create the MapInput object
     const mapInput = new MapInput(
       region,
       title,
-      data,
+      dataNoMinus,
       selectedColumn.format !== '0.00%'  && false, // Force red-green color
       selectedColumn.format
     );
 
-    // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
+    console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
     return mapInput;
   }
 

@@ -30,13 +30,13 @@ export class TabsPage implements AfterViewInit, OnInit {
   // List of codes
   codes = [
     { id: '97151', name: '97151' },
-    { id: '97152', name: '97152' },
-    { id: '97153', name: '97153' },
-    { id: '97154', name: '97154' },
-    { id: '97155', name: '97155' },
-    { id: '97156', name: '97156' },
-    { id: '97157', name: '97157' },
-    { id: '97158', name: '97158' },
+    // { id: '97152', name: '97152' },
+    // { id: '97153', name: '97153' },
+    // { id: '97154', name: '97154' },
+    // { id: '97155', name: '97155' },
+    // { id: '97156', name: '97156' },
+    // { id: '97157', name: '97157' },
+    // { id: '97158', name: '97158' },
   ];
 
   // Selected values
