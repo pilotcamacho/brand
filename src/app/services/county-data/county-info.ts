@@ -24,6 +24,7 @@ export class DataRowByCounty {
   cnt_payors?: number;
   bcaba?: number;
   rbt?: number;
+  avg_rate?: number;
 
   value?: number; // This is a value place holder for other methods to use.
 
@@ -51,6 +52,7 @@ export class DataRowByCounty {
     this.bcba = countyData.bcba;
     this.bcaba = countyData.bcaba;
     this.rbt = countyData.rbt;
+    this.avg_rate = countyData.avg_rate;
   }
 
   get empty(): number { return 0 }

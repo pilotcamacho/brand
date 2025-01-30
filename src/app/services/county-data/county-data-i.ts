@@ -22,6 +22,7 @@ export interface CountyData {
   cnt_payors?: number;
   bcaba?: number;
   rbt?: number;
+  avg_rate?: number;
   value?: number; // Placeholder for other methods.
 }
 

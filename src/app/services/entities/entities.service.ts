@@ -94,7 +94,8 @@ export class EntitiesService {
     console.log('EntitiesService::generateData::filteredData: ' + JSON.stringify(filteredData))
 
     let group: 'commercial' | 'rates' = 'commercial'
-    if (columData.code.startsWith('cnt')) {
+    if (columData.code.startsWith('cnt') || columData.code === 'avg_rate') {
+      // cnt, cnt_entities, cnt_ein, cnt_networks, cnt_payors, avg_rate
       group = 'rates'
     } 
 
@@ -159,6 +160,7 @@ export class EntitiesService {
       this.generateData(region, 'bcba', "bcba count by county", "#", "bcba count by county: description.", "", "0"),
       this.generateData(region, 'bcaba', "bcaba count by county", "#", "bcaba count by county: description.", "", "0"),
       this.generateData(region, 'rbt', "rbt count by county", "#", "rbt count by county: description.", "", "0"),
+      this.generateData(region, 'avg_rate', "avg rate CODE: 97153, Payor: UnitedHealthcare", "#", "avg rate CODE: 97153, Payor: UnitedHealthcare.", "", "0.00"),
     ]
   }
 
