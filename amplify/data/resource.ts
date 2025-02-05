@@ -14,8 +14,8 @@ const schema = a.schema({
   }),
 
   RegionData: a.customType({
-    subRegionName: a.string(),
-    dataForSubRegion: a.ref("DataForRegion"),
+    n: a.string(),
+    d: a.ref("DataForRegion"),
   }),
 
 
