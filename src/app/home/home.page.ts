@@ -5,10 +5,10 @@ import { signOut } from 'aws-amplify/auth'
 import { UsuarioService } from '../services/usuario.service';
 import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
-import { ColumnInfoByRegion } from '../services/county-data/column-info';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { ColumnData, Variable } from '../services/county-data/county-data-i';
+import { CODES, Indicator, INDICATORS, PAYORS } from '../services/data-i';
+import { StatesService } from '../services/states/states.service';
 
 @Component({
   selector: 'app-home',
@@ -20,31 +20,19 @@ export class HomePage implements AfterViewInit, OnInit {
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
   // List of payors
-  payors = [
-    { id: '7218e478-2e12-4993-a492-fd1c2358b24e', name: 'UnitedHealthcare' },
-  ];
+  payors = PAYORS;
 
   // List of codes
-  codes = [
-    { id: '97151', name: '97151' },
-    { id: '97152', name: '97152' },
-    { id: '97153', name: '97153' },
-    { id: '97154', name: '97154' },
-    { id: '97155', name: '97155' },
-    { id: '97156', name: '97156' },
-    { id: '97157', name: '97157' },
-    { id: '97158', name: '97158' },
-  ];
+  codes = CODES;
 
+  indicators = INDICATORS;
 
   //////////  PAGE COMPONENTS  //////////////////////////////////////////////////////////////////////
 
-  columnsMedicaid: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
-  columnsRates: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
-  columnsCommercial: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
-  columnsGeneral: { stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string }[] = []
-
-
+  columnsMedicaid: Indicator[] = []
+  columnsRates: Indicator[] = []
+  columnsCommercial: Indicator[] = []
+  columnsGeneral: Indicator[] = []
 
 
   //////////  PAGE STATE  //////////////////////////////////////////////////////////////////////
@@ -56,11 +44,13 @@ export class HomePage implements AfterViewInit, OnInit {
     codeFP: null
   }
 
-  selectedColumn!: Variable; //{ stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
+  selectedColumn!: Indicator; //{ stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
 
-  selPayor: string | undefined = '7218e478-2e12-4993-a492-fd1c2358b24e';
+  selPayor: string = 'ZZ';
 
-  selCode: string | undefined = '97151';
+  selNetwork: string = 'ZZ'
+
+  selCode: string = '97151';
 
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////
@@ -85,11 +75,16 @@ export class HomePage implements AfterViewInit, OnInit {
   constructor(
     private toastController: ToastController,
     private route: ActivatedRoute,
+    private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
     public dynamoDB: DdbService
   ) {
-    this.selectedColumn = { code: '', name: '', description: '', type: '', format: '00' }
-    this.mapInput = this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode);
+    this.updateColumnsInfo();
+    this.selectedColumn = this.indicators[0]
+    this.updateInfo()
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], true, '0');
+    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode)
+      .then(mi => { this.mapInput = mi })
   }
 
   ngOnInit() {
@@ -108,38 +103,94 @@ export class HomePage implements AfterViewInit, OnInit {
 
   onClickMapa(event: any) {
     console.log('HomePage::onClickMapaGrande')
-    this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' });
-    this.mapInput = this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode)
+    // this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' });
+    // this.updateColumnsInfo();
+    // this.mapInput = this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode)
     // this.onClickChart(event)
+    // this.updateInfo()
   }
-
-  updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
-
-  }
-
 
   selectedCountyFromChild: string = '';  // To store the value received from the child
+
+  onRadioChange() {
+    console.log('HomePage::onRadioChange::')
+    this.updateInfo()
+  }
+
+  onSelectedCountyChange(county: any): void {
+    // This method is called by the map.
+    console.log('HomePage::onSelectedCountyChange::county: ' + county)
+
+    if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
+
+      this.selectedCountyFromChild = county;
+
+      console.log('HomePage::onSelectedCountyChange::Selected county from child: ', this.selectedCountyFromChild);
+
+      const out = this.statesSrv.getStateDetailsByName(county)
+
+      if (out !== null) {
+        this.selectedRegion = {
+          type: RegionType.STATE, name: county, code: out.state_code, codeFP: out.state_fp
+        };
+      }
+
+    } else {
+      this.showErrorMessage('Available only for Juniper users.')
+    }
+    this.updateInfo()
+  }
+
+  // onClickChart(event: any) {
+  //   console.log('HomePage::onClickChart::event: ' + event)
+  //   event.preventDefault();
+  //   // this.chartStandardView = !this.chartStandardView
+  // }
+
+  onCodeChange(event: any) {
+    console.log("HomePage::onCodeChange::", event.detail.value);
+    this.updateInfo()
+  }
+
+  onPayorChange(event: any) {
+    console.log("HomePage::onPayorChange::", event.detail.value);
+    this.updateInfo()
+  }
+
+  updateInfo() {
+    console.log("HomePage::updateInfo");
+    console.log(this.selectedRegion)
+    console.log(this.selectedColumn)
+    console.log(this.selCode)
+    console.log(this.selPayor)
+    this.dynamoDB.getMapInput(
+      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn, this.selPayor, this.selNetwork, this.selCode)
+      .then(mi => { this.mapInput = mi })
+  }
+
+
+  // updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
+  updateColumnsInfo() {
+    this.columnsMedicaid = this.indicators.filter(col => (col.indicatorGroup === 'medicare'))
+    this.columnsRates = this.indicators.filter(col => (col.indicatorGroup === 'rates'))
+    this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
+    this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
+  }
+
 
   signOut() {
     console.log('about to signOut ....')
     signOut().then(() => console.log('signed out!'));
   }
 
-
-  onRadioChange() {
-    console.log('HomePage::onRadioChange::')
-    this.mapInput = this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode);
-    console.log(`HomePage::onRadioChange::this.mapInput: ${JSON.stringify(this.mapInput)}`)
-  }
-
-  onSelectedCountyChange(county: any): void {
-
-  }
-
-  onClickChart(event: any) {
-    console.log('HomePage::onClickChart::event: ' + event)
-    event.preventDefault();
-    // this.chartStandardView = !this.chartStandardView
+  async showErrorMessage(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      position: 'top',
+      color: 'danger'
+    });
+    toast.present();
   }
 
 }

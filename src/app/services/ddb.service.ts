@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { generateClient, SelectionSet } from 'aws-amplify/data';
 import { type Schema } from '../../../amplify/data/resource'
 import { DataPoint, MapInput, Region, RegionType } from '../components/map-component/map-input';
-import { ColumnData, Variable } from './county-data/county-data-i';
 import { StatesService } from './states/states.service';
+import { Indicator } from './data-i';
+import { RdsDataSource } from 'aws-cdk-lib/aws-appsync';
 
 
 type QueryData = Schema['QueryData']['type'];
@@ -70,7 +71,7 @@ export class DdbService {
     return qData;
   }
 
-  getMapInput(regionType: RegionType, regionName: string, selectedColumn: Variable, p_i36: string, n_i36: string, code: string | undefined): MapInput {
+  async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator, p_i36: string, n_i36: string, code: string | undefined): Promise<MapInput> {
     console.log(`DataService::getMapInput::regionName::${regionName}`);
 
     // Define the region
@@ -81,18 +82,27 @@ export class DdbService {
     // Define the title
     // const title = filteredRegionData.length > 0 ? filteredRegionData[0].name : 'No data found';
 
+
+    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, n_i36, this.getRightMostDigit(code))
+
     // Create the data array
     const data: DataPoint[] = []
 
-    const dataNoMinus = data.filter(item => (item.value > 0 || selectedColumn.code !== 'avg_rate'))
+    // Using forEach (alternative approach)
+    qData.region_data.forEach((rd: { n: any; d: { q50: any; }; }) => {
+      data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
+    });
+
     console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
-    console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
+
+    // const dataNoMinus = data.filter(item => (item.value > 0 || selectedColumn.indicatorCode !== 'rate'))
+    // console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
 
     // Create the MapInput object
     const mapInput = new MapInput(
       region,
-      'Título',
-      dataNoMinus,
+      selectedColumn.indicatorName,
+      data,
       selectedColumn.format !== '0.00%' && false, // Force red-green color
       selectedColumn.format
     );
@@ -123,4 +133,16 @@ export class DdbService {
       codeFP: '',
     };
   }
+
+  getRightMostDigit(str: string | undefined): number {
+    if (!str) return -1; // Return -1 if str is undefined or an empty strin
+
+    const lastChar = str.trim().slice(-1); // Get the last character
+    const digit = parseInt(lastChar, 10); // Convert to integer
+
+    return isNaN(digit) ? -1 : digit; // Return the digit or null if not a number
+  }
+
+
+
 }

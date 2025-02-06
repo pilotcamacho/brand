@@ -38,7 +38,7 @@
 
           <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
             <ion-item *ngFor="let column of columnsMedicaid">
-              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
@@ -53,23 +53,23 @@
 
           <ion-radio-group *ngIf="isListOpen.ratesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
             <ion-item *ngFor="let column of columnsRates">
-              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
 
-          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.code === 'avg_rate'">
+          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'">
             <ion-label>Payor</ion-label>
-            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor">
+            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor" (ionChange)="onPayorChange($event)">
               <ion-select-option *ngFor="let payor of payors" [value]="payor.id">
                 {{ payor.name }}
               </ion-select-option>
             </ion-select>
           </ion-item>
 
-          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.code === 'avg_rate'">
+          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'">
             <ion-label>Code</ion-label>
-            <ion-select [(ngModel)]="selCode" placeholder="Select a code">
+            <ion-select [(ngModel)]="selCode" placeholder="Select a code" (ionChange)="onCodeChange($event)">
               <ion-select-option *ngFor="let code of codes" [value]="code.id">
                 {{ code.name }}
               </ion-select-option>
@@ -87,7 +87,7 @@
 
           <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
             <ion-item *ngFor="let column of columnsCommercial">
-              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
@@ -102,7 +102,7 @@
 
           <ion-radio-group *ngIf="isListOpen.generalList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
             <ion-item *ngFor="let column of columnsGeneral">
-              <ion-label style="font-size: 12px;">{{ column.colInfo.name }}</ion-label>
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>

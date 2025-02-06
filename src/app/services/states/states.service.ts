@@ -24,4 +24,12 @@ export class StatesService {
     }
     return null; // Return null if state not found
   }
+
+  getStateDetailsByCode(stateCode: string): { state_name: string, state_code: string; state_fp: string } | null {
+    const state = this.data.find(item => item.state_code.toLowerCase() === stateCode.toLowerCase());
+    if (state) {
+      return { state_name: state.state_name, state_code: state.state_code, state_fp: state.state_fp };
+    }
+    return null; // Return null if state not found
+  }
 }
