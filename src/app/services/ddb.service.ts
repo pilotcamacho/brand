@@ -53,7 +53,7 @@ export class DdbService {
     //     } | null)} | null), createdAt: string, updatedAt: string}[] | null
     //   >  
     Promise<any> {
-    console.log('DdbService::go()')
+    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${n_i36}, ${code_tiny} `)
     // const { errors, data: qData } = await client.models.QueryData.create({
     //   variable: 'rate#2',
     //   region: 'CO',
@@ -64,6 +64,9 @@ export class DdbService {
     // })
 
     const inputQuery = { variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable), region: region, p_i36: p_i36, n_i36: n_i36 }
+    console.log(`DdbService::go()::inputQuery:  ${inputQuery}`)
+
+
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
 
     console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
@@ -72,7 +75,7 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator, p_i36: string, n_i36: string, code: string | undefined): Promise<MapInput> {
-    console.log(`DataService::getMapInput::regionName::${regionName}`);
+    console.log(`DataService::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     // Define the region
     const region: Region = this.getRegion(regionType, regionName);
@@ -90,7 +93,11 @@ export class DdbService {
 
     // Using forEach (alternative approach)
     qData.region_data.forEach((rd: { n: any; d: { q50: any; }; }) => {
-      data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
+      if (region.type === RegionType.COUNTRY) {
+        data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
+      } else {
+        data.push({ subRegion: rd.n, value: rd.d.q50 });
+      }
     });
 
     console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
@@ -112,14 +119,16 @@ export class DdbService {
   }
 
   private getRegion(regionType: RegionType, regionName: string): Region {
+    console.log(`DdbService::getRegion::regionType|regionName: ${regionType}, ${regionName}`);
     if (regionType === RegionType.STATE) {
-      const stateDetails = this.statesSrv.getStateDetailsByName(regionName);
+      console.log(`DdbService::getRegion::if::regionType|regionName: ${regionType}, ${regionName}`);
+      const stateDetails = this.statesSrv.getStateDetailsByCode(regionName);
       if (!stateDetails) {
         throw new Error('State not found');
       }
       return {
         type: regionType,
-        name: regionName,
+        name: stateDetails.state_name,
         code: stateDetails.state_code ?? '',
         codeFP: stateDetails.state_fp ?? '',
       };

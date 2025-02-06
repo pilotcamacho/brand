@@ -19,6 +19,13 @@ export class HomePage implements AfterViewInit, OnInit {
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
+  regionUSA: Region = {
+    type: RegionType.COUNTRY,
+    name: 'USA',
+    code: 'USA',
+    codeFP: null
+  }
+
   // List of payors
   payors = PAYORS;
 
@@ -37,12 +44,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   //////////  PAGE STATE  //////////////////////////////////////////////////////////////////////
 
-  selectedRegion: Region = {
-    type: RegionType.COUNTRY,
-    name: 'USA',
-    code: 'USA',
-    codeFP: null
-  }
+  selectedRegion: Region = this.regionUSA;
 
   selectedColumn!: Indicator; //{ stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
 
@@ -105,9 +107,17 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log('HomePage::onClickMapaGrande')
     // this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' });
     // this.updateColumnsInfo();
-    // this.mapInput = this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode)
-    // this.onClickChart(event)
+
+    this.selectedRegion = this.regionUSA
+    this.updateInfo()
+    this.onClickChart(event)
     // this.updateInfo()
+  }
+
+  onClickChart(event: any) {
+    console.log('HomePage::onClickChart::event: ' + event)
+    event.preventDefault();
+    // this.chartStandardView = !this.chartStandardView
   }
 
   selectedCountyFromChild: string = '';  // To store the value received from the child
