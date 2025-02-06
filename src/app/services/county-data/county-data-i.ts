@@ -44,3 +44,12 @@ export interface ColumnRenameByState {
   name: string;
 }
 
+export interface Variable {
+  code: string;
+  name: string;
+  description: string;
+  type: string
+  format: string;
+}
+
+
