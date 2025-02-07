@@ -84,31 +84,18 @@ export class DdbService {
     // Create the data array
     const data: DataPoint[] = []
 
-    if (selectedColumn.aggregation === 'q50') {
-      qData.region_data.forEach((rd: { n: any; d: { q50: any; }; }) => {
-        if (region.type === RegionType.COUNTRY) {
-          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
-        } else {
-          data.push({ subRegion: rd.n, value: rd.d.q50 });
-        }
-      });
-    } else if (selectedColumn.aggregation === 'cnt') {
-      qData.region_data.forEach((rd: { n: any; d: { cnt: any; }; }) => {
-        if (region.type === RegionType.COUNTRY) {
-          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.cnt });
-        } else {
-          data.push({ subRegion: rd.n, value: rd.d.cnt });
-        }
-      });
-    } else {
-      qData.region_data.forEach((rd: { n: any; d: { avg: any; }; }) => {
-        if (region.type === RegionType.COUNTRY) {
-          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.avg });
-        } else {
-          data.push({ subRegion: rd.n, value: rd.d.avg });
-        }
-      });
-    }
+    const aggregationKey = selectedColumn.aggregation === 'q50' ? 'q50'
+      : selectedColumn.aggregation === 'cnt' ? 'cnt'
+        : 'avg';
+
+    qData.region_data.forEach((rd: { n: any; d: Record<string, any> }) => {
+      const subRegion = region.type === RegionType.COUNTRY
+        ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
+        : rd.n;
+
+      data.push({ subRegion, value: rd.d[aggregationKey] });
+    });
+
 
     console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
 
