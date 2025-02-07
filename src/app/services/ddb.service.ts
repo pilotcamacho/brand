@@ -77,28 +77,38 @@ export class DdbService {
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator, p_i36: string, n_i36: string, code: string | undefined): Promise<MapInput> {
     console.log(`DataService::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
-    // Define the region
     const region: Region = this.getRegion(regionType, regionName);
-    // const regionData = [...this.cds.getStateInfo(region), ...this.entitiesSrv.getStateInfo(region)];
-    // const filteredRegionData = regionData.filter(item => item.code === selectedColumn.code);
-
-    // Define the title
-    // const title = filteredRegionData.length > 0 ? filteredRegionData[0].name : 'No data found';
-
 
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, n_i36, this.getRightMostDigit(code))
 
     // Create the data array
     const data: DataPoint[] = []
 
-    // Using forEach (alternative approach)
-    qData.region_data.forEach((rd: { n: any; d: { q50: any; }; }) => {
-      if (region.type === RegionType.COUNTRY) {
-        data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
-      } else {
-        data.push({ subRegion: rd.n, value: rd.d.q50 });
-      }
-    });
+    if (selectedColumn.aggregation === 'q50') {
+      qData.region_data.forEach((rd: { n: any; d: { q50: any; }; }) => {
+        if (region.type === RegionType.COUNTRY) {
+          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.q50 });
+        } else {
+          data.push({ subRegion: rd.n, value: rd.d.q50 });
+        }
+      });
+    } else if (selectedColumn.aggregation === 'cnt') {
+      qData.region_data.forEach((rd: { n: any; d: { cnt: any; }; }) => {
+        if (region.type === RegionType.COUNTRY) {
+          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.cnt });
+        } else {
+          data.push({ subRegion: rd.n, value: rd.d.cnt });
+        }
+      });
+    } else {
+      qData.region_data.forEach((rd: { n: any; d: { avg: any; }; }) => {
+        if (region.type === RegionType.COUNTRY) {
+          data.push({ subRegion: this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? '', value: rd.d.avg });
+        } else {
+          data.push({ subRegion: rd.n, value: rd.d.avg });
+        }
+      });
+    }
 
     console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
 
@@ -144,7 +154,9 @@ export class DdbService {
   }
 
   getRightMostDigit(str: string | undefined): number {
-    if (!str) return -1; // Return -1 if str is undefined or an empty strin
+    if (!str) return -1; // Return -1 if str is undefined or an empty string
+
+    if (str === '00000') return -1; // Return -1 if str is undefined or an empty string
 
     const lastChar = str.trim().slice(-1); // Get the last character
     const digit = parseInt(lastChar, 10); // Convert to integer

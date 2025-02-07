@@ -52,7 +52,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   selNetwork: string = 'ZZ'
 
-  selCode: string = '97151';
+  selCode: string = '00000';
 
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////

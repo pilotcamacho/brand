@@ -29,6 +29,28 @@
 
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
+        <ion-list class="scrollable-list">
+          <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
+          <ion-item>
+            <ion-label>Payor</ion-label>
+            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor" (ionChange)="onPayorChange($event)">
+              <ion-select-option *ngFor="let payor of payors" [value]="payor.id">
+                {{ payor.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
+          <ion-item>
+            <ion-label>Code</ion-label>
+            <ion-select [(ngModel)]="selCode" placeholder="Select a code" (ionChange)="onCodeChange($event)">
+              <ion-select-option *ngFor="let code of codes" [value]="code.id">
+                {{ code.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
         <!-- Medicaid -->
         <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('medicaidList')">
@@ -57,24 +79,6 @@
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
-
-          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'">
-            <ion-label>Payor</ion-label>
-            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor" (ionChange)="onPayorChange($event)">
-              <ion-select-option *ngFor="let payor of payors" [value]="payor.id">
-                {{ payor.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'">
-            <ion-label>Code</ion-label>
-            <ion-select [(ngModel)]="selCode" placeholder="Select a code" (ionChange)="onCodeChange($event)">
-              <ion-select-option *ngFor="let code of codes" [value]="code.id">
-                {{ code.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
 
         </ion-list>
 
@@ -156,11 +160,11 @@
             </div>
           </ion-col> -->
 
- 
+
         <!-- </ion-row> -->
 
 
-<!-- NEW HOME -->
+        <!-- NEW HOME -->
         <!-- <ion-row *ngIf="atLeastOneSelected && chartStandardView" class="full-height-row">
 
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
@@ -294,7 +298,7 @@
 
 
     <!-- <ion-row *ngIf="false"> -->
-      <!-- <ion-col size-xs="3" size-sm="3" size-md="3" size-lg="3" id="ionCol">
+    <!-- <ion-col size-xs="3" size-sm="3" size-md="3" size-lg="3" id="ionCol">
 
         <  !-- Dropdown Selector Section --  >
 
@@ -314,7 +318,7 @@
 
       </ion-col> -->
 
-      <!-- <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8" id="ionCol">
+    <!-- <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8" id="ionCol">
         <div class="custom-card">
           <  !-- Rates go here --  >
           <div class="rates-section">
