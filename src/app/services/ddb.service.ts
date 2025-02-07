@@ -84,17 +84,19 @@ export class DdbService {
     // Create the data array
     const data: DataPoint[] = []
 
-    const aggregationKey = selectedColumn.aggregation === 'q50' ? 'q50'
-      : selectedColumn.aggregation === 'cnt' ? 'cnt'
-        : 'avg';
+    if (qData) {
+      const aggregationKey = selectedColumn.aggregation === 'q50' ? 'q50'
+        : selectedColumn.aggregation === 'cnt' ? 'cnt'
+          : 'avg';
 
-    qData.region_data.forEach((rd: { n: any; d: Record<string, any> }) => {
-      const subRegion = region.type === RegionType.COUNTRY
-        ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
-        : rd.n;
+      qData.region_data.forEach((rd: { n: any; d: Record<string, any> }) => {
+        const subRegion = region.type === RegionType.COUNTRY
+          ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
+          : rd.n;
 
-      data.push({ subRegion, value: rd.d[aggregationKey] });
-    });
+        data.push({ subRegion, value: rd.d[aggregationKey] });
+      });
+    }
 
 
     console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);

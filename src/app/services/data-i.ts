@@ -12,8 +12,10 @@ export interface Indicator {
 
 export const INDICATORS: Indicator[] =
   [
-    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
-    { indicatorCode: "medicaid_pop_under_18", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "rates", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
+
+    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
     { indicatorCode: "cnt_entities", indicatorName: "Entities count by county", indicatorDescription: "Entities count by county: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "cnt_ein", indicatorName: "Ein count by county", indicatorDescription: "Ein count by county: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
@@ -24,11 +26,9 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcaba", indicatorName: "bcaba count by county", indicatorDescription: "bcaba count by county: description.", indicatorGroup: "commercial", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "rbt", indicatorName: "rbt count by county", indicatorDescription: "rbt count by county: description.", indicatorGroup: "commercial", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
-    { indicatorCode: "rate", indicatorName: "rate", indicatorDescription: "rate", indicatorGroup: "rates", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
-
-    { indicatorCode: "population", indicatorName: "population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
-    { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0" },
-    { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
+    { indicatorCode: "population", indicatorName: "population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
   ]
 
 // List of codes

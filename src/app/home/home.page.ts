@@ -62,8 +62,8 @@ export class HomePage implements AfterViewInit, OnInit {
   chartStandardView = false;
 
   isListOpen = {
-    medicaidList: true,
-    ratesList: false,
+    ratesList: true,
+    medicaidList: false,
     commercialList: false,
     generalList: false
   };

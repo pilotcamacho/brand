@@ -51,21 +51,6 @@
           </ion-item>
         </ion-list>
 
-        <!-- Medicaid -->
-        <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('medicaidList')">
-            <ion-label>Medicaid</ion-label>
-            <ion-icon [name]="isListOpen.medicaidList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsMedicaid">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
-
         <!-- Rates List -->
         <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('ratesList')">
@@ -81,6 +66,23 @@
           </ion-radio-group>
 
         </ion-list>
+
+        <!-- Medicaid -->
+        <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('medicaidList')">
+            <ion-label>Medicaid</ion-label>
+            <ion-icon [name]="isListOpen.medicaidList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsMedicaid">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+
 
         <!-- Commercial -->
         <ion-list class="scrollable-list">
