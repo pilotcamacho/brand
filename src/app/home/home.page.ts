@@ -7,7 +7,7 @@ import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { CODES, Indicator, INDICATORS, PAYORS } from '../services/data-i';
+import { CODES, Indicator, INDICATORS, NETWORKS, PAYORS } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 
 @Component({
@@ -28,6 +28,9 @@ export class HomePage implements AfterViewInit, OnInit {
 
   // List of payors
   payors = PAYORS;
+
+  // List of payors
+  networks = NETWORKS;
 
   // List of codes
   codes = CODES;
@@ -169,6 +172,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   updateInfo() {
     console.log("HomePage::updateInfo");
+    if (this.selPayor === 'ZZ') { this.selNetwork = 'ZZ' }
     console.log(this.selectedRegion)
     console.log(this.selectedColumn)
     console.log(this.selCode)
@@ -176,6 +180,7 @@ export class HomePage implements AfterViewInit, OnInit {
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn, this.selPayor, this.selNetwork, this.selCode)
       .then(mi => { this.mapInput = mi })
+    this.updateColumnsInfo()
   }
 
 
@@ -185,6 +190,9 @@ export class HomePage implements AfterViewInit, OnInit {
     this.columnsRates = this.indicators.filter(col => (col.indicatorGroup === 'rates'))
     this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
+    this.networks = NETWORKS.filter(n => {
+      return ((n.pId === this.selPayor && this.selPayor !== 'ZZ') || this.selPayor === 'ZZ' || n.id === 'ZZ')
+    })
   }
 
 

@@ -40,6 +40,16 @@
             </ion-select>
           </ion-item>
 
+          <ion-item *ngIf="this.selPayor !== 'ZZ'">
+            <!-- <ion-item> -->
+            <ion-label>Network</ion-label>
+            <ion-select [(ngModel)]="selNetwork" placeholder="Select a network" (ionChange)="onPayorChange($event)">
+              <ion-select-option *ngFor="let network of networks" [value]="network.id">
+                {{ network.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
           <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
           <ion-item>
             <ion-label>Code</ion-label>
