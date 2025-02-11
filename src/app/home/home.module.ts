@@ -7,6 +7,8 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { MapComponentComponent } from 'src/app/components/map-component/map-component.component';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { MapComponentComponent } from 'src/app/components/map-component/map-comp
     IonicModule,
     HomePageRoutingModule,
     MapComponentComponent,
+    NgxDatatableModule 
   ],
   declarations: [HomePage]
 })

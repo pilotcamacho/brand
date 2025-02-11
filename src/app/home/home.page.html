@@ -142,6 +142,62 @@
           </ion-col>
         </ion-row>
 
+        <ion-card *ngIf="mapInput.title === 'Rates'">
+          <ion-card-header>
+            <ion-card-title>{{ mapInput.title }}</ion-card-title>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <ngx-datatable
+              #table
+              class="material"
+              [rows]="mapInput.data"
+              [columns]="columns"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [sorts]="[{ prop: 'subRegion', dir: 'asc' }]"
+              [scrollbarH]="true"
+              [reorderable]="true"
+              >
+            </ngx-datatable>
+          </ion-card-content>
+        </ion-card>
+
+
+        <!-- <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ mapInput.title }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-grid>
+              <ion-row class="header">
+                <ion-col><strong>{{ mapInput.region.type==='country'?'State':'County' }}</strong></ion-col>
+                <ion-col><strong>Q10</strong></ion-col>
+                <ion-col><strong>Q25</strong></ion-col>
+                <ion-col><strong>Q50</strong></ion-col>
+                <ion-col><strong>Q75</strong></ion-col>
+                <ion-col><strong>Q90</strong></ion-col>
+              </ion-row>
+
+              <ion-row *ngFor="let state of mapInput.data">
+                <ion-col>{{ state.subRegion }}</ion-col>
+                <ion-col>{{ state.quantiles.q10| number }}</ion-col>
+                <ion-col>{{ state.quantiles.q25| number }}</ion-col>
+                <ion-col>{{ state.quantiles.q50| number }}</ion-col>
+                <ion-col>{{ state.quantiles.q75| number }}</ion-col>
+                <ion-col>{{ state.quantiles.q90| number }}</ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card> -->
+
+
+
+
         <!-- <ion-row *ngIf="!chartStandardView && false" class="full-height-row">
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <div class="custom-card" (contextmenu)="onClickChart($event);">

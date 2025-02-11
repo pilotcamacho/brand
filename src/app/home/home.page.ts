@@ -37,6 +37,8 @@ export class HomePage implements AfterViewInit, OnInit {
 
   indicators = INDICATORS;
 
+  columns: { name: any, prop: any, sortable: boolean }[] = [];
+
   //////////  PAGE COMPONENTS  //////////////////////////////////////////////////////////////////////
 
   columnsMedicaid: Indicator[] = []
@@ -179,7 +181,18 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selPayor)
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn, this.selPayor, this.selNetwork, this.selCode)
-      .then(mi => { this.mapInput = mi })
+      .then(mi => {
+        this.mapInput = mi
+        this.columns = [
+          { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
+          { name: 'Q10', prop: 'quantiles.q10', sortable: true },
+          { name: 'Q25', prop: 'quantiles.q25', sortable: true },
+          { name: 'Q50', prop: 'quantiles.q50', sortable: true },
+          { name: 'Q75', prop: 'quantiles.q75', sortable: true },
+          { name: 'Q90', prop: 'quantiles.q90', sortable: true },
+          { name: 'Change', prop: 'quantiles.change', sortable: true }
+        ]
+      })
     this.updateColumnsInfo()
   }
 

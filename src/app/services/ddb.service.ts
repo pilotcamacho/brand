@@ -75,11 +75,12 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator, p_i36: string, n_i36: string, code: string | undefined): Promise<MapInput> {
-    console.log(`DataService::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
+    console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
 
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, n_i36, this.getRightMostDigit(code))
+    console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     // Create the data array
     const data: DataPoint[] = []
@@ -94,7 +95,19 @@ export class DdbService {
           ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
           : rd.n;
 
-        data.push({ subRegion, value: rd.d[aggregationKey] });
+        data.push({
+          subRegion, value: rd.d[aggregationKey],
+          quantiles: {
+            q10: rd.d['q10'],
+            q25: rd.d['q25'],
+            q50: rd.d['q50'],
+            q75: rd.d['q75'],
+            q90: rd.d['q90'],
+            change: rd.d['q50'] !== 0
+              ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
+              : null // Avoid division by zero
+          }
+        });
       });
     }
 

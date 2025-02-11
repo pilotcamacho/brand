@@ -14,6 +14,7 @@ export interface Region {
 export interface DataPoint {
     subRegion: string; // Name of the subregion
     value: number;     // Numerical value
+    quantiles: { q10: number, q25: number, q50: number, q75: number, q90: number, change: number | null }
 }
 
 export class MapInput {
