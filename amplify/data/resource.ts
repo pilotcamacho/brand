@@ -18,18 +18,17 @@ const schema = a.schema({
     d: a.ref("DataForRegion"),
   }),
 
-
   QueryData: a
     .model({
-      variable: a.string().required(), // variable_code (if rate the code_tiny: -1 is all (last digit of the full code): "rate_3"; in case -1: "rate")
+      // if variable == "rate" the code_tiny is used as part of variable.
+      //   if code_tiny == -1 is all codes then variable = "rate"
+      //   if code_tiny == 2 (or any number) concat with "rate" to form "rate#2" 
+      //   (code_tiny is the last digit of the full code. Example: 2 for code 97152)
+      variable: a.string().required(), // variable_code
       region: a.string().required(), // state_id or USA
-      p_i36: a.string().required(),  // ZZ is all
-      n_i36: a.string().required(),  // ZZ is all
-      // code_tiny: a.integer().required(), // -1 is all (last digit of the full code)
+      p_i36: a.string().required(),  // ZZ is all. There is a code for each payor.
+      n_i36: a.string().required(),  // ZZ is all. There is a code for each network.
       region_data: a.ref("RegionData").array()
-      // value: a.float().required(),
-      // aggregation_method: a.integer().required(),
-      // quntiles: a.float().required(),
     })
     .identifier(['variable', 'region', 'p_i36', 'n_i36'])
     .authorization((allow) => [allow.group('Admin'), allow.authenticated()]),

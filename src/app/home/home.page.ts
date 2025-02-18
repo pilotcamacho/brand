@@ -38,6 +38,7 @@ export class HomePage implements AfterViewInit, OnInit {
   indicators = INDICATORS;
 
   columns: { name: any, prop: any, sortable: boolean }[] = [];
+ 
 
   //////////  PAGE COMPONENTS  //////////////////////////////////////////////////////////////////////
 

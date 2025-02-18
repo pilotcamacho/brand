@@ -1,3 +1,7 @@
+- MA - Tufts Health Care PPO, (tienen mucha variabilidad)
+- Include Taxonomy in Rates (BCBA / BT)
+- Include another chart to show variability in rates
+
 - Entity count: Kings county: NY by county and state
 - Payers: rates	
 - Color

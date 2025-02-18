@@ -225,6 +225,13 @@ export const PAYORS = [
   { id: '0N', name: 'Yale University Health Plan' }
 ];
 
+
+/*
+SELECT DISTINCT
+	CONCAT('{id: \'', n.id36, '\', name: \'', n.name, '\', pId: \'', p.id36, '\'},') j
+FROM bcba.network n
+INNER JOIN bcba.payer p ON p.id = n.payor_id
+*/
 export const NETWORKS = [
   { id: 'ZZ', name: 'ALL', pId: '' },
   { id: '0S', name: 'Blue Community HMO', pId: '01' },
