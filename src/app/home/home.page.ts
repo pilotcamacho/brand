@@ -7,8 +7,9 @@ import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { CODES, Indicator, INDICATORS, NETWORKS, PAYORS } from '../services/data-i';
+import { CODES, Indicator, INDICATORS, NETWORKS, PAYORS, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
+import { ColumnData } from '../services/county-data/county-data-i';
 
 @Component({
   selector: 'app-home',
@@ -35,10 +36,13 @@ export class HomePage implements AfterViewInit, OnInit {
   // List of codes
   codes = CODES;
 
+  // List of taxonomies
+  taxonomies = TAXONOMY;
+
   indicators = INDICATORS;
 
   columns: { name: any, prop: any, sortable: boolean }[] = [];
- 
+
 
   //////////  PAGE COMPONENTS  //////////////////////////////////////////////////////////////////////
 
@@ -46,6 +50,15 @@ export class HomePage implements AfterViewInit, OnInit {
   columnsRates: Indicator[] = []
   columnsCommercial: Indicator[] = []
   columnsGeneral: Indicator[] = []
+
+  boxPlotData: ColumnData = {
+    code: 'state',
+    name: 'bp',
+    formula: 'bp',
+    description: 'bp',
+    type: 'bp',
+    format: '0.0'
+  }
 
 
   //////////  PAGE STATE  //////////////////////////////////////////////////////////////////////
@@ -59,6 +72,8 @@ export class HomePage implements AfterViewInit, OnInit {
   selNetwork: string = 'ZZ'
 
   selCode: string = '00000';
+
+  selTaxonomy: string = '0000000000';
 
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////
@@ -91,7 +106,7 @@ export class HomePage implements AfterViewInit, OnInit {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], true, '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', this.selCode)
+    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', this.selCode)
       .then(mi => { this.mapInput = mi })
   }
 
@@ -168,6 +183,11 @@ export class HomePage implements AfterViewInit, OnInit {
     this.updateInfo()
   }
 
+  onTaxonomyChange(event: any) {
+    console.log("HomePage::onTaxonomyChange::", event.detail.value);
+    this.updateInfo()
+  }
+
   onPayorChange(event: any) {
     console.log("HomePage::onPayorChange::", event.detail.value);
     this.updateInfo()
@@ -180,8 +200,10 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selectedColumn)
     console.log(this.selCode)
     console.log(this.selPayor)
+    console.log(this.selTaxonomy)
     this.dynamoDB.getMapInput(
-      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn, this.selPayor, this.selNetwork, this.selCode)
+      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
+      this.selPayor, this.selNetwork, this.selTaxonomy, this.selCode)
       .then(mi => {
         this.mapInput = mi
         this.columns = [

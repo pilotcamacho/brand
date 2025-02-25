@@ -27,10 +27,12 @@ const schema = a.schema({
       variable: a.string().required(), // variable_code
       region: a.string().required(), // state_id or USA
       p_i36: a.string().required(),  // ZZ is all. There is a code for each payor.
-      n_i36: a.string().required(),  // ZZ is all. There is a code for each network.
+      t_i36: a.string().required(),  // ZZ is all. There is a code for each network_template.
+      taxonomy: a.string().required(),  // ZZ is all. There is a code for each taxonomy.
+      d_read: a.date().required(), // This is the date in which the data was read (in case of rate is when was read from API)
       region_data: a.ref("RegionData").array()
     })
-    .identifier(['variable', 'region', 'p_i36', 'n_i36'])
+    .identifier(['variable', 'region', 'p_i36', 't_i36', 'taxonomy', 'd_read'])
     .authorization((allow) => [allow.group('Admin'), allow.authenticated()]),
 
   // CountyData: a

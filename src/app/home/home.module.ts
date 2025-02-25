@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { MapComponentComponent } from 'src/app/components/map-component/map-component.component';
+import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -17,6 +18,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     IonicModule,
     HomePageRoutingModule,
     MapComponentComponent,
+    BoxPlotComponent,
     NgxDatatableModule 
   ],
   declarations: [HomePage]

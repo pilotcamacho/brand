@@ -15,7 +15,9 @@ const client = generateClient<Schema>();
 const queryDataSelectionSet = [
   'variable',
   'region',
-  'p_i36', 'n_i36',
+  'p_i36', 't_i36',
+  'taxonomy',
+  'd_read',
   'region_data.n',
   'region_data.d.q10',
   'region_data.d.q25',
@@ -39,7 +41,7 @@ export class DdbService {
     console.log('DdbService::constructor()')
   }
 
-  async go(variable: string, region: string, p_i36: string, n_i36: string, code_tiny: number):
+  async go(variable: string, region: string, p_i36: string, t_i36: string, taxonomy: string, code_tiny: number):
     // Promise<
     //   {variable: string, region: string, p_i36: string, n_i36: string, 
     //     region_data: ({n: (string | null), d:({
@@ -53,7 +55,7 @@ export class DdbService {
     //     } | null)} | null), createdAt: string, updatedAt: string}[] | null
     //   >  
     Promise<any> {
-    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${n_i36}, ${code_tiny} `)
+    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${t_i36}, ${taxonomy}, ${code_tiny} `)
     // const { errors, data: qData } = await client.models.QueryData.create({
     //   variable: 'rate#2',
     //   region: 'CO',
@@ -63,7 +65,10 @@ export class DdbService {
     //   region_data: [{subRegionName: 'Adams2', dataForSubRegion: {q10: 0.1, q50: 0.5}}]
     // })
 
-    const inputQuery = { variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable), region: region, p_i36: p_i36, n_i36: n_i36 }
+    const inputQuery = {
+      variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
+      region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, d_read: '2025-02-01'
+    }
     console.log(`DdbService::go()::inputQuery:  ${inputQuery}`)
 
 
@@ -74,12 +79,13 @@ export class DdbService {
     return qData;
   }
 
-  async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator, p_i36: string, n_i36: string, code: string | undefined): Promise<MapInput> {
+  async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
+    p_i36: string, t_i36: string, taxonomy: string, code: string | undefined): Promise<MapInput> {
     console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
 
-    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, n_i36, this.getRightMostDigit(code))
+    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, this.getRightMostDigit(code))
     console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     // Create the data array
@@ -95,19 +101,22 @@ export class DdbService {
           ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
           : rd.n;
 
-        data.push({
-          subRegion, value: rd.d[aggregationKey],
-          quantiles: {
-            q10: rd.d['q10'],
-            q25: rd.d['q25'],
-            q50: rd.d['q50'],
-            q75: rd.d['q75'],
-            q90: rd.d['q90'],
-            change: rd.d['q50'] !== 0
-              ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
-              : null // Avoid division by zero
-          }
-        });
+        if (subRegion !== '') {
+          data.push({
+            subRegion, value: rd.d[aggregationKey],
+            quantiles: {
+              q10: rd.d['q10'],
+              q25: rd.d['q25'],
+              q50: rd.d['q50'],
+              q75: rd.d['q75'],
+              q90: rd.d['q90'],
+              change: rd.d['q50'] !== 0
+                ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
+                : null // Avoid division by zero
+            }
+          })
+        }
+        ;
       });
     }
 
