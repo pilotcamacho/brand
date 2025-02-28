@@ -59,10 +59,10 @@
           </ion-radio-group>
 
           <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.colInfo?.code === 'avg_rate'">
-            <ion-label>Payor</ion-label>
-            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor">
-              <ion-select-option *ngFor="let payor of payors" [value]="payor.id">
-                {{ payor.name }}
+            <ion-label>Payer</ion-label>
+            <ion-select [(ngModel)]="selPayer" placeholder="Select a payer">
+              <ion-select-option *ngFor="let payer of payers" [value]="payer.id">
+                {{ payer.name }}
               </ion-select-option>
             </ion-select>
           </ion-item>

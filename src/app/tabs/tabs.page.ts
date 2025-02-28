@@ -23,8 +23,8 @@ import { DdbService } from '../services/ddb.service';
 })
 export class TabsPage implements AfterViewInit, OnInit {
 
-  // List of payors
-  payors = [
+  // List of payers
+  payers = [
     { id: '7218e478-2e12-4993-a492-fd1c2358b24e', name: 'UnitedHealthcare' },
   ];
 
@@ -41,7 +41,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   ];
 
   // Selected values
-  selPayor: string | undefined = '7218e478-2e12-4993-a492-fd1c2358b24e';
+  selPayer: string | undefined = '7218e478-2e12-4993-a492-fd1c2358b24e';
   selCode: string | undefined = '97151';
 
   selectedRegion: Region = {

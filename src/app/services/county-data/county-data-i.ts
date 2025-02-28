@@ -19,7 +19,7 @@ export interface CountyData {
   cnt_entities?: number;
   cnt_ein?: number;
   cnt_networks?: number;
-  cnt_payors?: number;
+  cnt_payers?: number;
   bcaba?: number;
   rbt?: number;
   avg_rate?: number;

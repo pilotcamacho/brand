@@ -7,7 +7,7 @@ import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { CODES, Indicator, INDICATORS, NETWORKS, PAYORS, TAXONOMY } from '../services/data-i';
+import { CODES, Indicator, INDICATORS, NETWORKS, PAYERS, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 
@@ -27,10 +27,10 @@ export class HomePage implements AfterViewInit, OnInit {
     codeFP: null
   }
 
-  // List of payors
-  payors = PAYORS;
+  // List of payers
+  payers = PAYERS;
 
-  // List of payors
+  // List of payers
   networks = NETWORKS;
 
   // List of codes
@@ -67,13 +67,13 @@ export class HomePage implements AfterViewInit, OnInit {
 
   selectedColumn!: Indicator; //{ stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
 
-  selPayor: string = 'ZZ';
+  selPayer: string = 'ZZ';
 
   selNetwork: string = 'ZZ'
 
   selCode: string = '00000';
 
-  selTaxonomy: string = '0000000000';
+  selTaxonomy: string = 'ZZ';
 
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////
@@ -188,22 +188,22 @@ export class HomePage implements AfterViewInit, OnInit {
     this.updateInfo()
   }
 
-  onPayorChange(event: any) {
-    console.log("HomePage::onPayorChange::", event.detail.value);
+  onPayerChange(event: any) {
+    console.log("HomePage::onPayerChange::", event.detail.value);
     this.updateInfo()
   }
 
   updateInfo() {
     console.log("HomePage::updateInfo");
-    if (this.selPayor === 'ZZ') { this.selNetwork = 'ZZ' }
+    if (this.selPayer === 'ZZ') { this.selNetwork = 'ZZ' }
     console.log(this.selectedRegion)
     console.log(this.selectedColumn)
     console.log(this.selCode)
-    console.log(this.selPayor)
+    console.log(this.selPayer)
     console.log(this.selTaxonomy)
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayor, this.selNetwork, this.selTaxonomy, this.selCode)
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selCode)
       .then(mi => {
         this.mapInput = mi
         this.columns = [
@@ -227,7 +227,7 @@ export class HomePage implements AfterViewInit, OnInit {
     this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
     this.networks = NETWORKS.filter(n => {
-      return ((n.pId === this.selPayor && this.selPayor !== 'ZZ') || this.selPayor === 'ZZ' || n.id === 'ZZ')
+      return ((n.pId === this.selPayer && this.selPayer !== 'ZZ') || this.selPayer === 'ZZ' || n.id === 'ZZ')
     })
   }
 

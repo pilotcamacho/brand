@@ -21,7 +21,7 @@ export class DataRowByCounty {
   cnt_entities?: number;
   cnt_ein?: number;
   cnt_networks?: number;
-  cnt_payors?: number;
+  cnt_payers?: number;
   bcaba?: number;
   rbt?: number;
   avg_rate?: number;
@@ -45,7 +45,7 @@ export class DataRowByCounty {
     this.cnt_entities = countyData.cnt_entities ?? 0;
     this.cnt_ein = countyData.cnt_ein ?? 0;
     this.cnt_networks = countyData.cnt_networks ?? 0;
-    this.cnt_payors = countyData.cnt_payors ?? 0;
+    this.cnt_payers = countyData.cnt_payers ?? 0;
 
     // this.medi_cal_e_under_21 = countyData.medi_cal_e_under_21;
     this.bcba_d = countyData.bcba_d;

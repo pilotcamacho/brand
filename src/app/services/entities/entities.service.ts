@@ -95,7 +95,7 @@ export class EntitiesService {
 
     let group: 'commercial' | 'rates' = 'commercial'
     if (columData.code.startsWith('cnt') || columData.code === 'avg_rate') {
-      // cnt, cnt_entities, cnt_ein, cnt_networks, cnt_payors, avg_rate
+      // cnt, cnt_entities, cnt_ein, cnt_networks, cnt_payers, avg_rate
       group = 'rates'
     } 
 
@@ -155,12 +155,12 @@ export class EntitiesService {
       this.generateData(region, 'cnt_entities', "Entities count by county", "#", "Entities count by county: description.", "", "0"),
       this.generateData(region, 'cnt_ein', "Ein count by county", "#", "Ein count by county: description.", "", "0"),
       this.generateData(region, 'cnt_networks', "Neworks count by county", "#", "Networks count by county: description.", "", "0"),
-      this.generateData(region, 'cnt_payors', "Payors count by county", "#", "Payors count by county: description.", "", "0"),
+      this.generateData(region, 'cnt_payers', "Payers count by county", "#", "Payers count by county: description.", "", "0"),
       this.generateData(region, 'bcba_d', "bcba_d count by county", "#", "bcba_d count by county: description.", "", "0"),
       this.generateData(region, 'bcba', "bcba count by county", "#", "bcba count by county: description.", "", "0"),
       this.generateData(region, 'bcaba', "bcaba count by county", "#", "bcaba count by county: description.", "", "0"),
       this.generateData(region, 'rbt', "rbt count by county", "#", "rbt count by county: description.", "", "0"),
-      this.generateData(region, 'avg_rate', "avg rate CODE: 97153, Payor: UnitedHealthcare", "#", "avg rate CODE: 97153, Payor: UnitedHealthcare.", "", "0.00"),
+      this.generateData(region, 'avg_rate', "avg rate CODE: 97153, Payer: UnitedHealthcare", "#", "avg rate CODE: 97153, Payer: UnitedHealthcare.", "", "0.00"),
     ]
   }
 

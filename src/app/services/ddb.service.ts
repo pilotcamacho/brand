@@ -69,7 +69,7 @@ export class DdbService {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, d_read: '2025-02-01'
     }
-    console.log(`DdbService::go()::inputQuery:  ${inputQuery}`)
+    console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
 
 
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
@@ -96,10 +96,16 @@ export class DdbService {
         : selectedColumn.aggregation === 'cnt' ? 'cnt'
           : 'avg';
 
+      console.log(`Ddb::getMapInput::aggregationKey: ${aggregationKey}`)
+
+
       qData.region_data.forEach((rd: { n: any; d: Record<string, any> }) => {
         const subRegion = region.type === RegionType.COUNTRY
           ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
           : rd.n;
+
+          console.log(`Ddb::getMapInput::rd.n: ${rd.n}`)
+          console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
 
         if (subRegion !== '') {
           data.push({

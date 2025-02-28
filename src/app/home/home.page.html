@@ -32,18 +32,18 @@
         <ion-list class="scrollable-list">
           <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
           <ion-item>
-            <ion-label>Payor</ion-label>
-            <ion-select [(ngModel)]="selPayor" placeholder="Select a payor" (ionChange)="onPayorChange($event)">
-              <ion-select-option *ngFor="let payor of payors" [value]="payor.id">
-                {{ payor.name }}
+            <ion-label>Payer</ion-label>
+            <ion-select [(ngModel)]="selPayer" placeholder="Select a payer" (ionChange)="onPayerChange($event)">
+              <ion-select-option *ngFor="let payer of payers" [value]="payer.id">
+                {{ payer.name }}
               </ion-select-option>
             </ion-select>
           </ion-item>
 
-          <ion-item *ngIf="this.selPayor !== 'ZZ'">
+          <ion-item *ngIf="this.selPayer !== 'ZZ'">
             <!-- <ion-item> -->
             <ion-label>Network</ion-label>
-            <ion-select [(ngModel)]="selNetwork" placeholder="Select a network" (ionChange)="onPayorChange($event)">
+            <ion-select [(ngModel)]="selNetwork" placeholder="Select a network" (ionChange)="onPayerChange($event)">
               <ion-select-option *ngFor="let network of networks" [value]="network.id">
                 {{ network.name }}
               </ion-select-option>
@@ -152,7 +152,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="mapInput.title === 'Rates'">
           <!-- <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="4" id="ionCol"> -->
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <div class="custom-card">
