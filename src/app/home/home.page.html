@@ -134,6 +134,17 @@
           </ion-radio-group>
         </ion-list>
 
+        <!-- Searchbar -->
+        <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" placeholder="Payer"></ion-searchbar>
+
+        <!-- List -->
+        <div class="scrollable-list">
+        <ion-list>
+          <ion-item *ngFor="let item of filteredItems" (click)="selectItem(item)">
+            {{ item.name }}
+          </ion-item>
+        </ion-list>
+      </div>
       </ion-col>
 
       <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8">

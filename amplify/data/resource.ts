@@ -3,18 +3,23 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 const schema = a.schema({
 
   DataForRegion: a.customType({
+    min: a.float(),
+    q05: a.float(),
     q10: a.float(),
     q25: a.float(),
     q50: a.float(),
     q75: a.float(),
     q90: a.float(),
+    q95: a.float(),
+    max: a.float(),
     avg: a.float(),
     sum: a.integer(),
     cnt: a.integer()
   }),
 
   RegionData: a.customType({
-    n: a.string(),
+    r: a.string(),  // Region name
+    n: a.integer(), // Count of elements used
     d: a.ref("DataForRegion"),
   }),
 

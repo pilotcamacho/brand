@@ -1,3 +1,13 @@
+- Both taxonomies together
+- Filter out payers / networks "valid" by region.
+- Filter with text for payers and networks
+- Count payers by selected "code".
+- More taxonomies
+- Include min, max, 0.05, 0.95
+- Values by region on map (totals by map view)
+- Verify values
+- Trends: new data without replacing existing data
+
 - MA - Tufts Health Care PPO, (tienen mucha variabilidad)
 - Include Taxonomy in Rates (BCBA / BT)
 - Include another chart to show variability in rates

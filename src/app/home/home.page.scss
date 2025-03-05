@@ -134,10 +134,20 @@ app-q-chart {
   width: 250px; /* Set fixed width */
 }
 
+// .scrollable-list {
+//   max-height: 800px; /* Set a max height for the list */
+//   overflow-y: auto; /* Enable vertical scrolling */
+// }
+
 .scrollable-list {
-  max-height: 800px; /* Set a max height for the list */
-  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 300px; /* Adjust the height as needed */
+  overflow-y: auto;  /* Enables vertical scrolling */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: white;
 }
+
 
 /* app.component.scss */
 

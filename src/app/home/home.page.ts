@@ -18,6 +18,11 @@ import { ColumnData } from '../services/county-data/county-data-i';
 })
 export class HomePage implements AfterViewInit, OnInit {
 
+  searchTerm: string = '';
+  items: { id: string, name: string }[] = [];
+  filteredItems: { id: string, name: string }[] = [...this.items];
+
+
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
   regionUSA: Region = {
@@ -245,6 +250,19 @@ export class HomePage implements AfterViewInit, OnInit {
       color: 'danger'
     });
     toast.present();
+  }
+
+  filterList() {
+    this.filteredItems = this.payers.filter(item =>
+      item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  selectItem(item: { id: string, name: string }) {
+    console.log('Selected item:', item);
+    // this.itemSelected.emit(item); // Emit event when an item is clicked
+    this.searchTerm = item.name
+    this.filteredItems = [];
   }
 
 }
