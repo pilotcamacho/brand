@@ -262,7 +262,31 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log('Selected item:', item);
     // this.itemSelected.emit(item); // Emit event when an item is clicked
     this.searchTerm = item.name
+    this.selPayer = item.id
     this.filteredItems = [];
+    this.showList = false; // Hide the list after selecting
+    this.updateInfo()
   }
+
+  showList: boolean = false;
+
+
+  hideListWithDelay() {
+    setTimeout(() => {
+      this.showList = false;
+    }, 200); // Small delay to allow click selection
+  }
+
+  onFocus() {
+    console.log("Searchbar Focused!");
+    this.showList = true;
+  }
+  
+  onBlur() {
+    console.log("Searchbar Lost Focus!");
+    this.hideListWithDelay();
+  }
+  
+
 
 }

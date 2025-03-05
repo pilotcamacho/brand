@@ -134,18 +134,28 @@ app-q-chart {
   width: 250px; /* Set fixed width */
 }
 
-// .scrollable-list {
-//   max-height: 800px; /* Set a max height for the list */
-//   overflow-y: auto; /* Enable vertical scrolling */
-// }
-
 .scrollable-list {
-  max-height: 300px; /* Adjust the height as needed */
+  max-height: 800px; /* Set a max height for the list */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.scrollable-list-floating {
+  position: absolute;
+  width: calc(100% - 20px); /* Adjust width to match searchbar */
+  max-height: 300px; /* Adjust height as needed */
   overflow-y: auto;  /* Enables vertical scrolling */
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 5px;
   background-color: white;
+  z-index: 1000; /* Ensures it appears above other content */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Position it right below the search bar */
+ion-searchbar {
+  position: relative;
+  z-index: 1010; /* Ensure search bar is above other content */
 }
 
 

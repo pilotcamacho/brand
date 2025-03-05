@@ -99,12 +99,12 @@ export class DdbService {
       console.log(`Ddb::getMapInput::aggregationKey: ${aggregationKey}`)
 
 
-      qData.region_data.forEach((rd: { n: any; d: Record<string, any> }) => {
+      qData.region_data.forEach((rd: { r: any; d: Record<string, any> }) => {
         const subRegion = region.type === RegionType.COUNTRY
-          ? this.statesSrv.getStateDetailsByCode(rd.n)?.state_name ?? ''
-          : rd.n;
+          ? this.statesSrv.getStateDetailsByCode(rd.r)?.state_name ?? ''
+          : rd.r;
 
-          console.log(`Ddb::getMapInput::rd.n: ${rd.n}`)
+          console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
           console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
 
         if (subRegion !== '') {
