@@ -1,5 +1,5 @@
 <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="filterItems()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
-  [placeholder]="placeholder"></ion-searchbar>
+  (ionClear)="onClear()" [placeholder]="placeholder" [disabled]="disabled"></ion-searchbar>
 
 <ion-list *ngIf="filteredItems.length > 0 && showList" class="scrollable-list-floating">
   <ion-item *ngFor="let item of filteredItems" (click)="selectItem(item)">

@@ -14,6 +14,7 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
 
   @Input() items: { id: string, name: string }[] = [];
   @Input() placeholder!: string;
+  @Input() disabled: boolean;
 
   @Output() selectedItemChange: EventEmitter<string> = new EventEmitter<string>();
 
@@ -21,7 +22,9 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   filteredItems: { id: string, name: string }[] = [];
   showList: boolean = false;
 
-  constructor() {}
+  constructor() {
+    this.disabled = false
+  }
 
   ngOnInit() {
     console.log('SearchBoxComponent::ngOnInit');
@@ -62,5 +65,9 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   onBlur() {
     console.log("Searchbar Lost Focus!");
     this.hideListWithDelay();
+  }
+
+  onClear() {
+    console.log("SearchBoxComponent::onClear");
   }
 }
