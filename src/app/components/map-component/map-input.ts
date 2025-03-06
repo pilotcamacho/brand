@@ -44,6 +44,9 @@ export class MapInput {
         const min = Math.min(...values);
         const max = Math.max(...values);
 
+        if (min === max) {
+            return [min - 1, max + 2, this.format];
+        }
         return [min, max, this.format];
     }
 
