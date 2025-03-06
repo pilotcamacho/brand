@@ -128,7 +128,7 @@ ORDER BY n.name
 ) d;
  */
 export const PAYERS = [
-  { id: 'ZZ', name: 'ALL' },
+  // { id: 'ZZ', name: 'ALL' },
   { id: '37', name: 'Aetna' },
   { id: '2G', name: 'Alliant Health Plans' },
   { id: '3C', name: 'Allina Health' },
@@ -322,7 +322,7 @@ ORDER BY n.name
 ) d;
 */
 export const NETWORKS = [
-  { id: 'ZZ', name: 'ALL', pId: 'ZZ' },
+  // { id: 'ZZ', name: 'ALL', pId: 'ZZ' },
   { id: 'DH', name: '1199SEIU Open Access Aetna Select (USA)', pId: '37' },
   { id: 'DI', name: '32BJ POS (NY)', pId: '3A' },
   { id: '67', name: '3M (USA)', pId: '2B' },

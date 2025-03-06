@@ -45,10 +45,10 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   }
 
   selectItem(item: { id: string, name: string }) {
-    console.log('Selected item:', item);
+    console.log('SearchBoxComponent::selectItem::item:', item);
     this.searchQuery = item.name;
     this.showList = false; // Hide list after selection
-    this.selectedItemChange.emit(item.id); // Emit selected item
+    this.valueChangedOrCleared(item)
   }
 
   hideListWithDelay() {
@@ -62,12 +62,38 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
     this.showList = true;
   }
 
-  onBlur() {
-    console.log("Searchbar Lost Focus!");
-    this.hideListWithDelay();
+  onCancel() {
+    // This event, calls onClear
+    console.log("SearchBoxComponent::onCancel");
+    console.log("SearchBoxComponent::onCancel::this.searchQuery: " + this.searchQuery)
   }
 
   onClear() {
     console.log("SearchBoxComponent::onClear");
+    console.log("SearchBoxComponent::onClear::this.searchQuery: " + this.searchQuery)
   }
+
+  onBlur() {
+    console.log("SearchBoxComponent::onBlur");
+    console.log("SearchBoxComponent::onBlur::this.searchQuery: " + this.searchQuery)
+    this.hideListWithDelay();
+    // if(this.searchQuery === '') {
+    //   this.selectItem({id: '', name: ''})
+    // }
+  }
+
+  onChange() {
+    console.log("SearchBoxComponent::onChange");
+    console.log("SearchBoxComponent::onChange::this.searchQuery: " + this.searchQuery)
+    if(this.searchQuery === '') {
+      this.valueChangedOrCleared({id: '', name: ''})
+    }
+
+  }
+
+  valueChangedOrCleared(item: { id: string, name: string }) {
+    console.log('SearchBoxComponent::valueChangedOrCleared::item:', item);
+    this.selectedItemChange.emit(item.id); // Emit selected item
+  }
+
 }
