@@ -74,19 +74,19 @@ export class DdbService {
 
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
 
-    console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
+    // console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
 
     return qData;
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
     p_i36: string, t_i36: string, taxonomy: string, code: string | undefined): Promise<MapInput> {
-    console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
+    // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
 
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, this.getRightMostDigit(code))
-    console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
+    // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     // Create the data array
     const data: DataPoint[] = []
@@ -96,7 +96,7 @@ export class DdbService {
         : selectedColumn.aggregation === 'cnt' ? 'cnt'
           : 'avg';
 
-      console.log(`Ddb::getMapInput::aggregationKey: ${aggregationKey}`)
+      // console.log(`Ddb::getMapInput::aggregationKey: ${aggregationKey}`)
 
 
       qData.region_data.forEach((rd: { r: any; d: Record<string, any> }) => {
@@ -104,8 +104,8 @@ export class DdbService {
           ? this.statesSrv.getStateDetailsByCode(rd.r)?.state_name ?? ''
           : rd.r;
 
-          console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
-          console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
+          // console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
+          // console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
 
         if (subRegion !== '') {
           data.push({
@@ -127,7 +127,7 @@ export class DdbService {
     }
 
 
-    console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
+    // console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
 
     // const dataNoMinus = data.filter(item => (item.value > 0 || selectedColumn.indicatorCode !== 'rate'))
     // console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
@@ -141,7 +141,7 @@ export class DdbService {
       selectedColumn.format
     );
 
-    console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
+    // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
     return mapInput;
   }
 

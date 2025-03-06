@@ -18,9 +18,7 @@ import { ColumnData } from '../services/county-data/county-data-i';
 })
 export class HomePage implements AfterViewInit, OnInit {
 
-  searchTerm: string = '';
-  items: { id: string, name: string }[] = [];
-  filteredItems: { id: string, name: string }[] = [...this.items];
+  
 
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
@@ -193,8 +191,9 @@ export class HomePage implements AfterViewInit, OnInit {
     this.updateInfo()
   }
 
-  onPayerChange(event: any) {
-    console.log("HomePage::onPayerChange::", event.detail.value);
+  onPayerChange(p_i36: any) {
+    console.log("HomePage::onPayerChange::", p_i36);
+    this.selPayer = p_i36
     this.updateInfo()
   }
 
@@ -251,42 +250,4 @@ export class HomePage implements AfterViewInit, OnInit {
     });
     toast.present();
   }
-
-  filterList() {
-    this.filteredItems = this.payers.filter(item =>
-      item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
-
-  selectItem(item: { id: string, name: string }) {
-    console.log('Selected item:', item);
-    // this.itemSelected.emit(item); // Emit event when an item is clicked
-    this.searchTerm = item.name
-    this.selPayer = item.id
-    this.filteredItems = [];
-    this.showList = false; // Hide the list after selecting
-    this.updateInfo()
-  }
-
-  showList: boolean = false;
-
-
-  hideListWithDelay() {
-    setTimeout(() => {
-      this.showList = false;
-    }, 200); // Small delay to allow click selection
-  }
-
-  onFocus() {
-    console.log("Searchbar Focused!");
-    this.showList = true;
-  }
-  
-  onBlur() {
-    console.log("Searchbar Lost Focus!");
-    this.hideListWithDelay();
-  }
-  
-
-
 }

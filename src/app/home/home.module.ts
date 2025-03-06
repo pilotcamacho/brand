@@ -9,6 +9,7 @@ import { MapComponentComponent } from 'src/app/components/map-component/map-comp
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { SearchBoxComponent } from "../components/search-box/search-box.component";
 
 
 @NgModule({
@@ -19,8 +20,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     HomePageRoutingModule,
     MapComponentComponent,
     BoxPlotComponent,
-    NgxDatatableModule 
-  ],
+    NgxDatatableModule,
+    SearchBoxComponent
+],
   declarations: [HomePage]
 })
 export class HomePageModule { }

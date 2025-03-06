@@ -36,7 +36,7 @@ export class BoxPlotComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log('BoxPlotComponent::ngOnChanges')
     if (changes['data']) {
-      console.log('BoxPlotComponent::ngOnChanges::data', this.data);
+      // console.log('BoxPlotComponent::ngOnChanges::data', this.data);
       this.updateData()
     }
   }

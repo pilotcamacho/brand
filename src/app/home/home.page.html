@@ -29,20 +29,23 @@
 
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
+
+        <app-search-box [items]="payers" placeholder="Payers" (selectedItemChange)="onPayerChange($event)"></app-search-box>
+
         <!-- Searchbar Payer -->
-        <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
+        <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
           placeholder="Payer">
-        </ion-searchbar>
+        </ion-searchbar> -->
 
         <!-- List -->
-        <div *ngIf="showList" class="scrollable-list-floating">
+        <!-- <div *ngIf="showList" class="scrollable-list-floating">
 
           <ion-list>
             <ion-item *ngFor="let item of filteredItems" (click)="selectItem(item)">
               {{ item.name }}
             </ion-item>
           </ion-list>
-        </div>
+        </div> -->
 
         <ion-list class="scrollable-list">
           <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
