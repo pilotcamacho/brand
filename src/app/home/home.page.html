@@ -30,7 +30,11 @@
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
 
-        <app-search-box [items]="payers" placeholder="Payers" (selectedItemChange)="onPayerChange($event)"></app-search-box>
+        <app-search-box [items]="payers" placeholder="Payers"
+          (selectedItemChange)="onPayerChange($event)"></app-search-box>
+
+        <app-search-box *ngIf="this.selPayer !== 'ZZ'" [items]="networks" placeholder="Networks"
+          (selectedItemChange)="onNetworkChange($event)"></app-search-box>
 
         <!-- Searchbar Payer -->
         <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
@@ -58,15 +62,14 @@
             </ion-select>
           </ion-item> -->
 
-          <ion-item *ngIf="this.selPayer !== 'ZZ'">
-            <!-- <ion-item> -->
+          <!-- <ion-item *ngIf="this.selPayer !== 'ZZ'">
             <ion-label>Network</ion-label>
             <ion-select [(ngModel)]="selNetwork" placeholder="Select a network" (ionChange)="onPayerChange($event)">
               <ion-select-option *ngFor="let network of networks" [value]="network.id">
                 {{ network.name }}
               </ion-select-option>
             </ion-select>
-          </ion-item>
+          </ion-item> -->
 
           <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
           <ion-item>

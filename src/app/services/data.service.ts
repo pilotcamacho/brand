@@ -20,7 +20,7 @@ export class DataService {
   }
 
   getMapInput(regionType: RegionType, regionName: string, selectedColumn: ColumnData): MapInput {
-    console.log(`DataService::getMapInput::regionName::${regionName}`);
+    // console.log(`DataService::getMapInput::regionName::${regionName}`);
 
     // Define the region
     const region: Region = this.getRegion(regionType, regionName);
@@ -36,8 +36,8 @@ export class DataService {
       : [];
 
     const dataNoMinus = data.filter(item => (item.value > 0 || selectedColumn.code !== 'avg_rate'))
-    console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
-    console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
+    // console.log(`DataService::getMapInput::data::${JSON.stringify(data)}`);
+    // console.log(`DataService::getMapInput::dataNoMinus::${JSON.stringify(dataNoMinus)}`);
 
     // Create the MapInput object
     const mapInput = new MapInput(
@@ -48,7 +48,7 @@ export class DataService {
       selectedColumn.format
     );
 
-    console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
+    // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
     return mapInput;
   }
 

@@ -197,6 +197,12 @@ export class HomePage implements AfterViewInit, OnInit {
     this.updateInfo()
   }
 
+  onNetworkChange(t_i36: any) {
+    console.log("HomePage::onNetworkChange::", t_i36);
+    this.selPayer = t_i36
+    this.updateInfo()
+  }
+
   updateInfo() {
     console.log("HomePage::updateInfo");
     if (this.selPayer === 'ZZ') { this.selNetwork = 'ZZ' }
