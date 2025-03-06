@@ -18,7 +18,6 @@ import { ColumnData } from '../services/county-data/county-data-i';
 })
 export class HomePage implements AfterViewInit, OnInit {
 
-  
 
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
@@ -71,6 +70,7 @@ export class HomePage implements AfterViewInit, OnInit {
   selectedColumn!: Indicator; //{ stateId: string, colInfo: ColumnInfoByRegion, selected: boolean, format: string, pScale: number, pSymbol: string };
 
   selPayer: string = 'ZZ';
+  disableNetwork: boolean = true
 
   selNetwork: string = 'ZZ'
 
@@ -193,13 +193,16 @@ export class HomePage implements AfterViewInit, OnInit {
 
   onPayerChange(p_i36: any) {
     console.log("HomePage::onPayerChange::", p_i36);
+    if (p_i36 === '') p_i36 = 'ZZ'
     this.selPayer = p_i36
+    this.resetSearchBoxNetworkComponent()
     this.updateInfo()
   }
 
   onNetworkChange(t_i36: any) {
     console.log("HomePage::onNetworkChange::", t_i36);
-    this.selPayer = t_i36
+    if (t_i36 === '') t_i36 = 'ZZ'
+    this.selNetwork = t_i36
     this.updateInfo()
   }
 
@@ -256,4 +259,10 @@ export class HomePage implements AfterViewInit, OnInit {
     });
     toast.present();
   }
+
+  resetSearchBoxNetworkComponent() {
+    this.disableNetwork = true
+    setTimeout(() => this.disableNetwork = (this.selPayer === 'ZZ'), 100); // Reset the flag
+  }
+  // this.selPayer === 'ZZ'
 }

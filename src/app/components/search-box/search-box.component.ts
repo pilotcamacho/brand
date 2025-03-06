@@ -34,8 +34,13 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   /** Detect when `items` change and update `filteredItems` */
   ngOnChanges(changes: SimpleChanges) {
     if (changes['items']) {
-      console.log('Items updated:', this.items);
+      console.log('SearchBoxComponent::ngOnChanges::this.items: ', this.items);
       this.filteredItems = [...this.items]; // Update filtered list when input items change
+    }
+    if (changes['disabled']) {
+      console.log('SearchBoxComponent::ngOnChanges::this.disabled: ', this.disabled);
+      this.filteredItems = [...this.items]; // Update filtered list when input items change
+      this.valueChangedOrCleared({id: '', name: ''})
     }
   }
 
@@ -46,8 +51,6 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
 
   selectItem(item: { id: string, name: string }) {
     console.log('SearchBoxComponent::selectItem::item:', item);
-    this.searchQuery = item.name;
-    this.showList = false; // Hide list after selection
     this.valueChangedOrCleared(item)
   }
 
@@ -92,7 +95,9 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   }
 
   valueChangedOrCleared(item: { id: string, name: string }) {
-    console.log('SearchBoxComponent::valueChangedOrCleared::item:', item);
+    console.log(`SearchBoxComponent::valueChangedOrCleared::item:' ${item} [${this.placeholder}]`);
+    this.searchQuery = item.name;
+    this.showList = false; // Hide list after selection
     this.selectedItemChange.emit(item.id); // Emit selected item
   }
 

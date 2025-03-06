@@ -30,11 +30,11 @@
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
 
-        <app-search-box [ngStyle]="{ 'z-index': 1100 }" [items]="payers" placeholder="Payers"
+        <app-search-box [ngStyle]="{ 'z-index': 1100 }" [items]="payers" placeholder="Payers (All)"
           (selectedItemChange)="onPayerChange($event)"></app-search-box>
 
           <!-- *ngIf="this.selPayer !== 'ZZ'" -->
-        <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks" [disabled]="this.selPayer === 'ZZ'"
+        <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks (All)" [disabled]="disableNetwork"
           (selectedItemChange)="onNetworkChange($event)"></app-search-box>
 
         <!-- Searchbar Payer -->
