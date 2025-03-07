@@ -26,7 +26,7 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcaba", indicatorName: "bcaba count by county", indicatorDescription: "bcaba count by county: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "rbt", indicatorName: "rbt count by county", indicatorDescription: "rbt count by county: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
-    { indicatorCode: "population", indicatorName: "population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
   ]
