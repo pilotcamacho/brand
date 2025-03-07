@@ -101,13 +101,21 @@ export class BoxPlotComponent implements OnInit, OnChanges {
     return this.data
       .sort((a, b) => a.subRegion.localeCompare(b.subRegion))
       .map(dp => {
+        // return {
+        //   min: dp.quantiles.q10,
+        //   q1: dp.quantiles.q25,
+        //   median: dp.quantiles.q50,
+        //   q3: dp.quantiles.q75,
+        //   max: dp.quantiles.q90
+        // }
         return {
-          min: dp.quantiles.q10,
+          min: dp.quantiles.q05,
           q1: dp.quantiles.q25,
           median: dp.quantiles.q50,
           q3: dp.quantiles.q75,
-          max: dp.quantiles.q90
-        }
+          max: dp.quantiles.q95,
+          mean: dp.quantiles.avg
+        }        
       })
   }
 
