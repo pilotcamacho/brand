@@ -57,7 +57,7 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   hideListWithDelay() {
     setTimeout(() => {
       this.showList = false;
-    }, 200); // Small delay to allow click selection
+    }, 300); // Small delay to allow click selection
   }
 
   onFocus() {
