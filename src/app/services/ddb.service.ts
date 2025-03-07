@@ -111,11 +111,16 @@ export class DdbService {
           data.push({
             subRegion, value: rd.d[aggregationKey],
             quantiles: {
+              min: rd.d['min'],
+              q05: rd.d['q05'],
               q10: rd.d['q10'],
               q25: rd.d['q25'],
               q50: rd.d['q50'],
               q75: rd.d['q75'],
               q90: rd.d['q90'],
+              q95: rd.d['q95'],
+              max: rd.d['max'],
+              avg: rd.d['avg'],
               change: rd.d['q50'] !== 0
                 ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
                 : null // Avoid division by zero
