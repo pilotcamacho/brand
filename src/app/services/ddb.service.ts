@@ -66,6 +66,14 @@ export class DdbService {
     //   region_data: [{subRegionName: 'Adams2', dataForSubRegion: {q10: 0.1, q50: 0.5}}]
     // })
 
+    const bcbaTaxonomies = new Set(['bcba_bt', '106S00000X', '103K00000X']);
+
+    if (bcbaTaxonomies.has(taxonomy)) {
+      taxonomy = taxonomy === 'bcba_bt' ? 'ZZ' : taxonomy;
+      bcba_bt = 'y';
+    }
+    
+
     const inputQuery = {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
@@ -81,7 +89,7 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
-    p_i36: string, t_i36: string, taxonomy: string, bcba_bt:string, code: string | undefined): Promise<MapInput> {
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
@@ -105,8 +113,8 @@ export class DdbService {
           ? this.statesSrv.getStateDetailsByCode(rd.r)?.state_name ?? ''
           : rd.r;
 
-          // console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
-          // console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
+        // console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
+        // console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
 
         if (subRegion !== '') {
           data.push({

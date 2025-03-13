@@ -113,6 +113,7 @@ export const TAXONOMY = [
   // { id: '373H00000X', name: 'Day Training/Habilitation Specialist' },
   // { id: '374700000X', name: 'Technician' },
   // { id: '385HR2060X', name: 'Child Intellectual and/or Developmental Disabilities Respite Care' }
+  {id: 'bcba_bt', name: 'BCBA & BT'}
 ]
 
 /*

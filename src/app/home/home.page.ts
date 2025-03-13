@@ -7,7 +7,7 @@ import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { CODES, Indicator, INDICATORS, NETWORKS, PAYERS, TAXONOMY } from '../services/data-i';
+import { CODES, Indicator, INDICATORS, NETWORKS, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 
@@ -78,7 +78,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   selTaxonomy: string = 'ZZ';
 
-  selBcbaBt:string = 'Z'
+  selBcbaBt: string = 'Z'
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////
 
@@ -240,11 +240,21 @@ export class HomePage implements AfterViewInit, OnInit {
     this.columnsRates = this.indicators.filter(col => (col.indicatorGroup === 'rates'))
     this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
+    this.payers = this.getListOfPayersByRegion(this.selectedRegion.code)
+
     this.networks = NETWORKS.filter(n => {
       return ((n.pId === this.selPayer && this.selPayer !== 'ZZ') || this.selPayer === 'ZZ' || n.id === 'ZZ')
     })
   }
 
+  getListOfPayersByRegion(region: string) {
+    if (region === 'USA') return PAYERS;
+  
+    const statePayers = PAYERS_BY_STATE.find(payer => payer.state_id !== "AA");
+  
+    return statePayers?.payers ?? [];
+  }
+  
 
   signOut() {
     console.log('about to signOut ....')
