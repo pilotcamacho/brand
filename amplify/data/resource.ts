@@ -6,12 +6,25 @@ const schema = a.schema({
     min: a.float(),
     q05: a.float(),
     q10: a.float(),
+    q15: a.float(),
+    q20: a.float(),
     q25: a.float(),
+    q30: a.float(),
+    q35: a.float(),
+    q40: a.float(),
+    q45: a.float(),
     q50: a.float(),
+    q55: a.float(),
+    q60: a.float(),
+    q65: a.float(),
+    q70: a.float(),
     q75: a.float(),
+    q80: a.float(),
+    q85: a.float(),
     q90: a.float(),
-    q95: a.float(),
+    q95: a.float(),    
     max: a.float(),
+    
     avg: a.float(),
     sum: a.integer(),
     cnt: a.integer()
@@ -34,10 +47,11 @@ const schema = a.schema({
       p_i36: a.string().required(),  // ZZ is all. There is a code for each payor.
       t_i36: a.string().required(),  // ZZ is all. There is a code for each network_template.
       taxonomy: a.string().required(),  // ZZ is all. There is a code for each taxonomy.
+      bcba_bt: a.string().required(),  // Z is all. This is a "y" for being a bcba_bt taxonomy number or an "n" for not.
       d_read: a.date().required(), // This is the date in which the data was read (in case of rate is when was read from API)
       region_data: a.ref("RegionData").array()
     })
-    .identifier(['variable', 'region', 'p_i36', 't_i36', 'taxonomy', 'd_read'])
+    .identifier(['variable', 'region', 'p_i36', 't_i36', 'taxonomy', 'bcba_bt', 'd_read'])
     .authorization((allow) => [allow.group('Admin'), allow.authenticated()]),
 
   // CountyData: a

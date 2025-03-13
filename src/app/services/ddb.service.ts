@@ -17,6 +17,7 @@ const queryDataSelectionSet = [
   'region',
   'p_i36', 't_i36',
   'taxonomy',
+  'bcba_bt',
   'd_read',
   'region_data.n',
   'region_data.d.q10',
@@ -41,7 +42,7 @@ export class DdbService {
     console.log('DdbService::constructor()')
   }
 
-  async go(variable: string, region: string, p_i36: string, t_i36: string, taxonomy: string, code_tiny: number):
+  async go(variable: string, region: string, p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code_tiny: number):
     // Promise<
     //   {variable: string, region: string, p_i36: string, n_i36: string, 
     //     region_data: ({n: (string | null), d:({
@@ -55,7 +56,7 @@ export class DdbService {
     //     } | null)} | null), createdAt: string, updatedAt: string}[] | null
     //   >  
     Promise<any> {
-    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${t_i36}, ${taxonomy}, ${code_tiny} `)
+    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${t_i36}, ${taxonomy}, ${bcba_bt}, ${code_tiny} `)
     // const { errors, data: qData } = await client.models.QueryData.create({
     //   variable: 'rate#2',
     //   region: 'CO',
@@ -67,7 +68,7 @@ export class DdbService {
 
     const inputQuery = {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
-      region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, d_read: '2025-02-01'
+      region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
     }
     console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
 
@@ -80,12 +81,12 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
-    p_i36: string, t_i36: string, taxonomy: string, code: string | undefined): Promise<MapInput> {
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt:string, code: string | undefined): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
 
-    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, this.getRightMostDigit(code))
+    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, bcba_bt, this.getRightMostDigit(code))
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     // Create the data array

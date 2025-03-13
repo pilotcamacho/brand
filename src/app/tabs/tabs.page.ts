@@ -106,7 +106,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   ) {
     console.log('TabsPage::constructor')
 
-    dynamoDB.go('rate', 'AK', '06', 'ZZ', 'ZZ', 3).then(dataRead => {
+    dynamoDB.go('rate', 'AK', '06', 'ZZ', 'ZZ', 'Z', 3).then(dataRead => {
       console.log(`TabsPage::constructor::dataRead: ${JSON.stringify(dataRead)}`)
     })
 

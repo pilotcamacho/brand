@@ -78,6 +78,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   selTaxonomy: string = 'ZZ';
 
+  selBcbaBt:string = 'Z'
 
   //////////  PAGE VIEW  //////////////////////////////////////////////////////////////////////
 
@@ -109,7 +110,7 @@ export class HomePage implements AfterViewInit, OnInit {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], true, '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', this.selCode)
+    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode)
       .then(mi => { this.mapInput = mi })
   }
 
@@ -216,7 +217,7 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selTaxonomy)
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selCode)
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode)
       .then(mi => {
         this.mapInput = mi
         this.columns = [

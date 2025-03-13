@@ -1,5 +1,8 @@
 - Both taxonomies together
 - Filter out payers / networks "valid" by region.
+- Cnt Entities
+
+
 - Filter with text for payers and networks
 - Count payers by selected "code".
 - More taxonomies
