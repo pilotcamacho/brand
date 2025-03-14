@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CODES, Indicator, INDICATORS, NETWORKS, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
+import { UtilsService } from '../services/utils.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,9 @@ import { ColumnData } from '../services/county-data/county-data-i';
 })
 export class HomePage implements AfterViewInit, OnInit {
 
+  selectedPalette: string = 'camber'; // Default palette
 
+  palettes: any = []
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
@@ -104,13 +107,15 @@ export class HomePage implements AfterViewInit, OnInit {
     private route: ActivatedRoute,
     private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
-    public dynamoDB: DdbService
+    public dynamoDB: DdbService,
+    public utilsService: UtilsService
   ) {
+    this.palettes = utilsService.palettes
     this.updateColumnsInfo();
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], true, '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode)
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
+    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono')
       .then(mi => { this.mapInput = mi })
   }
 
@@ -217,7 +222,7 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selTaxonomy)
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode)
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette)
       .then(mi => {
         this.mapInput = mi
         this.columns = [
@@ -249,12 +254,12 @@ export class HomePage implements AfterViewInit, OnInit {
 
   getListOfPayersByRegion(region: string) {
     if (region === 'USA') return PAYERS;
-  
-    const statePayers = PAYERS_BY_STATE.find(payer => payer.state_id !== "AA");
-  
-    return statePayers?.payers ?? [];
+
+    const statePayers = PAYERS_BY_STATE.find(payer => payer.state_id === region);
+
+    return statePayers?.payers?.sort((a, b) => a.name.localeCompare(b.name)) ?? [];
   }
-  
+
 
   signOut() {
     console.log('about to signOut ....')
@@ -276,4 +281,13 @@ export class HomePage implements AfterViewInit, OnInit {
     setTimeout(() => this.disableNetwork = (this.selPayer === 'ZZ'), 100); // Reset the flag
   }
   // this.selPayer === 'ZZ'
+
+  openLink(url: string) {
+    window.open(url, '_blank');
+  }
+
+  applyColorPalette() {
+    console.log("HomePage::applyColorPalette: " + this.selectedPalette);
+    this.updateInfo()
+  }
 }

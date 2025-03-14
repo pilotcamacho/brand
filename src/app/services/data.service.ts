@@ -19,7 +19,7 @@ export class DataService {
     // Implement this method if needed
   }
 
-  getMapInput(regionType: RegionType, regionName: string, selectedColumn: ColumnData): MapInput {
+  getMapInput(regionType: RegionType, regionName: string, selectedColumn: ColumnData, paletteId: string): MapInput {
     // console.log(`DataService::getMapInput::regionName::${regionName}`);
 
     // Define the region
@@ -44,7 +44,7 @@ export class DataService {
       region,
       title,
       dataNoMinus,
-      selectedColumn.format !== '0.00%'  && false, // Force red-green color
+      paletteId,
       selectedColumn.format
     );
 

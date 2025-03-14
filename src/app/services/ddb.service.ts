@@ -89,7 +89,7 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
-    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined): Promise<MapInput> {
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
@@ -151,7 +151,7 @@ export class DdbService {
       region,
       selectedColumn.indicatorName,
       data,
-      selectedColumn.format !== '0.00%' && false, // Force red-green color
+      paletteId,
       selectedColumn.format
     );
 

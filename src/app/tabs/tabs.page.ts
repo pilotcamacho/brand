@@ -121,7 +121,7 @@ export class TabsPage implements AfterViewInit, OnInit {
     this.atLeastOneSelected = true;
     this.selectedColumn = this.columnsMedicaid[0]
 
-    this.mapInput = dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo)
+    this.mapInput = dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo, 'mono')
 
     // this.qChartData = this.getQChartDataFromSelectedCode(this.selectedCode, this.byPayer)
     this.qChartData = this.getQChartDataFromSelectedCodeSelectedNetworks(this.selectedCode,
@@ -232,7 +232,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   onClickMapa(event: any) {
     console.log('TabsPage::onClickMapaGrande')
     this.updateColumnsInfo({ type: RegionType.COUNTRY, name: 'USA', code: 'USA', codeFP: '' });
-    this.mapInput = this.dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo)
+    this.mapInput = this.dataSrv.getMapInput(RegionType.COUNTRY, "USA", this.selectedColumn.colInfo, 'mono')
     this.onClickChart(event)
   }
 
@@ -254,7 +254,7 @@ export class TabsPage implements AfterViewInit, OnInit {
 
   onRadioChange() {
     console.log('TabsPage::onRadioChange::')
-    this.mapInput = this.dataSrv.getMapInput(this.mapInput.region.type, this.mapInput.region.name, this.selectedColumn.colInfo)
+    this.mapInput = this.dataSrv.getMapInput(this.mapInput.region.type, this.mapInput.region.name, this.selectedColumn.colInfo, 'mono')
     console.log(`TabsPage::onRadioChange::this.mapInput: ${JSON.stringify(this.mapInput)}`)
     this.qChartData = this.getQChartDataFromSelectedCodeSelectedNetworks(this.selectedCode,
       this.listOfSelectedNetworks.filter(sn => sn.selected).map(sn => sn.code))
@@ -413,7 +413,7 @@ export class TabsPage implements AfterViewInit, OnInit {
       }
 
 
-      this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo)
+      this.mapInput = this.dataSrv.getMapInput(RegionType.STATE, this.selectedCountyFromChild, this.selectedColumn.colInfo, 'mono')
       // console.log('TabsPage::onSelectedCountyChange::mapInput: ' + JSON.stringify(this.mapInput))
     } else {
       this.showErrorMessage('Available only for Juniper users.')

@@ -140,6 +140,20 @@ app-q-chart {
 }
 
 
+.palette-box {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 
 /* app.component.scss */
 

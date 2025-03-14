@@ -27,7 +27,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
   mapTitle: string = '';
 
-  isRedGreen: boolean = true;
+  paletteId: string = 'cyan';
 
 
 
@@ -66,7 +66,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.initMap();
     // console.log('MapComponent::updateMap::A')
 
-    this.addMapElements(this.mapInput, this.utilsSrv, this.isRedGreen);
+    this.addMapElements(this.mapInput, this.utilsSrv);
     // console.log('MapComponent::updateMap::B')
 
   }
@@ -121,19 +121,19 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
     const [minV, maxV, format] = this.mapInput.min_and_max_values()
-    this.isRedGreen = this.mapInput.isRedGreen
+    // this.isRedGreen = this.mapInput.isRedGreen
     let decimals = 0
     if (format === "0.00%") {
       decimals = 2
     }
 
-    this.addColorScaleLegend(minV, maxV, decimals);
+    this.addColorScaleLegend(minV, maxV, decimals, this.mapInput.paletteId);
     // console.log('MapComponent::initMap::E')
 
   }
 
 
-  private addMapElements(mapInput: MapInput, us: UtilsService, isRedGree: boolean): void {
+  private addMapElements(mapInput: MapInput, us: UtilsService): void {
     // console.log("MapComponentComponent::addMapElements:: mapInput: " + JSON.stringify(mapInput))
     // console.log("MapComponentComponent::addMapElements:: this.stateId: " + this.mapInput.region.code)
 
@@ -193,7 +193,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         // console.log('MapComponent::valor:: ' + valor)
         return {
           color: borderColor,
-          fillColor: us.getColor(valor[0], isRedGree),
+          fillColor: us.getColor(valor[0], mapInput.paletteId),
           weight: borderWeight,
           opacity: opacity,
           fillOpacity: fillOpacity
@@ -229,7 +229,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.map.addControl(new TitleControl());
   }
 
-  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number): void {
+  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number, palette_id:string): void {
     const LegendControl = L.Control.extend({
       options: { position: 'bottomright' },
       onAdd: () => {
@@ -252,7 +252,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         // Set up the gradient and label structure
         div.innerHTML = `
           <div style="
-            background: linear-gradient(to right, ${this.utilsSrv.getColor(0, this.isRedGreen)}, ${this.utilsSrv.getColor(0.5, this.isRedGreen)}, ${this.utilsSrv.getColor(1, this.isRedGreen)});
+            background: linear-gradient(to right, ${this.utilsSrv.getColor(0, palette_id)}, ${this.utilsSrv.getColor(0.5, palette_id)}, ${this.utilsSrv.getColor(1, palette_id)});
             width: 100px;
             height: 15px;
             border-radius: 5px;

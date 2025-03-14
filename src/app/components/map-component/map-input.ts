@@ -25,14 +25,14 @@ export class MapInput {
     region: Region;         // Region information
     title: string;          // Title of the data
     data: DataPoint[];      // Array of data points
-    isRedGreen: boolean;
+    paletteId: string;
     format: string;
 
-    constructor(region: Region, title: string, data: DataPoint[], isRedGreen: boolean, format: string) {
+    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, format: string) {
         this.region = region;
         this.title = title;
         this.data = data;
-        this.isRedGreen = isRedGreen;
+        this.paletteId = paletteId;
         this.format = format;
     }
     /**

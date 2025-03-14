@@ -33,9 +33,9 @@
         <app-search-box [ngStyle]="{ 'z-index': 1100 }" [items]="payers" placeholder="Payers (All)"
           (selectedItemChange)="onPayerChange($event)"></app-search-box>
 
-          <!-- *ngIf="this.selPayer !== 'ZZ'" -->
-        <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks (All)" [disabled]="disableNetwork"
-          (selectedItemChange)="onNetworkChange($event)"></app-search-box>
+        <!-- *ngIf="this.selPayer !== 'ZZ'" -->
+        <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks (All)"
+          [disabled]="disableNetwork" (selectedItemChange)="onNetworkChange($event)"></app-search-box>
 
         <!-- Searchbar Payer -->
         <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
@@ -155,6 +155,60 @@
             </ion-item>
           </ion-radio-group>
         </ion-list>
+
+        <!-- Reference Section -->
+        <ion-card class="reference-card">
+          <ion-card-header>
+            <ion-card-title>Useful Resources</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img src="assets/camber-logo.png" alt="Camber Health">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Camber Health</h3>
+                <p>Payer Rate Data</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://www.camber.health/knowledge/payer-rate-data')">
+                Visit
+              </ion-button>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img src="assets/BACB_Logo_200.png" alt="BACB">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>BACB</h3>
+                <p>Certificant Demographic Data</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://www.bacb.com/bacb-certificant-data/#demographic_data')">
+                Visit
+              </ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Color Palette Selector -->
+        <ion-card class="color-palette-card">
+          <ion-card-header>
+            <ion-card-title>Choose Color Palette</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-segment [(ngModel)]="selectedPalette" (ionChange)="applyColorPalette()">
+              <ion-segment-button *ngFor="let palette of palettes" [value]="palette.paletteId">
+                <div class="palette-box">
+                  <div class="color-box" [style.background]="palette.color1"></div>
+                  <div class="color-box" [style.background]="palette.color2"></div>
+                  <div class="color-box" [style.background]="palette.color3"></div>
+                </div>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card-content>
+        </ion-card>
 
       </ion-col>
 
