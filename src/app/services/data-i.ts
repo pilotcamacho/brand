@@ -28,7 +28,7 @@ export const INDICATORS: Indicator[] =
 
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
-    { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
+    { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
   ]
 
 // List of codes
