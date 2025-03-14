@@ -1,7 +1,7 @@
-
-- Colours options (different paletes and B&W)
 - Make sure Network filtered by States
 - Analytics (our own)
+
+- Colours options (different paletes and B&W)
 - Resource TAB: rbt
 - Alphabetical order for Payers
 - Link to existeing webpage
