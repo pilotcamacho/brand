@@ -91,6 +91,20 @@
               </ion-select-option>
             </ion-select>
           </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">My rate ($)</ion-label>
+            <ion-input 
+              [(ngModel)]="myRate" 
+              type="number" 
+              step="0.01" 
+              min="0"
+              (ionChange)="onRateChange($event)">
+            </ion-input>
+          </ion-item>
+          
+          
+
         </ion-list>
 
         <!-- Rates List -->
@@ -227,6 +241,8 @@
             </div>
           </ion-col>
         </ion-row>
+
+
 
         <ion-row *ngIf="mapInput.title === 'Rates'">
           <!-- <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="4" id="ionCol"> -->
