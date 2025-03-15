@@ -7,7 +7,7 @@ import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { CODES, Indicator, INDICATORS, NETWORKS, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
+import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
@@ -247,9 +247,25 @@ export class HomePage implements AfterViewInit, OnInit {
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
     this.payers = this.getListOfPayersByRegion(this.selectedRegion.code)
 
-    this.networks = NETWORKS.filter(n => {
-      return ((n.pId === this.selPayer && this.selPayer !== 'ZZ') || this.selPayer === 'ZZ' || n.id === 'ZZ')
-    })
+    // this.networks = NETWORKS.filter(n => {
+    //   return ((n.pId === this.selPayer && this.selPayer !== 'ZZ') || this.selPayer === 'ZZ' || n.id === 'ZZ')
+    // })
+
+    // console.log("HomePage::updateColumnsInfo::this.selectedRegion.code: " + this.selectedRegion.code);
+    // console.log("HomePage::updateColumnsInfo::this.selPayer: " + this.selPayer);
+ 
+    const selectedIds = NETWORS_BY_STATE_PAYER.find(n => { return (n.state_id === this.selectedRegion.code && n.p_id36 === this.selPayer) })
+    // console.log("HomePage::updateColumnsInfo::selectedIds: " + selectedIds);
+
+    // Convert to Set for O(1) lookups
+    const selectedIdsSet = new Set(selectedIds?.n);
+    // console.log("HomePage::updateColumnsInfo::selectedIdsSet: " + selectedIdsSet);
+
+    // Filter efficiently
+    this.networks = NETWORKS.filter(network => {
+      return ((selectedIdsSet.has(network.id) && this.selPayer !== 'ZZ') || this.selPayer === 'ZZ' || network.id === 'ZZ')
+    });
+
   }
 
   getListOfPayersByRegion(region: string) {

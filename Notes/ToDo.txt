@@ -1,3 +1,4 @@
+- Enter your own rate to compare yourself with the others.
 - Make sure Network filtered by States
 - Analytics (our own)
 
