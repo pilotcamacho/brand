@@ -107,8 +107,25 @@
 
         </ion-list>
 
-        <!-- Rates List -->
+        
+
+        <!-- Commercial -->
         <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('commercialList')">
+            <ion-label>Commercial</ion-label>
+            <ion-icon [name]="isListOpen.commercialList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsCommercial">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+        <!-- Rates List -->
+        <!-- <ion-list class="scrollable-list">
           <ion-list-header (click)="toggleList('ratesList')">
             <ion-label>Rates</ion-label>
             <ion-icon [name]="isListOpen.ratesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
@@ -120,8 +137,7 @@
               <ion-radio slot="end" [value]="column"></ion-radio>
             </ion-item>
           </ion-radio-group>
-
-        </ion-list>
+        </ion-list> -->
 
         <!-- Medicaid -->
         <ion-list class="scrollable-list">
@@ -138,22 +154,6 @@
           </ion-radio-group>
         </ion-list>
 
-
-
-        <!-- Commercial -->
-        <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('commercialList')">
-            <ion-label>Commercial</ion-label>
-            <ion-icon [name]="isListOpen.commercialList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsCommercial">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
 
         <!-- General -->
         <ion-list class="scrollable-list">
@@ -245,7 +245,6 @@
 
 
         <ion-row *ngIf="mapInput.title === 'Rates'">
-          <!-- <ion-col size-xs="12" size-sm="8" size-md="6" size-lg="4" id="ionCol"> -->
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <div class="custom-card">
               <div class="box-plot-section">

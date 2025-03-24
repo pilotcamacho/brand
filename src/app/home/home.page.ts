@@ -101,14 +101,20 @@ export class HomePage implements AfterViewInit, OnInit {
   chartStandardView = false;
 
   isListOpen = {
-    ratesList: true,
+    ratesList: false,
     medicaidList: false,
-    commercialList: false,
+    commercialList: true,
     generalList: false
   };
 
   toggleList(listName: 'medicaidList' | 'ratesList' | 'commercialList' | 'generalList'): void {
-    this.isListOpen[listName] = !this.isListOpen[listName];
+    if (!this.isListOpen[listName]) {
+      this.isListOpen['medicaidList'] = false
+      this.isListOpen['ratesList'] = false
+      this.isListOpen['commercialList'] = false
+      this.isListOpen['generalList'] = false
+      this.isListOpen[listName] = true
+    }
   }
 
   mapInput: MapInput;

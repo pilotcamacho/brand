@@ -12,11 +12,9 @@ export interface Indicator {
 
 export const INDICATORS: Indicator[] =
   [
-    { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "rates", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
 
-    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
-    { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
-
+    // { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "rates", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
+    { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "commercial", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
     { indicatorCode: "cnt_payers", indicatorName: "Payers count", indicatorDescription: "Payers count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "cnt_networks", indicatorName: "Neworks count", indicatorDescription: "Networks count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "cnt_entities", indicatorName: "Entities count", indicatorDescription: "Entities count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
@@ -25,6 +23,10 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcba", indicatorName: "bcba count", indicatorDescription: "bcba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "bcaba", indicatorName: "bcaba count", indicatorDescription: "bcaba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "rbt", indicatorName: "rbt count", indicatorDescription: "rbt count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+
+    { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicare", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
+    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },

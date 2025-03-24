@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 export class UtilsService {
 
   palettes = [
+    { paletteId: 'camber', color1: '#BED5D6', color2: '#7D8F7B', color3: '#5C6D4B' }, // Camber
     { paletteId: 'redgreen', color1: '#ff0000', color2: '#ffff00', color3: '#008000' }, // Red-Green
     { paletteId: 'cyan', color1: '#00f0ff', color2: '#0078ff', color3: '#0000ff' }, // Cyan
-    { paletteId: 'camber', color1: '#BED5D6', color2: '#7D8F7B', color3: '#5C6D4B' }, // Camber
     { paletteId: 'mono', color1: '#ffffff', color2: '#888888', color3: '#000000' }  // Monochrome
     // { paletteId: 'mono', color1: '#bbbbbb', color2: '#888888', color3: '#333333' }  // Monochrome
   ];
