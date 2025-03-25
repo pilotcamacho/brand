@@ -83,7 +83,7 @@ export class DdbService {
 
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
 
-    // console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
+    console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
 
     return qData;
   }

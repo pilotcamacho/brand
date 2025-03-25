@@ -1,8 +1,10 @@
 
-- Medicate rates
-- When a group is open, it closes the other groups
 - Add "MyRate" into the table.
-- Medicate rates: https://health.mil/Reference-Center/Publications/2024/04/15/ABA-Maximum-Allowed-Rates-Effective-May-1-2024
+- Where do I get the data for the Medicaid rates?
+- The Medicaid rates, do not have quantiles. How do we report them?
+- Medicaid rates
+- Medicaid rates: https://health.mil/Reference-Center/Publications/2024/04/15/ABA-Maximum-Allowed-Rates-Effective-May-1-2024
+- When a group is open, it closes the other groups
 
 - Enter your own rate to compare yourself with the others.
 - Make sure Network filtered by States

@@ -24,7 +24,7 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcaba", indicatorName: "bcaba count", indicatorDescription: "bcaba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "rbt", indicatorName: "rbt count", indicatorDescription: "rbt count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
-    { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicare", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
+    { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicare", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
     { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
