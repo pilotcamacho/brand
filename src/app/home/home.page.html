@@ -279,15 +279,40 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Change" prop="quantiles.change">
+              <ngx-datatable-column name="Q50" prop="quantiles.q50">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                   {{ value | number: '1.2-2' }}
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="My Rate" prop="quantiles.myRate">
+              <ngx-datatable-column name="Q75" prop="quantiles.q75">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  <span *ngIf="value !== null && value !== undefined">
+                  {{ value | number: '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Q90" prop="quantiles.q90">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ value | number: '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Change" prop="quantiles.change">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ 100 * value | number: '1.0-0' }}%
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Q My Rate" prop="quantiles.myRate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span 
+                    *ngIf="value !== null && value !== ''" 
+                    [ngStyle]="{
+                      'background-color': getColor(value), 
+                      'color': value > 55 ? 'white' : 'black', 
+                      'padding': '4px', 
+                      'border-radius': '4px'
+                    }">
                     {{ value | number: '1.0-0' }}%
                   </span>
                 </ng-template>

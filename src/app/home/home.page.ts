@@ -21,6 +21,7 @@ import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 export class HomePage implements AfterViewInit, OnInit {
 
   @ViewChild(BoxPlotComponent) boxPlotComponent!: BoxPlotComponent;
+Number: any;
 
   updateReference(value: number) {
     if (this.boxPlotComponent) {
@@ -334,6 +335,17 @@ export class HomePage implements AfterViewInit, OnInit {
 
     this.updateReference(this.myRate)
     this.updateInfo()
+  }
+
+  getColor(value: number | null){
+    return this.utilsService.getColor((value !== null ? value / 100: null), this.selectedPalette)
+  }
+
+  getType(value: any): string {
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (Number.isNaN(value)) return 'NaN';
+    return typeof value;
   }
 
 }

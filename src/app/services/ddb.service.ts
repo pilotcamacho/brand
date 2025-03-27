@@ -116,6 +116,7 @@ export class DdbService {
 
         // console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
         // console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
+        console.log(`Ddb::getMapInput::myRate: ${myRate}`)
 
         if (subRegion !== '') {
           data.push({
@@ -134,7 +135,7 @@ export class DdbService {
               change: rd.d['q50'] !== 0
                 ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
                 : null, // Avoid division by zero
-              myRate: myRate === null ? null : (
+              myRate: (myRate == null || Number.isNaN(myRate)) ? null : (
                 (myRate > rd.d['q95']) ? 95 : (
                   (myRate > rd.d['q90']) ? 90 : (
                     (myRate > rd.d['q85']) ? 85 : (
