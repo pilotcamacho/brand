@@ -17,7 +17,8 @@ export interface DataPoint {
     quantiles: {
         min: number, q05: number, q10: number, q25: number, q50: number, q75: number, q90: number, q95: number, max: number,
         avg: number,
-        change: number | null
+        change: number | null,
+        myRate: number | null
     }
 }
 

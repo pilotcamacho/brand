@@ -94,20 +94,15 @@
 
           <ion-item>
             <ion-label position="floating">My rate ($)</ion-label>
-            <ion-input 
-              [(ngModel)]="myRate" 
-              type="number" 
-              step="0.01" 
-              min="0"
-              (ionChange)="onRateChange($event)">
+            <ion-input [(ngModel)]="myRate" type="number" step="0.01" min="0" (ionChange)="onRateChange($event)">
             </ion-input>
           </ion-item>
-          
-          
+
+
 
         </ion-list>
 
-        
+
 
         <!-- Commercial -->
         <ion-list class="scrollable-list">
@@ -265,6 +260,39 @@
             <ngx-datatable #table class="material" [rows]="mapInput.data" [columns]="columns" [columnMode]="'force'"
               [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [sorts]="[{ prop: 'subRegion', dir: 'asc' }]"
               [scrollbarH]="true" [reorderable]="true">
+
+              <ngx-datatable-column [name]="(mapInput.region.type === 'country' ? 'State' : 'County')" prop="subRegion">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ value  }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Q10" prop="quantiles.q10">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ value | number: '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Q25" prop="quantiles.q25">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ value | number: '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Change" prop="quantiles.change">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{ value | number: '1.2-2' }}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="My Rate" prop="quantiles.myRate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span *ngIf="value !== null && value !== undefined">
+                    {{ value | number: '1.0-0' }}%
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+
             </ngx-datatable>
           </ion-card-content>
         </ion-card>

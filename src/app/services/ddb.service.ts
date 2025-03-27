@@ -72,7 +72,7 @@ export class DdbService {
       taxonomy = taxonomy === 'bcba_bt' ? 'ZZ' : taxonomy;
       bcba_bt = 'y';
     }
-    
+
 
     const inputQuery = {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
@@ -89,7 +89,8 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
-    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string): Promise<MapInput> {
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
+    myRate: number | null): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
@@ -132,7 +133,27 @@ export class DdbService {
               avg: rd.d['avg'],
               change: rd.d['q50'] !== 0
                 ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
-                : null // Avoid division by zero
+                : null, // Avoid division by zero
+              myRate: myRate === null ? null : (
+                (myRate > rd.d['q95']) ? 95 : (
+                  (myRate > rd.d['q90']) ? 90 : (
+                    (myRate > rd.d['q85']) ? 85 : (
+                      (myRate > rd.d['q80']) ? 80 : (
+                        (myRate > rd.d['q75']) ? 75 : (
+                          (myRate > rd.d['q70']) ? 70 : (
+                            (myRate > rd.d['q65']) ? 65 : (
+                              (myRate > rd.d['q60']) ? 60 : (
+                                (myRate > rd.d['q55']) ? 55 : (
+                                  (myRate > rd.d['q50']) ? 50 : (
+                                    (myRate > rd.d['q45']) ? 45 : (
+                                      (myRate > rd.d['q40']) ? 40 : (
+                                        (myRate > rd.d['q35']) ? 35 : (
+                                          (myRate > rd.d['q30']) ? 30 : (
+                                            (myRate > rd.d['q25']) ? 25 : (
+                                              (myRate > rd.d['q20']) ? 20 : (
+                                                (myRate > rd.d['q15']) ? 15 : (
+                                                  (myRate > rd.d['q10']) ? 10 : (
+                                                    (myRate > rd.d['q05']) ? 5 : 0)))))))))))))))))))
             }
           })
         }

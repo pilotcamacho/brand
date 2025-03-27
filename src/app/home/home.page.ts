@@ -132,7 +132,7 @@ export class HomePage implements AfterViewInit, OnInit {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono')
+    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
       .then(mi => { this.mapInput = mi })
   }
 
@@ -239,18 +239,20 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selTaxonomy)
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette)
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
+    this.myRate)
       .then(mi => {
         this.mapInput = mi
-        this.columns = [
-          { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
-          { name: 'Q10', prop: 'quantiles.q10', sortable: true },
-          { name: 'Q25', prop: 'quantiles.q25', sortable: true },
-          { name: 'Q50', prop: 'quantiles.q50', sortable: true },
-          { name: 'Q75', prop: 'quantiles.q75', sortable: true },
-          { name: 'Q90', prop: 'quantiles.q90', sortable: true },
-          { name: 'Change', prop: 'quantiles.change', sortable: true }
-        ]
+        // this.columns = [
+        //   { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
+        //   { name: 'Q10', prop: 'quantiles.q10', sortable: true },
+        //   { name: 'Q25', prop: 'quantiles.q25', sortable: true },
+        //   { name: 'Q50', prop: 'quantiles.q50', sortable: true },
+        //   { name: 'Q75', prop: 'quantiles.q75', sortable: true },
+        //   { name: 'Q90', prop: 'quantiles.q90', sortable: true },
+        //   { name: 'Change', prop: 'quantiles.change', sortable: true },
+        //   { name: 'My rate', prop: 'quantiles.myRate', sortable: true }
+        // ]
       })
     this.updateColumnsInfo()
   }
