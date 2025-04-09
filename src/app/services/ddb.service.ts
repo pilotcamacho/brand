@@ -66,7 +66,7 @@ export class DdbService {
     //   region_data: [{subRegionName: 'Adams2', dataForSubRegion: {q10: 0.1, q50: 0.5}}]
     // })
 
-    const bcbaTaxonomies = new Set(['bcba_bt', '106S00000X', '103K00000X']);
+    const bcbaTaxonomies = new Set(['bcba_bt', '106S00000X', '103K00000X', '103K00000X_D', 'BCaBA']);
 
     if (bcbaTaxonomies.has(taxonomy)) {
       taxonomy = taxonomy === 'bcba_bt' ? 'ZZ' : taxonomy;
