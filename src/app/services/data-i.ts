@@ -29,6 +29,7 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
 
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "pop_under_18", indicatorName: "Population under 18", indicatorDescription: "population under 18 ", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
   ]
