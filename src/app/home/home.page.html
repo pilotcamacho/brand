@@ -98,6 +98,11 @@
             </ion-input>
           </ion-item>
 
+          <ion-item lines="full">
+            <ion-label>... over Population</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
+          </ion-item>
+
 
 
         </ion-list>

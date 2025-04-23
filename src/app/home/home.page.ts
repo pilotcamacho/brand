@@ -21,7 +21,7 @@ import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 export class HomePage implements AfterViewInit, OnInit {
 
   @ViewChild(BoxPlotComponent) boxPlotComponent!: BoxPlotComponent;
-Number: any;
+  Number: any;
 
   updateReference(value: number) {
     if (this.boxPlotComponent) {
@@ -30,6 +30,8 @@ Number: any;
   }
 
   myRate: number | null = null;
+
+  isPopulationChecked: boolean = false;
 
   selectedPalette: string = 'camber'; // Default palette
 
@@ -119,6 +121,8 @@ Number: any;
   }
 
   mapInput: MapInput;
+  mapInputRegion: MapInput;
+  mapInputPopulation: MapInput;
 
   constructor(
     private toastController: ToastController,
@@ -132,9 +136,26 @@ Number: any;
     this.updateColumnsInfo();
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
+
+    this.mapInputRegion = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
+    this.mapInputPopulation = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
-      .then(mi => { this.mapInput = mi })
+
+    Promise.all([
+      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate),
+      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[12], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
+    ]).then(([regionInput, populationInput]) => {
+      this.mapInputRegion = regionInput;
+      this.mapInputPopulation = populationInput;
+    
+      this.mapInput = new MapInput(
+        this.mapInputRegion.region,
+        this.mapInputRegion.title,
+        this.mapInputRegion.data,
+        this.mapInputRegion.paletteId,
+        this.mapInputRegion.format
+      );
+    });
   }
 
   ngOnInit() {
@@ -238,11 +259,53 @@ Number: any;
     console.log(this.selCode)
     console.log(this.selPayer)
     console.log(this.selTaxonomy)
+    Promise.all([
     this.dynamoDB.getMapInput(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
       this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
-    this.myRate)
-      .then(mi => {
+      this.myRate),
+
+      this.dynamoDB.getMapInput(
+        this.selectedRegion.type, this.selectedRegion.code, this.indicators[12],
+        'ZZ', 'ZZ', 'ZZ', 'Z', '00000', this.selectedPalette,
+        this.myRate),
+    ]).then(([mi, populationInput]) => {
+      // this.mapInputRegion = regionInput;
+      this.mapInputPopulation = populationInput;
+
+
+      console.log("HomePage::updateInfo::if (this.isPopulationChecked)::mi: " + JSON.stringify(mi));
+        
+      console.log("HomePage::updateInfo::if (this.isPopulationChecked)::this.mapInputPopulation: " + JSON.stringify(this.mapInputPopulation));
+              
+    
+  
+        if (this.isPopulationChecked) {
+          // Create a Map for fast lookup of population values by subRegion
+          const populationMap = new Map(
+            this.mapInputPopulation.data.map(dp => [dp.subRegion, dp.value])
+          );
+
+          console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
+        
+          // Divide each value in mi.data by the corresponding population value
+          mi.data = mi.data.map(dp => {
+            const populationValue = populationMap.get(dp.subRegion);
+        
+            // Avoid division by zero or undefined population values
+            const newValue = (populationValue && populationValue !== 0)
+              ? 10000 * dp.value / populationValue
+              : 0;
+        
+            return {
+              ...dp,
+              value: newValue
+            };
+          });
+
+          mi.format = '0.00'
+        }
+        
         this.mapInput = mi
         // this.columns = [
         //   { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
@@ -337,8 +400,8 @@ Number: any;
     this.updateInfo()
   }
 
-  getColor(value: number | null){
-    return this.utilsService.getColor((value !== null ? value / 100: null), this.selectedPalette)
+  getColor(value: number | null) {
+    return this.utilsService.getColor((value !== null ? value / 100 : null), this.selectedPalette)
   }
 
   getType(value: any): string {
@@ -346,6 +409,11 @@ Number: any;
     if (value === undefined) return 'undefined';
     if (Number.isNaN(value)) return 'NaN';
     return typeof value;
+  }
+
+  onCheckboxChange(event: any) {
+    console.log('Checkbox changed:', this.isPopulationChecked);
+    this.updateInfo()
   }
 
 }
