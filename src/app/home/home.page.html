@@ -103,6 +103,11 @@
             <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
           </ion-item>
 
+          <ion-item lines="full">
+            <ion-label>... over Cnt Entities</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="isCntEntitiesChecked" (ionChange)="onCheckboxChangeCntEntities($event)"></ion-checkbox>
+          </ion-item>
+
 
 
         </ion-list>

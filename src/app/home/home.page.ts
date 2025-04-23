@@ -33,6 +33,8 @@ export class HomePage implements AfterViewInit, OnInit {
 
   isPopulationChecked: boolean = false;
 
+  isCntEntitiesChecked: boolean = false;
+
   selectedPalette: string = 'camber'; // Default palette
 
   palettes: any = []
@@ -123,6 +125,7 @@ export class HomePage implements AfterViewInit, OnInit {
   mapInput: MapInput;
   mapInputRegion: MapInput;
   mapInputPopulation: MapInput;
+  mapInputCntEntities: MapInput;
 
   constructor(
     private toastController: ToastController,
@@ -139,15 +142,18 @@ export class HomePage implements AfterViewInit, OnInit {
 
     this.mapInputRegion = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
     this.mapInputPopulation = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
+    this.mapInputCntEntities = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
 
     Promise.all([
       this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate),
-      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[12], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
-    ]).then(([regionInput, populationInput]) => {
+      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[12], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate),
+      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[3], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
+    ]).then(([regionInput, populationInput, cntEntitiesInput]) => {
       this.mapInputRegion = regionInput;
       this.mapInputPopulation = populationInput;
-    
+      this.mapInputCntEntities = cntEntitiesInput;
+
       this.mapInput = new MapInput(
         this.mapInputRegion.region,
         this.mapInputRegion.title,
@@ -260,64 +266,79 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log(this.selPayer)
     console.log(this.selTaxonomy)
     Promise.all([
-    this.dynamoDB.getMapInput(
-      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
-      this.myRate),
+      this.dynamoDB.getMapInput(
+        this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
+        this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
+        this.myRate),
 
       this.dynamoDB.getMapInput(
         this.selectedRegion.type, this.selectedRegion.code, this.indicators[12],
         'ZZ', 'ZZ', 'ZZ', 'Z', '00000', this.selectedPalette,
         this.myRate),
-    ]).then(([mi, populationInput]) => {
+
+
+      this.dynamoDB.getMapInput(
+        this.selectedRegion.type, this.selectedRegion.code, this.indicators[3],
+        'ZZ', 'ZZ', 'ZZ', 'Z', '00000', this.selectedPalette,
+        this.myRate),
+
+    ]).then(([mi, populationInput, cntEntities]) => {
       // this.mapInputRegion = regionInput;
       this.mapInputPopulation = populationInput;
+      this.mapInputCntEntities = cntEntities;
 
 
       console.log("HomePage::updateInfo::if (this.isPopulationChecked)::mi: " + JSON.stringify(mi));
-        
+
       console.log("HomePage::updateInfo::if (this.isPopulationChecked)::this.mapInputPopulation: " + JSON.stringify(this.mapInputPopulation));
-              
-    
-  
-        if (this.isPopulationChecked) {
-          // Create a Map for fast lookup of population values by subRegion
-          const populationMap = new Map(
+
+
+
+      if (this.isPopulationChecked || this.isCntEntitiesChecked) {
+        // Create a Map for fast lookup of population values by subRegion
+        const populationMap = this.isPopulationChecked ?
+          new Map(
             this.mapInputPopulation.data.map(dp => [dp.subRegion, dp.value])
-          );
+          ) :
+          new Map(
+            this.mapInputCntEntities.data.map(dp => [dp.subRegion, dp.value])
+          )
+          ;
 
-          console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
-        
-          // Divide each value in mi.data by the corresponding population value
-          mi.data = mi.data.map(dp => {
-            const populationValue = populationMap.get(dp.subRegion);
-        
-            // Avoid division by zero or undefined population values
-            const newValue = (populationValue && populationValue !== 0)
-              ? 10000 * dp.value / populationValue
-              : 0;
-        
-            return {
-              ...dp,
-              value: newValue
-            };
-          });
+        console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
 
-          mi.format = '0.00'
-        }
+        // Divide each value in mi.data by the corresponding population value
+        mi.data = mi.data.map(dp => {
+          const populationValue = populationMap.get(dp.subRegion);
+
+          // Avoid division by zero or undefined population values
+          const newValue = (populationValue && populationValue !== 0)
+            ? dp.value / populationValue
+            : 0;
+
+          return {
+            ...dp,
+            value: newValue
+          };
+        });
+
         
-        this.mapInput = mi
-        // this.columns = [
-        //   { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
-        //   { name: 'Q10', prop: 'quantiles.q10', sortable: true },
-        //   { name: 'Q25', prop: 'quantiles.q25', sortable: true },
-        //   { name: 'Q50', prop: 'quantiles.q50', sortable: true },
-        //   { name: 'Q75', prop: 'quantiles.q75', sortable: true },
-        //   { name: 'Q90', prop: 'quantiles.q90', sortable: true },
-        //   { name: 'Change', prop: 'quantiles.change', sortable: true },
-        //   { name: 'My rate', prop: 'quantiles.myRate', sortable: true }
-        // ]
-      })
+
+        // mi.format = '0.00'
+      }
+
+      this.mapInput = mi
+      // this.columns = [
+      //   { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
+      //   { name: 'Q10', prop: 'quantiles.q10', sortable: true },
+      //   { name: 'Q25', prop: 'quantiles.q25', sortable: true },
+      //   { name: 'Q50', prop: 'quantiles.q50', sortable: true },
+      //   { name: 'Q75', prop: 'quantiles.q75', sortable: true },
+      //   { name: 'Q90', prop: 'quantiles.q90', sortable: true },
+      //   { name: 'Change', prop: 'quantiles.change', sortable: true },
+      //   { name: 'My rate', prop: 'quantiles.myRate', sortable: true }
+      // ]
+    })
     this.updateColumnsInfo()
   }
 
@@ -413,6 +434,13 @@ export class HomePage implements AfterViewInit, OnInit {
 
   onCheckboxChange(event: any) {
     console.log('Checkbox changed:', this.isPopulationChecked);
+    this.isCntEntitiesChecked = false;
+    this.updateInfo()
+  }
+
+  onCheckboxChangeCntEntities(event: any) {
+    console.log('Checkbox onCheckboxChangeCntEntities:', this.isCntEntitiesChecked);
+    this.isPopulationChecked = false;
     this.updateInfo()
   }
 
