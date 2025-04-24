@@ -100,12 +100,14 @@
 
           <ion-item lines="full">
             <ion-label>... over Population</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
+            <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked"
+              (ionChange)="onCheckboxChange($event)"></ion-checkbox>
           </ion-item>
 
           <ion-item lines="full">
             <ion-label>... over Cnt Entities</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="isCntEntitiesChecked" (ionChange)="onCheckboxChangeCntEntities($event)"></ion-checkbox>
+            <ion-checkbox slot="end" [(ngModel)]="isCntEntitiesChecked"
+              (ionChange)="onCheckboxChangeCntEntities($event)"></ion-checkbox>
           </ion-item>
 
 
@@ -229,6 +231,42 @@
           </ion-card-content>
         </ion-card>
 
+        <ion-card>
+          <ion-card-content>
+            <!-- Help Link -->
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <ion-icon name="help-circle-outline" size="large"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Help</h3>
+                <p>Visit the help center for documentation and FAQs</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://yourdomain.com/help')">
+                Visit
+              </ion-button>
+            </ion-item>
+        
+            <!-- Chat Link -->
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Chat</h3>
+                <p>Talk with support or our assistant</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://yourdomain.com/chat')">
+                Chat
+              </ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        
+
+
       </ion-col>
 
       <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8">
@@ -273,7 +311,7 @@
 
               <ngx-datatable-column [name]="(mapInput.region.type === 'country' ? 'State' : 'County')" prop="subRegion">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{ value  }}
+                  {{ value }}
                 </ng-template>
               </ngx-datatable-column>
 
@@ -315,9 +353,7 @@
 
               <ngx-datatable-column name="Q My Rate" prop="quantiles.myRate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  <span 
-                    *ngIf="value !== null && value !== ''" 
-                    [ngStyle]="{
+                  <span *ngIf="value !== null && value !== ''" [ngStyle]="{
                       'background-color': getColor(value), 
                       'color': value > 55 ? 'white' : 'black', 
                       'padding': '4px', 

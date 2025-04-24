@@ -322,9 +322,21 @@ export class HomePage implements AfterViewInit, OnInit {
           };
         });
 
-        
 
-        // mi.format = '0.00'
+        const maxValue = Math.max(...mi.data.map(dp => { return dp.value }));
+        console.log("HomePage::updateInfo::maxValue: " + maxValue)
+
+        const inverse = 1 / maxValue;
+        console.log("HomePage::updateInfo::inverse: " + inverse)
+
+
+        // If maxValue > 1, cap roundE10 at 1
+        const roundE10 = Math.max(1, this.roundToExponent10(inverse));
+        console.log("HomePage::updateInfo::roundE10: " + roundE10)
+
+
+        mi.format = this.getFormatFromRound(roundE10);
+        console.log("HomePage::updateInfo:mi.format: " + mi.format)
       }
 
       this.mapInput = mi
@@ -340,6 +352,18 @@ export class HomePage implements AfterViewInit, OnInit {
       // ]
     })
     this.updateColumnsInfo()
+  }
+
+  roundToExponent10(value: number): number {
+    // Get the power of 10 just greater or equal to value
+    const power = Math.ceil(Math.log10(value));
+    return Math.pow(10, power);
+  }
+
+  getFormatFromRound(roundE10: number): string {
+    if (roundE10 <= 1) return '0'; // no decimals
+    const decimalPlaces = Math.abs(Math.log10(roundE10)) + 1;
+    return '0.' + '0'.repeat(decimalPlaces);
   }
 
 
