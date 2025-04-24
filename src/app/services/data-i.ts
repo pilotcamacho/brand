@@ -31,6 +31,8 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "pop_under_18", indicatorName: "Population under 18", indicatorDescription: "population under 18 ", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "hhi", indicatorName: "Household Income", indicatorDescription: "Household Income.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
+    { indicatorCode: "phi", indicatorName: "Private Health Insurance", indicatorDescription: "Private health insurance.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0" },
     { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.0" },
   ]
 
