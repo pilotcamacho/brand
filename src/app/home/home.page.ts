@@ -39,6 +39,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
   palettes: any = []
 
+
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
   regionUSA: Region = {
@@ -106,18 +107,18 @@ export class HomePage implements AfterViewInit, OnInit {
   chartStandardView = false;
 
   isListOpen = {
-    ratesList: false,
-    medicaidList: false,
+    ratesList: true,
+    medicaidList: true,
     commercialList: true,
-    generalList: false
+    generalList: true
   };
 
   toggleList(listName: 'medicaidList' | 'ratesList' | 'commercialList' | 'generalList'): void {
     if (!this.isListOpen[listName]) {
-      this.isListOpen['medicaidList'] = false
-      this.isListOpen['ratesList'] = false
-      this.isListOpen['commercialList'] = false
-      this.isListOpen['generalList'] = false
+      this.isListOpen['medicaidList'] = true
+      this.isListOpen['ratesList'] = true
+      this.isListOpen['commercialList'] = true
+      this.isListOpen['generalList'] = true
       this.isListOpen[listName] = true
     }
   }

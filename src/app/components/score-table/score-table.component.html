@@ -1,0 +1,69 @@
+<!-- Table of 3 columns below the map -->
+<ion-grid>
+  <ion-row>
+
+    <!-- Column 1: Commercial -->
+    <ion-col size="4" *ngFor="let column of indicators_groups">
+      <ion-list class="scrollable-list">
+        <ion-list-header>
+          <ion-label>{{column.col_title}}</ion-label>
+        </ion-list-header>
+
+        <ion-list>
+          <ion-item *ngFor="let row of column.rows" (click)="onSelectIndicator(row.code)" button detail="false">
+            <ion-label [class.bold-label]="row.selected"
+              style="font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span>{{ row.title }}</span>
+
+              <span *ngIf="row.value !== null" [ngStyle]="{
+                      'background-color': getColor(row.value), 
+                      'color': row.value > 55 ? 'white' : 'black', 
+                      'padding': '4px', 
+                      'border-radius': '4px',
+                      'margin-left': '8px'
+                    }">
+                {{ row.value | number: '1.0-0' }}%
+              </span>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+      </ion-list>
+    </ion-col>
+
+
+
+    <!-- Column 2: Medicaid -->
+    <!-- <ion-col size="4">
+      <ion-list class="scrollable-list">
+        <ion-list-header>
+          <ion-label>Medicaid</ion-label>
+        </ion-list-header>
+
+        <ion-radio-group [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+          <ion-item *ngFor="let column of columnsMedicaid">
+            <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+            <ion-radio slot="end" [value]="column"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-col> -->
+
+    <!-- Column 3: General -->
+    <!-- <ion-col size="4">
+      <ion-list class="scrollable-list">
+        <ion-list-header>
+          <ion-label>General</ion-label>
+        </ion-list-header>
+
+        <ion-radio-group [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+          <ion-item *ngFor="let column of columnsGeneral">
+            <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+            <ion-radio slot="end" [value]="column"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </ion-col> -->
+
+  </ion-row>
+</ion-grid>
