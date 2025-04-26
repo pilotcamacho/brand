@@ -12,6 +12,7 @@ import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
+import { Indicators } from '../components/score-table/score-indicators-i';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,8 @@ export class HomePage implements AfterViewInit, OnInit {
     }
   }
 
+  isLocked: boolean = false
+
   myRate: number | null = null;
 
   isPopulationChecked: boolean = false;
@@ -38,6 +41,36 @@ export class HomePage implements AfterViewInit, OnInit {
   selectedPalette: string = 'camber'; // Default palette
 
   palettes: any = []
+
+  indicatorGroups: Indicators = {
+      subRegion: 'USA', 
+      columns: [
+        {
+          col_title: 'Commercial', rows: [
+            { code: '1', title: 'Rates', value: 134, pColor: 75 },
+            { code: '2', title: 'Payers count', value: 24, pColor: 65 },
+            { code: '3', title: 'Neworks count', value: 23, pColor: 45 },
+            { code: '4', title: 'Entities count', value: 9, pColor: 25 }
+          ]
+        },
+        {
+          col_title: 'Medicaid', rows: [
+            { code: '5', title: 'Rates', value: 134, pColor: 75 },
+            { code: '6', title: 'Payers count', value: 24, pColor: 65 },
+            { code: '7', title: 'Neworks count', value: 23, pColor: 45 },
+            { code: '8', title: 'Entities count', value: 9, pColor: 25 }
+          ]
+        },
+        {
+          col_title: 'General', rows: [
+            { code: '9', title: 'Rates', value: 134, pColor: 75 },
+            { code: '10', title: 'Payers count', value: 24, pColor: 65 },
+            { code: '11', title: 'Neworks count', value: 23, pColor: 45 },
+            { code: '12', title: 'Entities count', value: 9, pColor: 25 }
+          ]
+        }
+      ]
+    }
 
 
   //////////  DATA //////////////////////////////////////////////////////////////////////

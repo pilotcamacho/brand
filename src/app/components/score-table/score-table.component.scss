@@ -30,3 +30,20 @@ ion-list-header {
   .bold-label {
     font-weight: bold;
   }
+
+  .table-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .selected-item {
+    background-color: #d0ebff; /* Light blue background */
+    border: 2px solid #74c0fc; /* Blue border */
+    border-radius: 6px;
+  }
+  
