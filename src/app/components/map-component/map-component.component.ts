@@ -22,6 +22,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() hoverOverMap: EventEmitter<string> = new EventEmitter<string>();
 
   inUSAView: boolean = true;
 
@@ -331,7 +332,27 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         //   // Zoom to the clicked county
         //   // this.map.fitBounds(layer.getBounds());
         // });
-        layer.on('click', this.onCountyClick.bind(this))
+        layer.on({
+          click: (e: { target: any; }) => this.onCountyClick(e),
+          mouseover: (e: { target: any; }) => {
+            const layer = e.target;
+            layer.setStyle({
+              weight: 3,
+              color: '#666',
+              fillOpacity: 0.7
+            });
+            const countyName = feature.properties.NAME;
+            this.hoverOverMap.emit(countyName);  // Emit the hover event with the county name
+          },
+          mouseout: (e: { target: any; }) => {
+            const layer = e.target;
+            layer.setStyle({
+              weight: 0.5,
+              color: '#ffffff',
+              fillOpacity: 0.9
+            });
+          }
+        });
       }
 
       // Bind a popup to the feature

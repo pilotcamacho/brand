@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { signOut } from 'aws-amplify/auth'
 
@@ -19,7 +19,7 @@ import { Indicators } from '../components/score-table/score-indicators-i';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements AfterViewInit, OnInit {
+export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild(BoxPlotComponent) boxPlotComponent!: BoxPlotComponent;
   Number: any;
@@ -43,34 +43,34 @@ export class HomePage implements AfterViewInit, OnInit {
   palettes: any = []
 
   indicatorGroups: Indicators = {
-      subRegion: 'USA', 
-      columns: [
-        {
-          col_title: 'Commercial', rows: [
-            { code: '1', title: 'Rates', value: 134, pColor: 75 },
-            { code: '2', title: 'Payers count', value: 24, pColor: 65 },
-            { code: '3', title: 'Neworks count', value: 23, pColor: 45 },
-            { code: '4', title: 'Entities count', value: 9, pColor: 25 }
-          ]
-        },
-        {
-          col_title: 'Medicaid', rows: [
-            { code: '5', title: 'Rates', value: 134, pColor: 75 },
-            { code: '6', title: 'Payers count', value: 24, pColor: 65 },
-            { code: '7', title: 'Neworks count', value: 23, pColor: 45 },
-            { code: '8', title: 'Entities count', value: 9, pColor: 25 }
-          ]
-        },
-        {
-          col_title: 'General', rows: [
-            { code: '9', title: 'Rates', value: 134, pColor: 75 },
-            { code: '10', title: 'Payers count', value: 24, pColor: 65 },
-            { code: '11', title: 'Neworks count', value: 23, pColor: 45 },
-            { code: '12', title: 'Entities count', value: 9, pColor: 25 }
-          ]
-        }
-      ]
-    }
+    subRegion: 'USA',
+    columns: [
+      {
+        col_title: 'Commercial', rows: [
+          { code: '1', title: 'Rates', value: 134, pColor: 75 },
+          { code: '2', title: 'Payers count', value: 24, pColor: 65 },
+          { code: '3', title: 'Neworks count', value: 23, pColor: 45 },
+          { code: '4', title: 'Entities count', value: 9, pColor: 25 }
+        ]
+      },
+      {
+        col_title: 'Medicaid', rows: [
+          { code: '5', title: 'Rates', value: 134, pColor: 75 },
+          { code: '6', title: 'Payers count', value: 24, pColor: 65 },
+          { code: '7', title: 'Neworks count', value: 23, pColor: 45 },
+          { code: '8', title: 'Entities count', value: 9, pColor: 25 }
+        ]
+      },
+      {
+        col_title: 'General', rows: [
+          { code: '9', title: 'Rates', value: 134, pColor: 75 },
+          { code: '10', title: 'Payers count', value: 24, pColor: 65 },
+          { code: '11', title: 'Neworks count', value: 23, pColor: 45 },
+          { code: '12', title: 'Entities count', value: 9, pColor: 25 }
+        ]
+      }
+    ]
+  }
 
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
@@ -209,6 +209,7 @@ export class HomePage implements AfterViewInit, OnInit {
     // this.selectedColumn = this.columnsMedicaid[1]
     console.log('HomePage::ngAfterViewInit::Page fully loaded and view initialized');
     // this.selectedColumn = this.columns[0]
+    window.addEventListener('keydown', this.onKeyDown.bind(this));
   }
 
 
@@ -292,13 +293,13 @@ export class HomePage implements AfterViewInit, OnInit {
   }
 
   updateInfo() {
-    console.log("HomePage::updateInfo");
+    // console.log("HomePage::updateInfo");
     if (this.selPayer === 'ZZ') { this.selNetwork = 'ZZ' }
-    console.log(this.selectedRegion)
-    console.log(this.selectedColumn)
-    console.log(this.selCode)
-    console.log(this.selPayer)
-    console.log(this.selTaxonomy)
+    // console.log(this.selectedRegion)
+    // console.log(this.selectedColumn)
+    // console.log(this.selCode)
+    // console.log(this.selPayer)
+    // console.log(this.selTaxonomy)
     Promise.all([
       this.dynamoDB.getMapInput(
         this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
@@ -322,9 +323,9 @@ export class HomePage implements AfterViewInit, OnInit {
       this.mapInputCntEntities = cntEntities;
 
 
-      console.log("HomePage::updateInfo::if (this.isPopulationChecked)::mi: " + JSON.stringify(mi));
+      // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::mi: " + JSON.stringify(mi));
 
-      console.log("HomePage::updateInfo::if (this.isPopulationChecked)::this.mapInputPopulation: " + JSON.stringify(this.mapInputPopulation));
+      // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::this.mapInputPopulation: " + JSON.stringify(this.mapInputPopulation));
 
 
 
@@ -339,7 +340,7 @@ export class HomePage implements AfterViewInit, OnInit {
           )
           ;
 
-        console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
+        // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
 
         // Divide each value in mi.data by the corresponding population value
         mi.data = mi.data.map(dp => {
@@ -358,19 +359,19 @@ export class HomePage implements AfterViewInit, OnInit {
 
 
         const maxValue = Math.max(...mi.data.map(dp => { return dp.value }));
-        console.log("HomePage::updateInfo::maxValue: " + maxValue)
+        // console.log("HomePage::updateInfo::maxValue: " + maxValue)
 
         const inverse = 1 / maxValue;
-        console.log("HomePage::updateInfo::inverse: " + inverse)
+        // console.log("HomePage::updateInfo::inverse: " + inverse)
 
 
         // If maxValue > 1, cap roundE10 at 1
         const roundE10 = Math.max(1, this.roundToExponent10(inverse));
-        console.log("HomePage::updateInfo::roundE10: " + roundE10)
+        // console.log("HomePage::updateInfo::roundE10: " + roundE10)
 
 
         mi.format = this.getFormatFromRound(roundE10);
-        console.log("HomePage::updateInfo:mi.format: " + mi.format)
+        // console.log("HomePage::updateInfo:mi.format: " + mi.format)
       }
 
       this.mapInput = mi
@@ -500,6 +501,24 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log('Checkbox onCheckboxChangeCntEntities:', this.isCntEntitiesChecked);
     this.isPopulationChecked = false;
     this.updateInfo()
+  }
+
+  onHoverOverMap(event: any) {
+    console.log('HomePage::onHoverOverMap::', event);
+    if (!this.isLocked) {
+      this.indicatorGroups['subRegion'] = event
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'l' || event.key === 'L') {
+      this.isLocked = !this.isLocked
+    }
+  }
+
+  // Important: Don't forget to remove the listener when the component is destroyed
+  ngOnDestroy(): void {
+    window.removeEventListener('keydown', this.onKeyDown.bind(this));
   }
 
 }
