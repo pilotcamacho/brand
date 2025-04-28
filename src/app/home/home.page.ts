@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { signOut } from 'aws-amplify/auth'
 
 import { UsuarioService } from '../services/usuario.service';
-import { DdbService } from '../services/ddb.service';
+// import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -13,6 +13,7 @@ import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 import { Indicators } from '../components/score-table/score-indicators-i';
+import { DataMixService } from '../services/data-mix.service';
 
 @Component({
   selector: 'app-home',
@@ -157,16 +158,13 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   }
 
   mapInput: MapInput;
-  mapInputRegion: MapInput;
-  mapInputPopulation: MapInput;
-  mapInputCntEntities: MapInput;
 
   constructor(
     private toastController: ToastController,
     private route: ActivatedRoute,
     private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
-    public dynamoDB: DdbService,
+    public dataMix: DataMixService,
     public utilsService: UtilsService
   ) {
     this.palettes = utilsService.palettes
@@ -174,28 +172,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
 
-    this.mapInputRegion = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-    this.mapInputPopulation = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-    this.mapInputCntEntities = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
 
-    Promise.all([
-      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate),
-      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[12], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate),
-      this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.indicators[3], '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono', this.myRate)
-    ]).then(([regionInput, populationInput, cntEntitiesInput]) => {
-      this.mapInputRegion = regionInput;
-      this.mapInputPopulation = populationInput;
-      this.mapInputCntEntities = cntEntitiesInput;
-
-      this.mapInput = new MapInput(
-        this.mapInputRegion.region,
-        this.mapInputRegion.title,
-        this.mapInputRegion.data,
-        this.mapInputRegion.paletteId,
-        this.mapInputRegion.format
-      );
-    });
   }
 
   ngOnInit() {
@@ -300,105 +278,15 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // console.log(this.selCode)
     // console.log(this.selPayer)
     // console.log(this.selTaxonomy)
-    Promise.all([
-      this.dynamoDB.getMapInput(
-        this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-        this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
-        this.myRate),
 
-      this.dynamoDB.getMapInput(
-        this.selectedRegion.type, this.selectedRegion.code, this.indicators[12],
-        'ZZ', 'ZZ', 'ZZ', 'Z', '00000', this.selectedPalette,
-        this.myRate),
+    this.dataMix.getMapInput(
+      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
+      this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
+        this.mapInput = mi
+      })
 
-
-      this.dynamoDB.getMapInput(
-        this.selectedRegion.type, this.selectedRegion.code, this.indicators[3],
-        'ZZ', 'ZZ', 'ZZ', 'Z', '00000', this.selectedPalette,
-        this.myRate),
-
-    ]).then(([mi, populationInput, cntEntities]) => {
-      // this.mapInputRegion = regionInput;
-      this.mapInputPopulation = populationInput;
-      this.mapInputCntEntities = cntEntities;
-
-
-      // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::mi: " + JSON.stringify(mi));
-
-      // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::this.mapInputPopulation: " + JSON.stringify(this.mapInputPopulation));
-
-
-
-      if (this.isPopulationChecked || this.isCntEntitiesChecked) {
-        // Create a Map for fast lookup of population values by subRegion
-        const populationMap = this.isPopulationChecked ?
-          new Map(
-            this.mapInputPopulation.data.map(dp => [dp.subRegion, dp.value])
-          ) :
-          new Map(
-            this.mapInputCntEntities.data.map(dp => [dp.subRegion, dp.value])
-          )
-          ;
-
-        // console.log("HomePage::updateInfo::if (this.isPopulationChecked)::populationMap: " + JSON.stringify(populationMap));
-
-        // Divide each value in mi.data by the corresponding population value
-        mi.data = mi.data.map(dp => {
-          const populationValue = populationMap.get(dp.subRegion);
-
-          // Avoid division by zero or undefined population values
-          const newValue = (populationValue && populationValue !== 0)
-            ? dp.value / populationValue
-            : 0;
-
-          return {
-            ...dp,
-            value: newValue
-          };
-        });
-
-
-        const maxValue = Math.max(...mi.data.map(dp => { return dp.value }));
-        // console.log("HomePage::updateInfo::maxValue: " + maxValue)
-
-        const inverse = 1 / maxValue;
-        // console.log("HomePage::updateInfo::inverse: " + inverse)
-
-
-        // If maxValue > 1, cap roundE10 at 1
-        const roundE10 = Math.max(1, this.roundToExponent10(inverse));
-        // console.log("HomePage::updateInfo::roundE10: " + roundE10)
-
-
-        mi.format = this.getFormatFromRound(roundE10);
-        // console.log("HomePage::updateInfo:mi.format: " + mi.format)
-      }
-
-      this.mapInput = mi
-      // this.columns = [
-      //   { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
-      //   { name: 'Q10', prop: 'quantiles.q10', sortable: true },
-      //   { name: 'Q25', prop: 'quantiles.q25', sortable: true },
-      //   { name: 'Q50', prop: 'quantiles.q50', sortable: true },
-      //   { name: 'Q75', prop: 'quantiles.q75', sortable: true },
-      //   { name: 'Q90', prop: 'quantiles.q90', sortable: true },
-      //   { name: 'Change', prop: 'quantiles.change', sortable: true },
-      //   { name: 'My rate', prop: 'quantiles.myRate', sortable: true }
-      // ]
-    })
     this.updateColumnsInfo()
-  }
-
-  roundToExponent10(value: number): number {
-    // Get the power of 10 just greater or equal to value
-    const power = Math.ceil(Math.log10(value));
-    return Math.pow(10, power);
-  }
-
-  getFormatFromRound(roundE10: number): string {
-    if (roundE10 <= 1) return '0'; // no decimals
-    const decimalPlaces = Math.abs(Math.log10(roundE10)) + 1;
-    return '0.' + '0'.repeat(decimalPlaces);
   }
 
 
