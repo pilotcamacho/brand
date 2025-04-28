@@ -15,15 +15,15 @@ import { Indicators } from './score-indicators-i';
 })
 export class ScoreTableComponent implements OnInit, OnChanges {
 
-
   @Input() selectedPalette!: string;
   @Input() isLocked!: boolean;
   @Input() indicators!: Indicators;
+  @Input() selectedRow!: string;
+
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
 
-  selectedRow: string = '4'
 
   constructor(
     public utilsService: UtilsService
@@ -42,6 +42,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
   onSelectIndicator(code: string) {
     console.log("ScoreTableComponent::onSelectIndicator::code: " + code)
+    this.selectedCountyChange.emit(code)
 
   }
 

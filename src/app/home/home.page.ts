@@ -48,23 +48,22 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     columns: [
       {
         col_title: 'Commercial', rows: [
-          { code: '1', title: 'Rates', value: 134, pColor: 75 },
-          { code: '2', title: 'Payers count', value: 24, pColor: 65 },
-          { code: '3', title: 'Neworks count', value: 23, pColor: 45 },
-          { code: '4', title: 'Entities count', value: 9, pColor: 25 }
+          { code: 'rate', title: 'Rates', value: 134, pColor: 75 },
+          { code: 'cnt_payers', title: 'Payers count', value: 24, pColor: 65 },
+          { code: 'cnt_networks', title: 'Neworks count', value: 23, pColor: 45 },
+          { code: 'cnt_entities', title: 'Entities count', value: 9, pColor: 25 }
         ]
       },
       {
         col_title: 'Medicaid', rows: [
-          { code: '5', title: 'Rates', value: 134, pColor: 75 },
-          { code: '6', title: 'Payers count', value: 24, pColor: 65 },
-          { code: '7', title: 'Neworks count', value: 23, pColor: 45 },
-          { code: '8', title: 'Entities count', value: 9, pColor: 25 }
+          { code: 'medicaid_rate', title: 'Medicaid Rates', value: 134, pColor: 75 },
+          { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: 24, pColor: 65 },
+          { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: 23, pColor: 45 },
         ]
       },
       {
         col_title: 'General', rows: [
-          { code: '9', title: 'Rates', value: 134, pColor: 75 },
+          { code: 'population', title: 'Population', value: 134, pColor: 75 },
           { code: '10', title: 'Payers count', value: 24, pColor: 65 },
           { code: '11', title: 'Neworks count', value: 23, pColor: 45 },
           { code: '12', title: 'Entities count', value: 9, pColor: 25 }
@@ -407,6 +406,18 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   // Important: Don't forget to remove the listener when the component is destroyed
   ngOnDestroy(): void {
     window.removeEventListener('keydown', this.onKeyDown.bind(this));
+  }
+
+  onIndicatorChange(event: any) {
+    console.log('HomePage::onIndicatorChange: ', event);
+    const si = this.indicators.find(i => { return i.indicatorCode === event })
+    console.log('HomePage::OUT::si: ', si);
+    if (si) {
+      console.log('HomePage::IN::si: ', si);
+      this.selectedColumn = si
+    }
+    console.log('HomePage::this.selectedColumn: ', this.selectedColumn);
+    this.updateInfo()
   }
 
 }
