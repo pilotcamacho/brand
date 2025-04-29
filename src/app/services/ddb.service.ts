@@ -91,6 +91,20 @@ export class DdbService {
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
     p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
     myRate: number | null): Promise<MapInput> {
+
+    const p_i36_ = selectedColumn.byPayerNetwork ? p_i36 : 'ZZ'
+    const t_i36_ = selectedColumn.byPayerNetwork ? t_i36 : 'ZZ'
+
+    const taxonomy_ = selectedColumn.byTaxonomy ? taxonomy : 'ZZ'
+    const bcba_bt_ = selectedColumn.byTaxonomy ? bcba_bt : 'Z'
+    const code_ = selectedColumn.byTaxonomy ? code : '00000'
+
+    return this.getSpecificMapInput(regionType, regionName, selectedColumn, p_i36_, t_i36_, taxonomy_, bcba_bt_, code_, paletteId, myRate)
+  }
+
+  async getSpecificMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
+    myRate: number | null): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);

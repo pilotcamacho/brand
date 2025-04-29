@@ -6,7 +6,7 @@ import * as L from 'leaflet';
 import { GEOJSON_URLS, GEOJSON_MAP_SETTINGS } from './geojson-urls';
 import { StatesService } from 'src/app/services/states/states.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { MapInput } from './map-input';
+import { MapInput, Region, RegionType } from './map-input';
 import { GEODATA_COUNTIES } from './geodata-counties';
 import { GEODATA_STATES } from './geodata-states';
 
@@ -22,7 +22,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
-  @Output() hoverOverMap: EventEmitter<string> = new EventEmitter<string>();
+  @Output() hoverOverMap: EventEmitter<Region> = new EventEmitter<Region>();
 
   inUSAView: boolean = true;
 
@@ -230,7 +230,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.map.addControl(new TitleControl());
   }
 
-  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number, palette_id:string): void {
+  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number, palette_id: string): void {
     const LegendControl = L.Control.extend({
       options: { position: 'bottomright' },
       onAdd: () => {
@@ -330,7 +330,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         //   });
 
         //   // Zoom to the clicked county
-        //   // this.map.fitBounds(layer.getBounds());
+        //   // this.map.fitBounds(layer.getBounds());ll
         // });
         layer.on({
           click: (e: { target: any; }) => this.onCountyClick(e),
@@ -342,7 +342,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
               fillOpacity: 0.7
             });
             const countyName = feature.properties.NAME;
-            this.hoverOverMap.emit(countyName);  // Emit the hover event with the county name
+            const thisSubRegion: Region = { name: countyName, type: this.inUSAView ? RegionType.COUNTRY : RegionType.STATE, code: 'a', codeFP: '' }
+            this.hoverOverMap.emit(thisSubRegion);  // Emit the hover event with the county name
           },
           mouseout: (e: { target: any; }) => {
             const layer = e.target;

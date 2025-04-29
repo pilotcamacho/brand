@@ -43,35 +43,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   palettes: any = []
 
-  indicatorGroups: Indicators = {
-    subRegion: 'USA',
-    columns: [
-      {
-        col_title: 'Commercial', rows: [
-          { code: 'rate', title: 'Rates', value: 134, pColor: 75 },
-          { code: 'cnt_payers', title: 'Payers count', value: 24, pColor: 65 },
-          { code: 'cnt_networks', title: 'Neworks count', value: 23, pColor: 45 },
-          { code: 'cnt_entities', title: 'Entities count', value: 9, pColor: 25 }
-        ]
-      },
-      {
-        col_title: 'Medicaid', rows: [
-          { code: 'medicaid_rate', title: 'Medicaid Rates', value: 134, pColor: 75 },
-          { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: 24, pColor: 65 },
-          { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: 23, pColor: 45 },
-        ]
-      },
-      {
-        col_title: 'General', rows: [
-          { code: 'population', title: 'Population', value: 134, pColor: 75 },
-          { code: '10', title: 'Payers count', value: 24, pColor: 65 },
-          { code: '11', title: 'Neworks count', value: 23, pColor: 45 },
-          { code: '12', title: 'Entities count', value: 9, pColor: 25 }
-        ]
-      }
-    ]
-  }
-
+  indicatorGroups: Indicators;
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
@@ -172,7 +144,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.updateInfo()
 
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-
+    this.indicatorGroups = { subRegion: '', columns: [] }
   }
 
   ngOnInit() {
@@ -284,6 +256,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
         this.mapInput = mi
       })
+    this.dataMix.updateIndicatorGroupData().then(() => {
+      this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion)
+    }
+    )
 
     this.updateColumnsInfo()
   }
@@ -390,10 +366,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.updateInfo()
   }
 
-  onHoverOverMap(event: any) {
+  onHoverOverMap(event: Region) {
     console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
-      this.indicatorGroups['subRegion'] = event
+      this.indicatorGroups = this.dataMix.getIndicatorGroups(event)
     }
   }
 
