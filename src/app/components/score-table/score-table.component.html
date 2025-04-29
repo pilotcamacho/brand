@@ -5,7 +5,7 @@
   <ion-row>
     <ion-col size="12" class="table-title"
       style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-      {{indicators.subRegion}}
+      {{indicatorGroups.subRegion}}
       <ion-icon [name]="isLocked ? 'lock-closed-outline' : 'lock-open-outline'" style="font-size: 20px;">
       </ion-icon>
     </ion-col>
@@ -13,7 +13,7 @@
 
   <!-- Data rows -->
   <ion-row>
-    <ion-col size="4" *ngFor="let column of indicators.columns">
+    <ion-col size="4" *ngFor="let column of indicatorGroups.columns">
       <ion-list class="scrollable-list">
         <ion-list-header>
           <ion-label>{{column.col_title}}</ion-label>
@@ -26,13 +26,13 @@
               <span>{{ row.title }}</span>
 
               <span *ngIf="row.value !== null" [ngStyle]="{
-                      'background-color': getColor(row.value), 
+                      'background-color': getColor(row.pColor), 
                       'color': row.value > 55 ? 'white' : 'black', 
                       'padding': '4px', 
                       'border-radius': '4px',
                       'margin-left': '8px'
                     }">
-                {{ row.value | number: '1.0-0' }}%
+                {{ row.value | number: '1.0-0' }}
               </span>
             </ion-label>
           </ion-item>

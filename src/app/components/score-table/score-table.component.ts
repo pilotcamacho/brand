@@ -17,7 +17,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
   @Input() selectedPalette!: string;
   @Input() isLocked!: boolean;
-  @Input() indicators!: Indicators;
+  @Input() indicatorGroups!: Indicators;
   @Input() selectedRow!: string;
 
 
@@ -48,7 +48,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
 
   getColor(value: number | null) {
-    return this.utilsService.getColor((value !== null ? value / 100 : null), this.selectedPalette)
+    return this.utilsService.getColor((value !== null ? value : null), this.selectedPalette)
   }
 
 }

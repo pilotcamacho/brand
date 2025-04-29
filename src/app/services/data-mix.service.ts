@@ -41,6 +41,8 @@ export class DataMixService {
   }
 
   currentData: any
+  currentRegionType!: RegionType
+  currentRegionName!: string
 
   constructor(
     public dynamoDB: DdbService,
@@ -49,14 +51,64 @@ export class DataMixService {
   }
 
   async updateIndicatorGroupData(): Promise<any> {
-    await new Promise(resolve => setTimeout(resolve, 100)); // wait 500 ms
+    console.log("DataMixService::updateIndicatorGroupData::")
     return this.indicatorGroups;
   }
 
   getIndicatorGroups(subRegion: Region): Indicators {
-    this.indicatorGroups.subRegion = subRegion.name
-    return this.indicatorGroups;
+    const getValuePair = (code: string) =>
+      this.currentData[code]?.valuesFromSubRegionName(subRegion.name) || [null, null];
+  
+    const rateV = getValuePair('rate');
+    const cnt_payersV = getValuePair('cnt_payers');
+    const cnt_networksV = getValuePair('cnt_networks');
+    const cnt_entitiesV = getValuePair('cnt_entities');
+  
+    const medicaid_rateV = getValuePair('medicaid_rate');
+    const medicaid_enrolled_lbasV = getValuePair('medicaid_enrolled_lbas');
+    const medicaid_pop_totalV = getValuePair('medicaid_pop_total');
+  
+    const populationV = getValuePair('population');
+    const pop_under_18V = getValuePair('pop_under_18');
+    const areaV = getValuePair('area');
+    const hhiV = getValuePair('hhi');
+    const phiV = getValuePair('phi');
+  
+    return {
+      subRegion: subRegion.name,
+      columns: [
+        {
+          col_title: 'Commercial',
+          rows: [
+            { code: 'rate', title: 'Rates', value: rateV[1], pColor: rateV[0] },
+            { code: 'cnt_payers', title: 'Payers count', value: cnt_payersV[1], pColor: cnt_payersV[0] },
+            { code: 'cnt_networks', title: 'Networks count', value: cnt_networksV[1], pColor: cnt_networksV[0] },
+            { code: 'cnt_entities', title: 'Entities count', value: cnt_entitiesV[1], pColor: cnt_entitiesV[0] },
+          ]
+        },
+        {
+          col_title: 'Medicaid',
+          rows: [
+            { code: 'medicaid_rate', title: 'Medicaid Rates', value: medicaid_rateV[1], pColor: medicaid_rateV[0] },
+            { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: medicaid_enrolled_lbasV[1], pColor: medicaid_enrolled_lbasV[0] },
+            { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: medicaid_pop_totalV[1], pColor: medicaid_pop_totalV[0] },
+          ]
+        },
+        {
+          col_title: 'General',
+          rows: [
+            { code: 'population', title: 'Population', value: populationV[1], pColor: populationV[0] },
+            { code: 'pop_under_18', title: 'Population under 18', value: pop_under_18V[1], pColor: pop_under_18V[0] },
+            { code: 'area', title: 'Area (km2)', value: areaV[1], pColor: areaV[0] },
+            { code: 'hhi', title: 'Household Income', value: hhiV[1], pColor: hhiV[0] },
+            { code: 'phi', title: 'Private Health Insurance', value: phiV[1], pColor: phiV[0] },
+          ]
+        }
+      ]
+    };
+
   }
+  
 
   async updateCurrentData(regionType: RegionType, regionName: string,
     p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
@@ -90,6 +142,10 @@ export class DataMixService {
 
     this.currentData = myOutput
     console.log("DataMixService::updateCurrentData::this.currentData: ", this.currentData)
+    this.currentRegionType = regionType
+    console.log("DataMixService::updateCurrentData::this.currentRegionType: ", this.currentRegionType)
+    this.currentRegionName = regionName
+    console.log("DataMixService::updateCurrentData::this.regionName: ", this.currentRegionName)
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,

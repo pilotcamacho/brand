@@ -1,7 +1,8 @@
 
 export enum RegionType {
     COUNTRY = 'country',
-    STATE = 'state'
+    STATE = 'state',
+    COUNTY = 'county'
 }
 
 export interface Region {

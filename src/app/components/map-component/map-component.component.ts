@@ -342,7 +342,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
               fillOpacity: 0.7
             });
             const countyName = feature.properties.NAME;
-            const thisSubRegion: Region = { name: countyName, type: this.inUSAView ? RegionType.COUNTRY : RegionType.STATE, code: 'a', codeFP: '' }
+            const thisSubRegion: Region = { name: countyName, type: this.inUSAView ? RegionType.STATE : RegionType.COUNTY, code: '', codeFP: '' }
             this.hoverOverMap.emit(thisSubRegion);  // Emit the hover event with the county name
           },
           mouseout: (e: { target: any; }) => {
