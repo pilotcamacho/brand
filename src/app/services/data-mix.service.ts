@@ -63,6 +63,7 @@ export class DataMixService {
     const cnt_payersV = getValuePair('cnt_payers');
     const cnt_networksV = getValuePair('cnt_networks');
     const cnt_entitiesV = getValuePair('cnt_entities');
+    const rbt = getValuePair('rbt');
   
     const medicaid_rateV = getValuePair('medicaid_rate');
     const medicaid_enrolled_lbasV = getValuePair('medicaid_enrolled_lbas');
@@ -84,6 +85,8 @@ export class DataMixService {
             { code: 'cnt_payers', title: 'Payers count', value: cnt_payersV[1], pColor: cnt_payersV[0] },
             { code: 'cnt_networks', title: 'Networks count', value: cnt_networksV[1], pColor: cnt_networksV[0] },
             { code: 'cnt_entities', title: 'Entities count', value: cnt_entitiesV[1], pColor: cnt_entitiesV[0] },
+
+            { code: 'rbt', title: 'rbt count', value: rbt[1], pColor: rbt[0] },
           ]
         },
         {

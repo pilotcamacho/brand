@@ -20,7 +20,7 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "cnt_payers", indicatorName: "Payers count", indicatorDescription: "Payers count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "cnt_networks", indicatorName: "Neworks count", indicatorDescription: "Networks count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "cnt_entities", indicatorName: "Entities count", indicatorDescription: "Entities count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
-    { indicatorCode: "cnt_ein", indicatorName: "Ein count", indicatorDescription: "Ein count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
+    // { indicatorCode: "cnt_ein", indicatorName: "Ein count", indicatorDescription: "Ein count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "bcba_d", indicatorName: "bcba_d count", indicatorDescription: "bcba_d count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "bcba", indicatorName: "bcba count", indicatorDescription: "bcba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "bcaba", indicatorName: "bcaba count", indicatorDescription: "bcaba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
@@ -35,7 +35,7 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "hhi", indicatorName: "Household Income", indicatorDescription: "Household Income.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "phi", indicatorName: "Private Health Insurance", indicatorDescription: "Private health insurance.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
-    { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.0", byPayerNetwork: false, byTaxonomy: false },
+    // { indicatorCode: "pop_density", indicatorName: "Population Density", indicatorDescription: "Number of inhabitants per km2.", indicatorGroup: "general", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.0", byPayerNetwork: false, byTaxonomy: false },
   ]
 
 // List of codes
