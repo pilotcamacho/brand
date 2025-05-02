@@ -63,6 +63,9 @@ export class DataMixService {
     const cnt_payersV = getValuePair('cnt_payers');
     const cnt_networksV = getValuePair('cnt_networks');
     const cnt_entitiesV = getValuePair('cnt_entities');
+    const bcba_d = getValuePair('bcba_d');
+    const bcba = getValuePair('bcba');
+    const bcaba = getValuePair('bcaba');
     const rbt = getValuePair('rbt');
   
     const medicaid_rateV = getValuePair('medicaid_rate');
@@ -86,6 +89,9 @@ export class DataMixService {
             { code: 'cnt_networks', title: 'Networks count', value: cnt_networksV[1], pColor: cnt_networksV[0] },
             { code: 'cnt_entities', title: 'Entities count', value: cnt_entitiesV[1], pColor: cnt_entitiesV[0] },
 
+            { code: 'bcba_d', title: 'bcba_d count', value: bcba_d[1], pColor: bcba_d[0] },
+            { code: 'bcba', title: 'bcba count', value: bcba[1], pColor: bcba[0] },
+            { code: 'bcaba', title: 'bcaba count', value: bcaba[1], pColor: bcaba[0] },
             { code: 'rbt', title: 'rbt count', value: rbt[1], pColor: rbt[0] },
           ]
         },
