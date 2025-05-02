@@ -161,7 +161,9 @@ export class HomePage implements AfterViewInit, OnInit {
     // This method is called by the map.
     console.log('HomePage::onSelectedCountyChange::county: ' + county)
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com') || this.usuarioSrv.email.endsWith('intercaretherapy.com')) {
+    if (this.usuarioSrv.email.endsWith('juniperplatform.com') ||
+      this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
+      this.usuarioSrv.email.endsWith('peopleart.co')) {
 
       this.selectedCountyFromChild = county;
 
@@ -253,7 +255,7 @@ export class HomePage implements AfterViewInit, OnInit {
 
     // console.log("HomePage::updateColumnsInfo::this.selectedRegion.code: " + this.selectedRegion.code);
     // console.log("HomePage::updateColumnsInfo::this.selPayer: " + this.selPayer);
- 
+
     const selectedIds = NETWORS_BY_STATE_PAYER.find(n => { return (n.state_id === this.selectedRegion.code && n.p_id36 === this.selPayer) })
     // console.log("HomePage::updateColumnsInfo::selectedIds: " + selectedIds);
 
