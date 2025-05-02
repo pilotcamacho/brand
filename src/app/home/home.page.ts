@@ -161,7 +161,7 @@ export class HomePage implements AfterViewInit, OnInit {
     // This method is called by the map.
     console.log('HomePage::onSelectedCountyChange::county: ' + county)
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
+    if (this.usuarioSrv.email.endsWith('juniperplatform.com') || this.usuarioSrv.email.endsWith('intercaretherapy.com')) {
 
       this.selectedCountyFromChild = county;
 
