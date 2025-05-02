@@ -16,27 +16,52 @@
     <ion-col size="4" *ngFor="let column of indicatorGroups.columns">
       <ion-list class="scrollable-list">
         <ion-list-header>
-          <ion-label>{{column.col_title}}</ion-label>
+          <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+            <ion-label>{{ column.col_title }}</ion-label>
+
+            <ion-select placeholder="Show hidden..." (ionChange)="unhideRow(column.col_title, $event.detail.value)"
+              style="margin-left: 16px; max-width: 50%;">
+              <ion-select-option *ngFor="let row of hiddenRows[column.col_title]" [value]="row.code">
+                {{ row.title }}
+              </ion-select-option>
+            </ion-select>
+          </div>
         </ion-list-header>
 
-        <ion-list>
-          <ion-item *ngFor="let row of column.rows" (click)="onSelectIndicator(row.code)" button detail="false"
-            [class.selected-item]="row.code === selectedRow">
-            <ion-label style="font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
-              <span>{{ row.title }}</span>
 
-              <span *ngIf="row.value !== null" [ngStyle]="{
-                      'background-color': getColor(row.pColor), 
-                      'color': row.value > 55 ? 'white' : 'black', 
-                      'padding': '4px', 
-                      'border-radius': '4px',
-                      'margin-left': '8px'
-                    }">
-                {{ row.value | number: '1.0-0' }}
-              </span>
-            </ion-label>
-          </ion-item>
+        <ion-list>
+
+          <ng-container *ngFor="let row of column.rows">
+            <ion-item *ngIf="!isHidden(column.col_title, row.code)" (click)="onSelectIndicator(row.code)" button
+              detail="false" [class.selected-item]="row.code === selectedRow">
+
+              <ion-label
+                style="font-size: 12px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center;">
+                  <span>{{ row.title }}</span>
+
+                  <span *ngIf="row.value !== null" [ngStyle]="{
+                        'background-color': getColor(row.pColor), 
+                        'color': row.value > 55 ? 'white' : 'black', 
+                        'padding': '4px', 
+                        'border-radius': '4px',
+                        'margin-left': '8px'
+                      }">
+                    {{ row.value | number: '1.0-0' }}
+                  </span>
+                </div>
+
+                <!-- "X" Icon Button -->
+                <ion-button fill="clear" size="small" color="medium"
+                  (click)="hideRow(column.col_title ,{code: row.code, title: row.title}); $event.stopPropagation()">
+                  <ion-icon name="close-outline"></ion-icon>
+                </ion-button>
+              </ion-label>
+
+            </ion-item>
+          </ng-container>
         </ion-list>
+
       </ion-list>
     </ion-col>
   </ion-row>

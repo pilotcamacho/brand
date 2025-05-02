@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, Input, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { IonGrid, IonRow, IonCol, IonList, IonListHeader, IonLabel, IonItem, IonIcon } from '@ionic/angular/standalone';
+import { IonGrid, IonRow, IonCol, IonList, IonListHeader, IonLabel, IonItem, IonIcon, IonButton, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';  // Import this for ngModel
 import { UtilsService } from 'src/app/services/utils.service';
 import { Indicators } from './score-indicators-i';
@@ -10,8 +10,8 @@ import { Indicators } from './score-indicators-i';
   templateUrl: './score-table.component.html',
   styleUrls: ['./score-table.component.scss'],
   standalone: true,
-  imports: [IonIcon, CommonModule, FormsModule,
-    IonItem, IonGrid, IonRow, IonCol, IonList, IonListHeader, IonLabel],
+  imports: [IonButton, IonIcon, CommonModule, FormsModule,
+    IonItem, IonGrid, IonRow, IonCol, IonList, IonListHeader, IonLabel, IonButton, IonSelect, IonSelectOption],
 })
 export class ScoreTableComponent implements OnInit, OnChanges {
 
@@ -19,6 +19,8 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   @Input() isLocked!: boolean;
   @Input() indicatorGroups!: Indicators;
   @Input() selectedRow!: string;
+
+  hiddenRows: { [column: string]: { code: string, title: string }[] } = {};
 
 
   // Output property to send the selected country to the parent
@@ -41,7 +43,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   }
 
   onSelectIndicator(code: string) {
-    console.log("ScoreTableComponent::onSelectIndicator::code: " + code)
+    // console.log("ScoreTableComponent::onSelectIndicator::code: " + code)
     this.selectedCountyChange.emit(code)
 
   }
@@ -49,6 +51,25 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
   getColor(value: number | null) {
     return this.utilsService.getColor((value !== null ? value : null), this.selectedPalette)
+  }
+
+  hideRow(column: string, row: { code: string, title: string }) {
+    // console.log("ScoreTableComponent::hideRow::row: " + row)
+    if (!this.hiddenRows[column]) {
+      this.hiddenRows[column] = [];
+    }
+    this.hiddenRows[column].push(row);
+  }
+
+  isHidden(column: string, code: string): boolean {
+    const hidden = this.hiddenRows[column];
+    // console.log("ScoreTableComponent::isHidden::hidden|column|code: ", hidden, column, code);
+    return hidden ? hidden.some(row => row.code === code) : false;
+  }
+  
+
+  unhideRow(column: string, code: string) {
+    this.hiddenRows[column] = this.hiddenRows[column].filter(row => row.code !== code);
   }
 
 }
