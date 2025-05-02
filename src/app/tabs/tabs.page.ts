@@ -396,7 +396,7 @@ export class TabsPage implements AfterViewInit, OnInit {
   // Method to capture the selected country value emitted from the child component
   onSelectedCountyChange(county: any): void {
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com')) {
+    if (this.usuarioSrv.email.endsWith('juniperplatform.com') || this.usuarioSrv.email.endsWith('intercaretherapy.com')) {
 
       this.selectedCountyFromChild = county;
       // this.countyDataSrv.countyInfo
