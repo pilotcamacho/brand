@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { signOut } from 'aws-amplify/auth'
 
@@ -11,6 +11,7 @@ import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS,
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
+import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,16 @@ import { UtilsService } from '../services/utils.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements AfterViewInit, OnInit {
+
+  @ViewChild(BoxPlotComponent) boxPlotComponent!: BoxPlotComponent;
+
+  updateReference(value: number) {
+    if (this.boxPlotComponent) {
+      this.boxPlotComponent.updateReferenceLine(value);
+    }
+  }
+
+  myRate: number | null = null;
 
   selectedPalette: string = 'camber'; // Default palette
 
@@ -308,4 +319,15 @@ export class HomePage implements AfterViewInit, OnInit {
     console.log("HomePage::applyColorPalette: " + this.selectedPalette);
     this.updateInfo()
   }
+
+
+  onRateChange(event: any) {
+    console.log('HomePage::onRateChange: ', event.detail.value);
+    this.myRate = parseFloat(event.detail.value);
+    // Emit an event, call a function, or update something here
+
+    this.updateReference(this.myRate)
+    this.updateInfo()
+  }
+
 }

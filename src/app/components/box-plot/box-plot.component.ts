@@ -9,9 +9,13 @@ import { CountyDataSrvService } from 'src/app/services/county-data/county-data-s
 import { DataPoint } from '../map-component/map-input';
 // import { CountyInfo } from 'src/app/services/county-data/county-info';
 
+import annotationPlugin from 'chartjs-plugin-annotation';
+
 
 // Register the box-plot components with Chart.js
-Chart.register(BoxPlotController, BoxAndWiskers);
+// Chart.register(BoxPlotController, BoxAndWiskers);
+Chart.register(BoxPlotController, BoxAndWiskers, annotationPlugin);
+
 
 @Component({
   selector: 'app-box-plot',
@@ -54,6 +58,23 @@ export class BoxPlotComponent implements OnInit, OnChanges {
         display: false,
         position: 'top'
       },
+      annotation: {
+        annotations: {
+          referenceLine: {
+            type: 'line',
+            yMin: 50, // Change this to your target value
+            yMax: 50,
+            borderColor: 'red',
+            borderWidth: 2,
+            label: {
+              display: true,
+              content: 'Enter your reference rate in "My rate ($)" box.',
+              backgroundColor: 'red',
+              color: 'white'
+            }
+          }
+        }
+      }
     },
   };
 
@@ -158,4 +179,24 @@ export class BoxPlotComponent implements OnInit, OnChanges {
 
     this.chart?.update();
   }
+
+
+  public updateReferenceLine(value: number) {
+    if (this.boxPlotChartOptions.plugins?.annotation?.annotations) {
+      const referenceLine = (this.boxPlotChartOptions.plugins.annotation.annotations as any).referenceLine;
+  
+      if (isNaN(value)) {
+        referenceLine.display = false;  // Hide the line
+      } else {
+        referenceLine.display = true;   // Show the line
+        referenceLine.yMin = value;
+        referenceLine.yMax = value;
+        referenceLine.label.content = "My rate: " + value;
+      }
+    }
+  
+    console.log('Updated reference line to:', isNaN(value) ? 'HIDDEN' : value);
+    this.chart?.update();
+  }
+  
 }
