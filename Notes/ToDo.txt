@@ -1,11 +1,10 @@
 
-- Will be able to edit lists with value (hide, show)
 - Fix "ratio" filters, like the "... over Population"
 - Add link on each state to show state information sources
 - Check Payers and Networks filerring and data
 - Indicate where the data is coming from: Census
 
-
+- Will be able to edit lists with value (hide, show)
 - Add intercaretherapy.com
 
 

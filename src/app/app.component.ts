@@ -22,7 +22,7 @@ export class AppComponent {
   ) {
     Amplify.configure(outputs);
     this.authenticator.subscribe((state) => {
-      console.log('AppComponent::constructor.subscribe::state: ', state);
+      // console.log('AppComponent::constructor.subscribe::state: ', state);
       this.userSrv.updateUser(state.authStatus);
     })
   }
