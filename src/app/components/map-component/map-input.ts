@@ -1,3 +1,4 @@
+import { UtilsService } from "src/app/services/utils.service";
 
 export enum RegionType {
     COUNTRY = 'country',
@@ -31,17 +32,18 @@ export class MapInput {
     format: string;
     isPercentage: boolean;
 
-    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, isPercentage: boolean) {
+    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, isPercentage: boolean
+    ) {
         this.region = region;
         this.title = title;
         this.data = data;
         this.paletteId = paletteId;
-        this.format = isPercentage ? '0.0%' : '0.0';
+        this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }));
         this.isPercentage = isPercentage;
     }
     /**
      * Get the minimum and maximum values from the data array
-     * @returns A tuple with [min, max, formatted default]
+     * @returns A tuple with [min, max, formatted default, isPercentage]
      */
     min_max_format_values(): [number | null, number | null, string, boolean] {
         if (!this.data || this.data.length === 0) {
@@ -61,7 +63,7 @@ export class MapInput {
     /**
      * Get the min and max values for a specific sub-region
      * @param subRegion - The name of the sub-region
-     * @returns A tuple with [value_normalized_0_1, value, formatted default] for the sub-region
+     * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region
      */
     valuesFromSubRegionName(subRegion: string): [number | null, number | null, string, boolean] {
         if (!this.data || this.data.length === 0) {

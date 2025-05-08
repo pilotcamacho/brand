@@ -9,11 +9,13 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { MapInput, Region, RegionType } from './map-input';
 import { GEODATA_COUNTIES } from './geodata-counties';
 import { GEODATA_STATES } from './geodata-states';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-map-component',
   templateUrl: './map-component.component.html',
   styleUrls: ['./map-component.component.scss'],
+  providers: [DecimalPipe],
   standalone: true,
 })
 export class MapComponentComponent implements AfterViewInit, OnChanges {
@@ -37,6 +39,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
   constructor(
     private statesSrv: StatesService,
     private utilsSrv: UtilsService,
+    private decimalPipe: DecimalPipe
     // private cds: CountyDataSrvService
   ) {
     console.log('MapComponent::constructor:: ')
@@ -319,7 +322,13 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       if (feature.properties && feature.properties.NAME) {
         // layer.bindTooltip(feature.properties.name + ": " + formatNumber(cds.val_norm_from_string(feature.properties.name, c)[1], '#.00'));
         const values = mapInput.valuesFromSubRegionName(feature.properties.NAME)
-        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
+        // layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
+        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : 
+          this.decimalPipe.transform(values[1], values[2])
+      ));
+
+
+        
         // layer.on('click', function (e: any) {
         //   console.log('County clicked: ' + feature.properties.name);
         //   // Optionally, change style on click or do something else

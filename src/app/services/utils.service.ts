@@ -15,36 +15,36 @@ export class UtilsService {
 
   constructor() { }
 
-  formatNumber(value: number, formatOrig: string): string {
+  // formatNumber(value: number, formatOrig: string): string {
 
-    var format: string = formatOrig
+  //   var format: string = formatOrig
 
-    // Handle percentage formatting
-    if (formatOrig.includes('%')) {
-      value = value * 100;
-      format = formatOrig.replace('%', ''); // Remove % from format string
-    }
+  //   // Handle percentage formatting
+  //   if (formatOrig.includes('%')) {
+  //     value = value * 100;
+  //     format = formatOrig.replace('%', ''); // Remove % from format string
+  //   }
 
-    // Split format string into integer and decimal parts
-    const [intPart, decimalPart] = format.split('.');
+  //   // Split format string into integer and decimal parts
+  //   const [intPart, decimalPart] = format.split('.');
 
-    // Format integer part
-    // const intValue = Math.floor(value).toString();
+  //   // Format integer part
+  //   // const intValue = Math.floor(value).toString();
 
-    const intValue = Math.floor(value).toLocaleString();  // This adds comma separators for thousands
-    const formattedIntPart = intPart.replace(/0+/g, (match) => {
-      return intValue.padStart(match.length, '0');
-    });
+  //   const intValue = Math.floor(value).toLocaleString();  // This adds comma separators for thousands
+  //   const formattedIntPart = intPart.replace(/0+/g, (match) => {
+  //     return intValue.padStart(match.length, '0');
+  //   });
 
-    // Format decimal part
-    let formattedDecimalPart = '';
-    if (decimalPart) {
-      const decimalValue = value.toFixed(decimalPart.length).split('.')[1];
-      formattedDecimalPart = '.' + decimalValue;
-    }
+  //   // Format decimal part
+  //   let formattedDecimalPart = '';
+  //   if (decimalPart) {
+  //     const decimalValue = value.toFixed(decimalPart.length).split('.')[1];
+  //     formattedDecimalPart = '.' + decimalValue;
+  //   }
 
-    return formattedIntPart + formattedDecimalPart + (formatOrig.includes('%') ? '%' : '');
-  }
+  //   return formattedIntPart + formattedDecimalPart + (formatOrig.includes('%') ? '%' : '');
+  // }
 
   // function getColorFromRedToGreen(value: number): string {
 
@@ -147,7 +147,7 @@ export class UtilsService {
   }
 
 
-  formatForDataset(data: number[]): string {
+  static formatForDataset(data: number[]): string {
     const maxValue = Math.max(...data);
     // console.log("HomePage::updateInfo::maxValue: " + maxValue)
 
@@ -162,16 +162,17 @@ export class UtilsService {
   }
 
 
-  roundToExponent10(value: number): number {
+  static roundToExponent10(value: number): number {
     // Get the power of 10 just greater or equal to value
     const power = Math.ceil(Math.log10(value));
     return Math.pow(10, power);
   }
 
-  getFormatFromRound(roundE10: number): string {
-    if (roundE10 <= 1) return '0'; // no decimals
+  static getFormatFromRound(roundE10: number): string {
+    if (roundE10 <= 1) return '1.0-0'; // no decimals
     const decimalPlaces = Math.abs(Math.log10(roundE10)) + 1;
-    return '0.' + '0'.repeat(decimalPlaces);
+    return "1.0-" + decimalPlaces
+    // return '0.' + '0'.repeat(decimalPlaces);
   }
 
 

@@ -49,7 +49,7 @@ export class DataMixService {
 
   constructor(
     public dynamoDB: DdbService,
-    public utilsSrv: UtilsService
+    // public utilsSrv: UtilsService
   ) {
     this.updateCurrentDataRatio(RegionType.COUNTRY, 'USA', 'ZZ', 'ZZ', 'ZZ', 'Z', '00000', 'mono', 0, false, false)
   }
@@ -213,7 +213,7 @@ export class DataMixService {
         };
       });
 
-      mi.format = this.utilsSrv.formatForDataset(mi.data.map(dp => { return dp.value }))
+      mi.format = UtilsService.formatForDataset(mi.data.map(dp => { return dp.value }))
       // console.log("HomePage::updateInfo:mi.format: " + mi.format)
     }
 
