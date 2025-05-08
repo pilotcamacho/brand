@@ -147,6 +147,34 @@ export class UtilsService {
   }
 
 
+  formatForDataset(data: number[]): string {
+    const maxValue = Math.max(...data);
+    // console.log("HomePage::updateInfo::maxValue: " + maxValue)
+
+    const inverse = 1 / maxValue;
+    // console.log("HomePage::updateInfo::inverse: " + inverse)
+
+    // If maxValue > 1, cap roundE10 at 1
+    const roundE10 = Math.max(1, this.roundToExponent10(inverse));
+    // console.log("HomePage::updateInfo::roundE10: " + roundE10)
+
+    return this.getFormatFromRound(roundE10);
+  }
+
+
+  roundToExponent10(value: number): number {
+    // Get the power of 10 just greater or equal to value
+    const power = Math.ceil(Math.log10(value));
+    return Math.pow(10, power);
+  }
+
+  getFormatFromRound(roundE10: number): string {
+    if (roundE10 <= 1) return '0'; // no decimals
+    const decimalPlaces = Math.abs(Math.log10(roundE10)) + 1;
+    return '0.' + '0'.repeat(decimalPlaces);
+  }
+
+
 
   // getColorFromRedToGreen(value: number): string {
   //   // Clamp the value between 0 and 1

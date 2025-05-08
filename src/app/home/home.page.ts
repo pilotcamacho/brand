@@ -143,7 +143,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
 
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
     this.indicatorGroups = { subRegion: '', columns: [] }
   }
 

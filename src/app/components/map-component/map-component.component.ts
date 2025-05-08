@@ -121,7 +121,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
-    const [minV, maxV, format] = this.mapInput.min_and_max_values()
+    const [minV, maxV, format] = this.mapInput.min_max_format_values()
     // this.isRedGreen = this.mapInput.isRedGreen
     let decimals = 0
     if (format === "0.00%") {
@@ -181,7 +181,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var fillOpacity = 0.9; // Ensures solid color
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
-        var valor: [number | null, number | null, string] = [null, null, '']
+        var valor: [number | null, number | null, string, boolean] = [null, null, '', false]
         // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)

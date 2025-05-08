@@ -67,7 +67,6 @@ export class ScoreTableComponent implements OnInit, OnChanges {
     return hidden ? hidden.some(row => row.code === code) : false;
   }
   
-
   unhideRow(column: string, code: string) {
     this.hiddenRows[column] = this.hiddenRows[column].filter(row => row.code !== code);
   }

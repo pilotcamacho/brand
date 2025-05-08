@@ -45,7 +45,8 @@ export class DataService {
       title,
       dataNoMinus,
       paletteId,
-      selectedColumn.format
+      // selectedColumn.format
+      false
     );
 
     // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
