@@ -144,7 +144,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.updateInfo()
 
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
-    this.indicatorGroups = { subRegion: '', columns: [] }
+    this.indicatorGroups = {region: '', subRegion: '', columns: [] }
   }
 
   ngOnInit() {
@@ -259,7 +259,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
         this.mapInput = mi
       }).then(() => {
         this.dataMix.updateIndicatorGroupData().then(() => {
-          this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion)
+          this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
         })
       })
 
@@ -371,7 +371,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   onHoverOverMap(event: Region) {
     // console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
-      this.indicatorGroups = this.dataMix.getIndicatorGroups(event)
+      this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
     }
   }
 

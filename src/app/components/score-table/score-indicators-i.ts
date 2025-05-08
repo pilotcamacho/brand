@@ -1,4 +1,5 @@
 export interface Indicators {
+    region: string;
     subRegion: string;
     columns: {
         col_title: string;

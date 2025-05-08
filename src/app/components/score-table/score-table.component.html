@@ -5,9 +5,17 @@
   <ion-row>
     <ion-col size="12" class="table-title"
       style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-      {{indicatorGroups.subRegion}}
+  
+      {{indicatorGroups.subRegion}} 
+      (<em>{{indicatorGroups.region}}</em>)
+  
+      <a href="https://example.com" target="_blank" rel="noopener" class="subtle-link">
+        more info
+      </a>
+  
       <ion-icon [name]="isLocked ? 'lock-closed-outline' : 'lock-open-outline'" style="font-size: 20px;">
       </ion-icon>
+  
     </ion-col>
   </ion-row>
 
