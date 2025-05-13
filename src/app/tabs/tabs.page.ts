@@ -398,7 +398,10 @@ export class TabsPage implements AfterViewInit, OnInit {
 
     if (this.usuarioSrv.email.endsWith('juniperplatform.com') ||
       this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
-      this.usuarioSrv.email.endsWith('peopleart.co')) {
+      this.usuarioSrv.email.endsWith('peopleart.co') ||
+      this.usuarioSrv.email === 'rupowell@7dbh.com' ||
+      this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
+      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com') {
 
       this.selectedCountyFromChild = county;
       // this.countyDataSrv.countyInfo
