@@ -5,17 +5,17 @@
   <ion-row>
     <ion-col size="12" class="table-title"
       style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-  
-      {{indicatorGroups.subRegion}} 
+
+      {{indicatorGroups.subRegion}}
       (<em>{{indicatorGroups.region}}</em>)
-  
+
       <a href="https://example.com" target="_blank" rel="noopener" class="subtle-link">
         more info
       </a>
-  
+
       <ion-icon [name]="isLocked ? 'lock-closed-outline' : 'lock-open-outline'" style="font-size: 20px;">
       </ion-icon>
-  
+
     </ion-col>
   </ion-row>
 
@@ -45,26 +45,35 @@
 
               <ion-label
                 style="font-size: 12px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+
                 <div style="display: flex; align-items: center;">
                   <span>{{ row.title }}</span>
 
                   <span *ngIf="row.value !== null" [ngStyle]="{
-                        'background-color': getColor(row.pColor), 
-                        'color': row.value > 55 ? 'white' : 'black', 
-                        'padding': '4px', 
-                        'border-radius': '4px',
-                        'margin-left': '8px'
-                      }">
+          'background-color': getColor(row.pColor), 
+          'color': row.value > 55 ? 'white' : 'black', 
+          'padding': '4px', 
+          'border-radius': '4px',
+          'margin-left': '8px'
+        }">
                     {{ row.value | number: row.format }}
                   </span>
                 </div>
 
-                <!-- "X" Icon Button -->
-                <ion-button fill="clear" size="small" color="medium"
-                  (click)="hideRow(column.col_title ,{code: row.code, title: row.title}); $event.stopPropagation()">
-                  <ion-icon name="close-outline"></ion-icon>
-                </ion-button>
+                <div style="display: flex; align-items: center;">
+                  <!-- Help Icon Button -->
+                  <ion-button fill="clear" size="small" color="primary" (click)="presentPopover($event, row); $event.stopPropagation()">
+                    <ion-icon name="help-circle-outline"></ion-icon>
+                  </ion-button>
+
+                  <!-- "X" Icon Button -->
+                  <ion-button fill="clear" size="small" color="medium"
+                    (click)="hideRow(column.col_title ,{code: row.code, title: row.title}); $event.stopPropagation()">
+                    <ion-icon name="close-outline"></ion-icon>
+                  </ion-button>
+                </div>
               </ion-label>
+
 
             </ion-item>
           </ng-container>
