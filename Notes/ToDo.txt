@@ -1,6 +1,13 @@
+
+- new data from Google Sheet
+- references for medicaid (source)
+- include source for all other data
+- hide all medicaid column
+
+
 - Fix format for Score tables, so that they work when we get Proportions
 - Add link on each state to show state information sources
-- Check Payers and Networks filerring and data
+- Check Payers and Networks filtering and data
 - Indicate where the data is coming from: Census
 
 - Will be able to edit lists with value (hide, show)

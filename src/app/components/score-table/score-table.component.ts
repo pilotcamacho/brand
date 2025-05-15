@@ -4,6 +4,8 @@ import { IonGrid, IonRow, IonCol, IonList, IonListHeader, IonLabel, IonItem, Ion
 import { FormsModule } from '@angular/forms';  // Import this for ngModel
 import { UtilsService } from 'src/app/services/utils.service';
 import { Indicators } from './score-indicators-i';
+import { PopoverController } from '@ionic/angular';
+import { HelpPopoverComponent } from '../help-popover/help-popover.component';
 
 @Component({
   selector: 'app-score-table',
@@ -28,7 +30,8 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
 
   constructor(
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
+    private popoverCtrl: PopoverController
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -66,9 +69,23 @@ export class ScoreTableComponent implements OnInit, OnChanges {
     // console.log("ScoreTableComponent::isHidden::hidden|column|code: ", hidden, column, code);
     return hidden ? hidden.some(row => row.code === code) : false;
   }
-  
+
   unhideRow(column: string, code: string) {
     this.hiddenRows[column] = this.hiddenRows[column].filter(row => row.code !== code);
+  }
+
+  async presentPopover(ev: Event, row: any) {
+    console.log("ScoreTableComponent::presentPopover::row: " + row)
+    const popover = await this.popoverCtrl.create({
+      component: HelpPopoverComponent,
+      event: ev,
+      translucent: true,
+      componentProps: {
+        helpText: `This is help for ${row.title}.`,  // Customize this
+        helpLink: `/help/${row.code}`               // Or a full URL
+      }
+    });
+    await popover.present();
   }
 
 }
