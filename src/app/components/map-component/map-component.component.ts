@@ -184,7 +184,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var fillOpacity = 0.9; // Ensures solid color
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
-        var valor: [number | null, number | null, string, boolean] = [null, null, '', false]
+        var valor: [number | null, number | null, string, boolean, string] = [null, null, '', false, '']
         // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)

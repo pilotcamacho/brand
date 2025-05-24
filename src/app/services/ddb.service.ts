@@ -36,6 +36,13 @@ type QueryDataSelectionSet = SelectionSet<Schema['QueryData']['type'], typeof qu
 })
 export class DdbService {
 
+  rfs: Record<string, { ref: string }> = {
+    'USA|default': { ref: 'https://www.fernandocamacho.com' },
+    'CA|default': { ref: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
+    'CO|default': { ref: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' }
+  };
+
+
   constructor(
     private statesSrv: StatesService,
   ) {
@@ -112,6 +119,11 @@ export class DdbService {
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, bcba_bt, this.getRightMostDigit(code))
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
+    const reference = this.getRef(region.code, 'default');
+
+    // console.log(`Ddb::getMapInput::region.code: ${JSON.stringify(region.code)}`)
+    // console.log(`Ddb::getMapInput::reference: ${JSON.stringify(reference)}`)
+
     // Create the data array
     const data: DataPoint[] = []
 
@@ -169,7 +181,8 @@ export class DdbService {
                                                 (myRate > rd.d['q15']) ? 15 : (
                                                   (myRate > rd.d['q10']) ? 10 : (
                                                     (myRate > rd.d['q05']) ? 5 : 0)))))))))))))))))))
-            }
+            },
+            reference: reference
           })
         }
         ;
@@ -219,6 +232,11 @@ export class DdbService {
       code: 'USA',
       codeFP: '',
     };
+  }
+
+  getRef(regionCode: string, type: string): string {
+    const key = `${regionCode}|${type}`;
+    return this.rfs[key]?.ref ?? '';
   }
 
   getRightMostDigit(str: string | undefined): number {
