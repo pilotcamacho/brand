@@ -38,13 +38,14 @@ export class AuthenticationPage implements OnInit {
 
   async sendEmail() {
     console.log('AuthenticationPage:::sendEmail()');
+    this.navCtrl.navigateRoot('/home');
 
-    if (this.authState === 'SIGNED_OUT') {
-      return this.signUp();
-    }
-    if (this.authState === 'SIGNED_UP_CONFIRMED') {
-      return this.signIn();
-    }
+    // if (this.authState === 'SIGNED_OUT') {
+    //   return this.signUp();
+    // }
+    // if (this.authState === 'SIGNED_UP_CONFIRMED') {
+    //   return this.signIn();
+    // }
   }
 
   async confirm() {

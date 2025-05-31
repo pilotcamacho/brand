@@ -36,10 +36,10 @@ export class AppComponent implements OnInit {
     try {
       const user = await getCurrentUser();
       console.log('AppComponent::user: ', user);
-      this.navCtrl.navigateRoot('/home');
+      // this.navCtrl.navigateRoot('/home');
 
     } catch {
-      this.navCtrl.navigateRoot('/authentication'); // or login
+      // this.navCtrl.navigateRoot('/authentication'); // or login
     }
   }
 }

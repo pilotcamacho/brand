@@ -12,18 +12,11 @@ const routes: Routes = [
   {
     path: 'home',
     // canActivate: [authGuard],
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
-  // {
-  //   path: ':stateId',
-  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  // },
+
   // {
   //   path: 'tabs',
-  //   loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  // },
-  // {
-  //   path: ':stateId',
   //   loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   // },
   // {
@@ -32,13 +25,20 @@ const routes: Routes = [
   // },
   {
     path: 'authentication',
-    loadChildren: () => import('./auth/authentication/authentication.module').then( m => m.AuthenticationPageModule)
+    loadChildren: () => import('./auth/authentication/authentication.module').then(m => m.AuthenticationPageModule)
   },
+  // {
+  //   path: 'splash',
+  //   loadChildren: () => import('./splash/splash.module').then(m => m.SplashPageModule)
+  // },
+  // {
+  //   path: ':stateId',
+  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  // },
   {
-    path: 'splash',
-    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+    path: ':stateId',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
-
 ];
 
 @NgModule({

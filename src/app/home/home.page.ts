@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { signOut } from 'aws-amplify/auth'
-
 import { UsuarioService } from '../services/usuario.service';
 // import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { NavController, ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
@@ -14,6 +12,8 @@ import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 import { Indicators } from '../components/score-table/score-indicators-i';
 import { DataMixService } from '../services/data-mix.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-home',
@@ -137,7 +137,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     public usuarioSrv: UsuarioService,
     public dataMix: DataMixService,
     public utilsService: UtilsService,
-    private navCtrl: NavController
+    public authSrv: AuthService,
+    private navCtrl: NavController,
+    private router: Router,
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
@@ -145,7 +147,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.updateInfo()
 
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
-    this.indicatorGroups = {region: '', subRegion: '', columns: [] }
+    this.indicatorGroups = { region: '', subRegion: '', columns: [] }
   }
 
   ngOnInit() {
@@ -311,10 +313,11 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   signOut() {
     console.log('about to signOut ....')
-    signOut().then(() => {
-      console.log('signed out!')
-      this.navCtrl.navigateRoot('/authentication')
-  });
+    console.log('this.router.url: ', this.router.url)
+    this.navCtrl.navigateRoot('/authentication')
+    // this.authSrv.signOut().then(() => {
+    //   console.log('signed out!')
+    // });
   }
 
   async showErrorMessage(message: string) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  signUp, confirmSignUp, signIn, confirmSignIn,
+  signUp, confirmSignUp, signIn, confirmSignIn, signOut
 } from 'aws-amplify/auth';
 
 @Injectable({
@@ -8,7 +8,7 @@ import {
 })
 export class AuthService {
 
-async signUpWithEmail(email: string) {
+  async signUpWithEmail(email: string) {
     console.log('AuthService::signUpWithEmail()::email: ', email)
 
     try {
@@ -82,4 +82,10 @@ async signUpWithEmail(email: string) {
 
     return nextStep.signInStep === 'DONE';
   }
+
+  async signOut() {
+    console.log('AuthService::signOut()')
+    return signOut()
+  }
+
 }
