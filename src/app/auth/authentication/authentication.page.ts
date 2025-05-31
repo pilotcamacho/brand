@@ -5,6 +5,7 @@ import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } 
 // import {  } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.page.html',
@@ -21,7 +22,8 @@ export class AuthenticationPage implements OnInit {
     private auth: AuthService,
     private router: Router,
     private fb: FormBuilder,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private usuarioSrv: UsuarioService
   ) {
     this.emailForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -92,6 +94,7 @@ export class AuthenticationPage implements OnInit {
 
       } else if (result.status === 'DONE') {
         this.authState = 'SIGNED_IN_CONFIRMED';
+        this.usuarioSrv.updateUser('authenticated');
         this.navCtrl.navigateRoot('/home');
 
       } else {
@@ -109,6 +112,7 @@ export class AuthenticationPage implements OnInit {
 
       if (success) {
         console.log('AuthenticationPage:::confirmSignIn()::success: ', success);
+        this.usuarioSrv.updateUser('authenticated');
         this.navCtrl.navigateRoot('/home');
       } else {
         console.warn('Confirmation failed');

@@ -25,10 +25,10 @@ export class AppComponent implements OnInit {
   ) {
     console.log('AppComponent::constructor()');
     Amplify.configure(outputs);
-    this.authenticator.subscribe((state) => {
-      console.log('AppComponent::constructor.subscribe::state: ', state);
-      this.userSrv.updateUser(state.authStatus);
-    })
+    // this.authenticator.subscribe((state) => {
+    //   console.log('AppComponent::constructor.subscribe::state: ', state);
+    //   this.userSrv.updateUser(state.authStatus);
+    // })
   }
 
   async ngOnInit() {
@@ -36,9 +36,11 @@ export class AppComponent implements OnInit {
     try {
       const user = await getCurrentUser();
       console.log('AppComponent::user: ', user);
+      this.userSrv.updateUser('authenticated');
       this.navCtrl.navigateRoot('/home');
 
     } catch {
+      this.userSrv.updateUser('notAuthenticated');
       this.navCtrl.navigateRoot('/authentication'); // or login
     }
   }

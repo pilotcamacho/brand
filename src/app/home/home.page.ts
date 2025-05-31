@@ -258,7 +258,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // console.log(this.selPayer)
     // console.log(this.selTaxonomy)
 
-    // THIS CODE UPDATES THE MAP DATA
+    ////////// THIS CODE UPDATES THE MAP DATA ////////////////////////////////////////////////////////////////////////
     this.dataMix.getMapInputRatio(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
       this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
