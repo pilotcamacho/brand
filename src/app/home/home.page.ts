@@ -5,7 +5,7 @@ import { signOut } from 'aws-amplify/auth'
 import { UsuarioService } from '../services/usuario.service';
 // import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
@@ -136,7 +136,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
     public dataMix: DataMixService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
+    private navCtrl: NavController
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
@@ -255,16 +256,16 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // console.log(this.selPayer)
     // console.log(this.selTaxonomy)
 
-    this.dataMix.getMapInputRatio(
-      this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
-      this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
-        this.mapInput = mi
-      }).then(() => {
-        this.dataMix.updateIndicatorGroupData().then(() => {
-          this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
-        })
-      })
+    // this.dataMix.getMapInputRatio(
+    //   this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
+    //   this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
+    //   this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
+    //     this.mapInput = mi
+    //   }).then(() => {
+    //     this.dataMix.updateIndicatorGroupData().then(() => {
+    //       this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
+    //     })
+    //   })
 
     this.updateColumnsInfo()
   }
@@ -310,7 +311,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   signOut() {
     console.log('about to signOut ....')
-    signOut().then(() => console.log('signed out!'));
+    signOut().then(() => {
+      console.log('signed out!')
+      this.navCtrl.navigateRoot('/authentication')
+  });
   }
 
   async showErrorMessage(message: string) {
