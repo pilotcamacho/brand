@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Sign In -->
+  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()"
+    *ngIf="authState === 'SIGNED_OUT' || authState === 'SIGNED_UP_CONFIRMED'">
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="emailForm.invalid">Login</ion-button>
+  </form>
+
+  <!-- Confirm OTP -->
+  <form [formGroup]="otpForm" (ngSubmit)="confirm()"
+    *ngIf="authState === 'SIGNED_UP_NOT_CONFIRMED' || authState === 'SIGNED_IN_NOT_CONFIRMED'">
+    <ion-item>
+      <ion-label position="floating">A verification code was sent to your email:
+        {{this.emailForm.value.email}}.</ion-label>
+      <ion-input type="text" formControlName="otp" maxlength="8"></ion-input>
+    </ion-item>
+    <ion-button expand="full" type="submit" [disabled]="otpForm.invalid">Confirmation code from email</ion-button>
+  </form>
+
+</ion-content>

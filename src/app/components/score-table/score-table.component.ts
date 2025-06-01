@@ -81,8 +81,9 @@ export class ScoreTableComponent implements OnInit, OnChanges {
       event: ev,
       translucent: true,
       componentProps: {
-        helpText: `This is help for ${row.title}.`,  // Customize this
-        helpLink: `/help/${row.code}`               // Or a full URL
+        // helpText: `Source for ${row.title}.`,  // Customize this
+        helpText: `Source for ${row.help}.`,  // Customize this
+        helpLink: `${row.help}`
       }
     });
     await popover.present();

@@ -1,12 +1,10 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
-import { signOut } from 'aws-amplify/auth'
-
 import { UsuarioService } from '../services/usuario.service';
 // import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
-import { ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { NavController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
@@ -14,6 +12,8 @@ import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 import { Indicators } from '../components/score-table/score-indicators-i';
 import { DataMixService } from '../services/data-mix.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-home',
@@ -136,7 +136,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
     public dataMix: DataMixService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
+    public authSrv: AuthService,
+    private navCtrl: NavController,
+    private router: Router,
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
@@ -144,7 +147,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.updateInfo()
 
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
-    this.indicatorGroups = {region: '', subRegion: '', columns: [] }
+    this.indicatorGroups = { region: '', subRegion: '', columns: [] }
   }
 
   ngOnInit() {
@@ -255,6 +258,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // console.log(this.selPayer)
     // console.log(this.selTaxonomy)
 
+    ////////// THIS CODE UPDATES THE MAP DATA ////////////////////////////////////////////////////////////////////////
     this.dataMix.getMapInputRatio(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
       this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
@@ -310,7 +314,12 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   signOut() {
     console.log('about to signOut ....')
-    signOut().then(() => console.log('signed out!'));
+    console.log('this.router.url: ', this.router.url)
+
+    this.authSrv.signOut().then(() => {
+      console.log('signed out!')
+      this.navCtrl.navigateRoot('/authentication')
+    });
   }
 
   async showErrorMessage(message: string) {

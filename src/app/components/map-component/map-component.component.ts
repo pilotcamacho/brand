@@ -106,14 +106,22 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.inUSAView = this.mapInput.region.code === 'USA';
 
-    // console.log('MapComponent::initMap::A')
+    // console.log('MapComponent::initMap::A::this.inUSAView: ', this.inUSAView)
+    // console.log('MapComponent::initMap::A::this.mapInput: ', this.mapInput)
+    console.log('MapComponent::initMap::A::this.mapInput.region: ', this.mapInput.region)
 
-    const coorJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].coordinates
-    const zoomJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].zoom
-    // console.log('MapComponent::initMap::B')
+    const DEFAULT_SETTINGS = { coordinates: [37.0902, -95.7129], zoom: 4 };
+
+    const regionCode = this.mapInput.region.code;
+    const settings = GEOJSON_MAP_SETTINGS[regionCode] ?? DEFAULT_SETTINGS;
+
+    const coorJson = settings.coordinates;
+    const zoomJson = settings.zoom;
+
+    console.log('MapComponent::initMap::B')
 
     this.map = L.map('map').setView(coorJson, zoomJson);
-    // console.log('MapComponent::initMap::C')
+    console.log('MapComponent::initMap::C')
 
     // NO INTERNET
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -184,7 +192,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var fillOpacity = 0.9; // Ensures solid color
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
-        var valor: [number | null, number | null, string, boolean] = [null, null, '', false]
+        var valor: [number | null, number | null, string, boolean, string] = [null, null, '', false, '']
         // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
@@ -323,12 +331,12 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         // layer.bindTooltip(feature.properties.name + ": " + formatNumber(cds.val_norm_from_string(feature.properties.name, c)[1], '#.00'));
         const values = mapInput.valuesFromSubRegionName(feature.properties.NAME)
         // layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
-        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : 
+        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' :
           this.decimalPipe.transform(values[1], values[2])
-      ));
+        ));
 
 
-        
+
         // layer.on('click', function (e: any) {
         //   console.log('County clicked: ' + feature.properties.name);
         //   // Optionally, change style on click or do something else

@@ -21,7 +21,8 @@ export interface DataPoint {
         avg: number,
         change: number | null,
         myRate: number | null
-    }
+    },
+    reference: string
 }
 
 export class MapInput {
@@ -65,20 +66,20 @@ export class MapInput {
      * @param subRegion - The name of the sub-region
      * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region
      */
-    valuesFromSubRegionName(subRegion: string): [number | null, number | null, string, boolean] {
+    valuesFromSubRegionName(subRegion: string): [number | null, number | null, string, boolean, string] {
         if (!this.data || this.data.length === 0) {
-            return [null, null, 'KF2', false];
+            return [null, null, 'KF2', false, ''];
         }
 
         const subRegionData = this.data.filter(dp => (dp.subRegion === subRegion));
 
         if (subRegionData.length === 0) {
-            return [null, null, 'KF3', false];
+            return [null, null, 'KF3', false, ''];
         }
 
         const [min, max, format, isPercentage]: [number | null, number | null, string, boolean] = this.min_max_format_values();
 
-        if (min === null || max === null) return [null, null, format, isPercentage];
-        return [(subRegionData[0].value - min) / (max - min), subRegionData[0].value, format, isPercentage];
+        if (min === null || max === null) return [null, null, format, isPercentage, subRegionData[0].reference];
+        return [(subRegionData[0].value - min) / (max - min), subRegionData[0].value, format, isPercentage, subRegionData[0].reference];
     }
 }

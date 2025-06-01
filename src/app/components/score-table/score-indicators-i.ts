@@ -9,6 +9,7 @@ export interface Indicators {
             value: number;
             pColor: number;
             format: string;
+            help: string;
         }[];
     }[];
 }

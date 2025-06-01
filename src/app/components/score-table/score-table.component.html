@@ -62,7 +62,8 @@
 
                 <div style="display: flex; align-items: center;">
                   <!-- Help Icon Button -->
-                  <ion-button fill="clear" size="small" color="primary" (click)="presentPopover($event, row); $event.stopPropagation()">
+                  <ion-button fill="clear" size="small" color="primary"
+                    (click)="presentPopover($event, row); $event.stopPropagation()" *ngIf="(row.help.length) > 10">
                     <ion-icon name="help-circle-outline"></ion-icon>
                   </ion-button>
 
