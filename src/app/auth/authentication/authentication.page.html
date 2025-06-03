@@ -1,30 +1,38 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Welcome</ion-title>
+  <ion-toolbar color="light">
+    <ion-title class="ion-text-center">Welcome to Camber</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding camber-background">
+  <div class="login-container">
+    <img src="assets/camber_logo.svg" alt="Camber Logo" class="logo" />
 
-  <!-- Sign In -->
-  <form [formGroup]="emailForm" (ngSubmit)="sendEmail()"
-    *ngIf="authState === 'SIGNED_OUT' || authState === 'SIGNED_UP_CONFIRMED'">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit" [disabled]="emailForm.invalid">Login</ion-button>
-  </form>
+    <!-- Sign In -->
+    <form [formGroup]="emailForm" (ngSubmit)="sendEmail()"
+      *ngIf="authState === 'SIGNED_OUT' || authState === 'SIGNED_UP_CONFIRMED'" class="auth-card">
+      <ion-item lines="none">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit" [disabled]="emailForm.invalid" class="camber-button">
+        Login
+      </ion-button>
+    </form>
 
-  <!-- Confirm OTP -->
-  <form [formGroup]="otpForm" (ngSubmit)="confirm()"
-    *ngIf="authState === 'SIGNED_UP_NOT_CONFIRMED' || authState === 'SIGNED_IN_NOT_CONFIRMED'">
-    <ion-item>
-      <ion-label position="floating">A verification code was sent to your email:
-        {{this.emailForm.value.email}}.</ion-label>
-      <ion-input type="text" formControlName="otp" maxlength="8"></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit" [disabled]="otpForm.invalid">Confirmation code from email</ion-button>
-  </form>
-
+    <!-- Confirm OTP -->
+    <form [formGroup]="otpForm" (ngSubmit)="confirm()"
+      *ngIf="authState === 'SIGNED_UP_NOT_CONFIRMED' || authState === 'SIGNED_IN_NOT_CONFIRMED'" class="auth-card">
+      <ion-item lines="none">
+        <ion-label position="stacked">
+          A verification code was sent to your email:<br />
+          <strong>{{ this.emailForm.value.email }}</strong>
+        </ion-label>
+        <ion-input type="text" formControlName="otp" maxlength="8"></ion-input>
+      </ion-item>
+      <ion-button expand="block" type="submit" [disabled]="otpForm.invalid" class="camber-button">
+        Enter Confirmation Code
+      </ion-button>
+    </form>
+  </div>
 </ion-content>
