@@ -37,7 +37,7 @@ type QueryDataSelectionSet = SelectionSet<Schema['QueryData']['type'], typeof qu
 export class DdbService {
 
   rfs: Record<string, { ref: string }> = {
-    'USA|default': { ref: 'https://www.fernandocamacho.com' },
+    'USA|default': { ref: '' },
     'CA|default': { ref: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
     'CO|default': { ref: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' }
   };
