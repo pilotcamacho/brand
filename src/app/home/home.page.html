@@ -7,17 +7,20 @@
       <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
         <ion-header>
           <ion-toolbar>
+
             <!-- Title on the left -->
             <ion-title>
-              Board Certified Behavior Analyst - Data: {{ selectedCountyFromChild }} - {{usuarioSrv.email}}
+              Board Certified Behavior Analyst - Data: {{ selectedCountyFromChild }}
             </ion-title>
 
-            <!-- Sign Out button on the right -->
-            <ion-buttons slot="end">
+            <!-- Email + Sign Out on the right -->
+            <ion-buttons slot="end" class="toolbar-buttons">
+              <ion-text class="email-text">{{ usuarioSrv.email }}</ion-text>
               <ion-button (click)="signOut()" fill="clear" shape="round">
+                <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
                 Sign Out
               </ion-button>
-              <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
+
             </ion-buttons>
 
           </ion-toolbar>
@@ -26,246 +29,6 @@
     </ion-row>
 
     <ion-row *ngIf="countiesVisible">
-
-      <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
-
-
-        <app-search-box [ngStyle]="{ 'z-index': 1100 }" [items]="payers" placeholder="Payers (All)"
-          (selectedItemChange)="onPayerChange($event)"></app-search-box>
-
-        <!-- *ngIf="this.selPayer !== 'ZZ'" -->
-        <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks (All)"
-          [disabled]="disableNetwork" (selectedItemChange)="onNetworkChange($event)"></app-search-box>
-
-        <!-- Searchbar Payer -->
-        <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
-          placeholder="Payer">
-        </ion-searchbar> -->
-
-        <!-- List -->
-        <!-- <div *ngIf="showList" class="scrollable-list-floating">
-
-          <ion-list>
-            <ion-item *ngFor="let item of filteredItems" (click)="selectItem(item)">
-              {{ item.name }}
-            </ion-item>
-          </ion-list>
-        </div> -->
-
-        <ion-list class="scrollable-list">
-          <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
-          <!-- <ion-item>
-            <ion-label>Payer</ion-label>
-            <ion-select [(ngModel)]="selPayer" placeholder="Select a payer" (ionChange)="onPayerChange($event)">
-              <ion-select-option *ngFor="let payer of payers" [value]="payer.id">
-                {{ payer.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item> -->
-
-          <!-- <ion-item *ngIf="this.selPayer !== 'ZZ'">
-            <ion-label>Network</ion-label>
-            <ion-select [(ngModel)]="selNetwork" placeholder="Select a network" (ionChange)="onPayerChange($event)">
-              <ion-select-option *ngFor="let network of networks" [value]="network.id">
-                {{ network.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item> -->
-
-          <!-- <ion-item *ngIf="isListOpen.ratesList && this.selectedColumn?.indicatorCode === 'rate'"> -->
-          <ion-item>
-            <ion-label>Code</ion-label>
-            <ion-select [(ngModel)]="selCode" placeholder="Select a code" (ionChange)="onCodeChange($event)">
-              <ion-select-option *ngFor="let code of codes" [value]="code.id">
-                {{ code.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>Taxonomy</ion-label>
-            <ion-select [(ngModel)]="selTaxonomy" placeholder="Select a taxonomy code"
-              (ionChange)="onTaxonomyChange($event)">
-              <ion-select-option *ngFor="let taxonomy of taxonomies" [value]="taxonomy.id">
-                {{ taxonomy.name }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="floating">My rate ($)</ion-label>
-            <ion-input [(ngModel)]="myRate" type="number" step="0.01" min="0" (ionChange)="onRateChange($event)">
-            </ion-input>
-          </ion-item>
-
-          <ion-item lines="full">
-            <ion-label>... over Population</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked"
-              (ionChange)="onCheckboxChange($event)"></ion-checkbox>
-          </ion-item>
-
-          <ion-item lines="full">
-            <ion-label>... over Cnt Entities</ion-label>
-            <ion-checkbox slot="end" [(ngModel)]="isCntEntitiesChecked"
-              (ionChange)="onCheckboxChangeCntEntities($event)"></ion-checkbox>
-          </ion-item>
-
-
-
-        </ion-list>
-
-
-
-        <!-- Commercial -->
-        <!-- <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('commercialList')">
-            <ion-label>Commercial</ion-label>
-            <ion-icon [name]="isListOpen.commercialList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsCommercial">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list> -->
-
-        <!-- Rates List -->
-        <!-- <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('ratesList')">
-            <ion-label>Rates</ion-label>
-            <ion-icon [name]="isListOpen.ratesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.ratesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsRates">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list> -->
-
-        <!-- Medicaid -->
-        <!-- <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('medicaidList')">
-            <ion-label>Medicaid</ion-label>
-            <ion-icon [name]="isListOpen.medicaidList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsMedicaid">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list> -->
-
-
-        <!-- General -->
-        <!-- <ion-list class="scrollable-list">
-          <ion-list-header (click)="toggleList('generalList')">
-            <ion-label>General</ion-label>
-            <ion-icon [name]="isListOpen.generalList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
-          </ion-list-header>
-
-          <ion-radio-group *ngIf="isListOpen.generalList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
-            <ion-item *ngFor="let column of columnsGeneral">
-              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
-              <ion-radio slot="end" [value]="column"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list> -->
-
-        <!-- Reference Section -->
-        <ion-card class="reference-card">
-          <ion-card-header>
-            <ion-card-title>Useful Resources</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-item lines="none">
-              <ion-thumbnail slot="start">
-                <img src="assets/camber-logo.png" alt="Camber Health">
-              </ion-thumbnail>
-              <ion-label>
-                <h3>Camber Health</h3>
-                <p>Payer Rate Data</p>
-              </ion-label>
-              <ion-button fill="outline" size="small" color="primary" slot="end"
-                (click)="openLink('https://www.camber.health/knowledge/payer-rate-data')">
-                Visit
-              </ion-button>
-            </ion-item>
-
-            <ion-item lines="none">
-              <ion-thumbnail slot="start">
-                <img src="assets/BACB_Logo_200.png" alt="BACB">
-              </ion-thumbnail>
-              <ion-label>
-                <h3>BACB</h3>
-                <p>Certificant Demographic Data</p>
-              </ion-label>
-              <ion-button fill="outline" size="small" color="primary" slot="end"
-                (click)="openLink('https://www.bacb.com/bacb-certificant-data/#demographic_data')">
-                Visit
-              </ion-button>
-            </ion-item>
-          </ion-card-content>
-        </ion-card>
-
-        <!-- Color Palette Selector -->
-        <ion-card class="color-palette-card">
-          <ion-card-header>
-            <ion-card-title>Choose Color Palette</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-segment [(ngModel)]="selectedPalette" (ionChange)="applyColorPalette()">
-              <ion-segment-button *ngFor="let palette of palettes" [value]="palette.paletteId">
-                <div class="palette-box">
-                  <div class="color-box" [style.background]="palette.color1"></div>
-                  <div class="color-box" [style.background]="palette.color2"></div>
-                  <div class="color-box" [style.background]="palette.color3"></div>
-                </div>
-              </ion-segment-button>
-            </ion-segment>
-          </ion-card-content>
-        </ion-card>
-
-        <ion-card>
-          <ion-card-content>
-            <!-- Help Link -->
-            <ion-item lines="none">
-              <ion-thumbnail slot="start">
-                <ion-icon name="help-circle-outline" size="large"></ion-icon>
-              </ion-thumbnail>
-              <ion-label>
-                <h3>Help</h3>
-                <p>Visit the help center for documentation and FAQs</p>
-              </ion-label>
-              <ion-button fill="outline" size="small" color="primary" slot="end"
-                (click)="openLink('https://yourdomain.com/help')">
-                Visit
-              </ion-button>
-            </ion-item>
-
-            <!-- Chat Link -->
-            <ion-item lines="none">
-              <ion-thumbnail slot="start">
-                <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
-              </ion-thumbnail>
-              <ion-label>
-                <h3>Chat</h3>
-                <p>Talk with support or our assistant</p>
-              </ion-label>
-              <ion-button fill="outline" size="small" color="primary" slot="end"
-                (click)="openLink('https://yourdomain.com/chat')">
-                Chat
-              </ion-button>
-            </ion-item>
-          </ion-card-content>
-        </ion-card>
-
-      </ion-col>
 
       <ion-col size-xs="8" size-sm="8" size-md="8" size-lg="8">
 
@@ -285,8 +48,8 @@
 
         <ion-row>
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
-            <app-score-table [selectedPalette]="selectedPalette" [isLocked]="isLocked" [indicatorGroups]="indicatorGroups"
-              [selectedRow]="selectedColumn.indicatorCode"
+            <app-score-table [selectedPalette]="selectedPalette" [isLocked]="isLocked"
+              [indicatorGroups]="indicatorGroups" [selectedRow]="selectedColumn.indicatorCode"
               (selectedCountyChange)="onIndicatorChange($event)"></app-score-table>
           </ion-col>
         </ion-row>
@@ -545,6 +308,244 @@
 
 
       </ion-col>
+
+
+      <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
+
+
+        <!-- Searchbar Payer -->
+        <!-- <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterList()" (ionFocus)="onFocus()" (ionBlur)="onBlur()"
+          placeholder="Payer">
+        </ion-searchbar> -->
+
+        <!-- List -->
+        <!-- <div *ngIf="showList" class="scrollable-list-floating">
+
+          <ion-list>
+            <ion-item *ngFor="let item of filteredItems" (click)="selectItem(item)">
+              {{ item.name }}
+            </ion-item>
+          </ion-list>
+        </div> -->
+
+        <ion-list class="scrollable-list">
+
+          <!-- Filters Section -->
+          <ion-list-header>
+            <ion-label>Filters</ion-label>
+          </ion-list-header>
+
+
+          <app-search-box [ngStyle]="{ 'z-index': 1100 }" [items]="payers" placeholder="Payers (All)"
+            (selectedItemChange)="onPayerChange($event)"></app-search-box>
+
+          <!-- *ngIf="this.selPayer !== 'ZZ'" -->
+          <app-search-box [ngStyle]="{ 'z-index': 100 }" [items]="networks" placeholder="Networks (All)"
+            [disabled]="disableNetwork" (selectedItemChange)="onNetworkChange($event)"></app-search-box>
+
+
+          <ion-item>
+            <ion-label>Code</ion-label>
+            <ion-select [(ngModel)]="selCode" placeholder="Select a code" (ionChange)="onCodeChange($event)">
+              <ion-select-option *ngFor="let code of codes" [value]="code.id">
+                {{ code.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Taxonomy</ion-label>
+            <ion-select [(ngModel)]="selTaxonomy" placeholder="Select a taxonomy code"
+              (ionChange)="onTaxonomyChange($event)">
+              <ion-select-option *ngFor="let taxonomy of taxonomies" [value]="taxonomy.id">
+                {{ taxonomy.name }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- My rate Section -->
+          <ion-list-header>
+            <ion-label>My rate</ion-label>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label position="floating">My rate ($)</ion-label>
+            <ion-input [(ngModel)]="myRate" type="number" step="0.01" min="0" (ionChange)="onRateChange($event)">
+            </ion-input>
+          </ion-item>
+
+          <!-- Ratios Section -->
+          <ion-list-header>
+            <ion-label>Ratios</ion-label>
+          </ion-list-header>
+
+          <ion-item lines="full">
+            <ion-label>... over Population</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="isPopulationChecked"
+              (ionChange)="onCheckboxChange($event)"></ion-checkbox>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label>... over Cnt Entities</ion-label>
+            <ion-checkbox slot="end" [(ngModel)]="isCntEntitiesChecked"
+              (ionChange)="onCheckboxChangeCntEntities($event)"></ion-checkbox>
+          </ion-item>
+
+        </ion-list>
+
+
+
+        <!-- Commercial -->
+        <!-- <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('commercialList')">
+            <ion-label>Commercial</ion-label>
+            <ion-icon [name]="isListOpen.commercialList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.commercialList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsCommercial">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list> -->
+
+        <!-- Rates List -->
+        <!-- <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('ratesList')">
+            <ion-label>Rates</ion-label>
+            <ion-icon [name]="isListOpen.ratesList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.ratesList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsRates">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list> -->
+
+        <!-- Medicaid -->
+        <!-- <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('medicaidList')">
+            <ion-label>Medicaid</ion-label>
+            <ion-icon [name]="isListOpen.medicaidList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.medicaidList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsMedicaid">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list> -->
+
+
+        <!-- General -->
+        <!-- <ion-list class="scrollable-list">
+          <ion-list-header (click)="toggleList('generalList')">
+            <ion-label>General</ion-label>
+            <ion-icon [name]="isListOpen.generalList ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+          </ion-list-header>
+
+          <ion-radio-group *ngIf="isListOpen.generalList" [(ngModel)]="selectedColumn" (ionChange)="onRadioChange()">
+            <ion-item *ngFor="let column of columnsGeneral">
+              <ion-label style="font-size: 12px;">{{ column.indicatorName }}</ion-label>
+              <ion-radio slot="end" [value]="column"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list> -->
+
+        <!-- Reference Section -->
+        <ion-card class="reference-card">
+          <ion-card-header>
+            <ion-card-title>Useful Resources</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img src="assets/camber-logo.png" alt="Camber Health">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Camber Health</h3>
+                <p>Payer Rate Data</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://www.camber.health/knowledge/payer-rate-data')">
+                Visit
+              </ion-button>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img src="assets/BACB_Logo_200.png" alt="BACB">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>BACB</h3>
+                <p>Certificant Demographic Data</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://www.bacb.com/bacb-certificant-data/#demographic_data')">
+                Visit
+              </ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Color Palette Selector -->
+        <ion-card class="color-palette-card">
+          <ion-card-header>
+            <ion-card-title>Choose Color Palette</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-segment [(ngModel)]="selectedPalette" (ionChange)="applyColorPalette()">
+              <ion-segment-button *ngFor="let palette of palettes" [value]="palette.paletteId">
+                <div class="palette-box">
+                  <div class="color-box" [style.background]="palette.color1"></div>
+                  <div class="color-box" [style.background]="palette.color2"></div>
+                  <div class="color-box" [style.background]="palette.color3"></div>
+                </div>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-content>
+            <!-- Help Link -->
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <ion-icon name="help-circle-outline" size="large"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Help</h3>
+                <p>Visit the help center for documentation and FAQs</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://yourdomain.com/help')">
+                Visit
+              </ion-button>
+            </ion-item>
+
+            <!-- Chat Link -->
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <ion-icon name="chatbubbles-outline" size="large"></ion-icon>
+              </ion-thumbnail>
+              <ion-label>
+                <h3>Chat</h3>
+                <p>Talk with support or our assistant</p>
+              </ion-label>
+              <ion-button fill="outline" size="small" color="primary" slot="end"
+                (click)="openLink('https://yourdomain.com/chat')">
+                Chat
+              </ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+
 
     </ion-row>
 

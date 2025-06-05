@@ -12,14 +12,20 @@ app-bar-chart {
 ion-list-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Ensures icons or labels align properly */
-  padding: 10px; /* Adds spacing inside the header */
-  background-color: #f8f9fa; /* Light background color */
-  border-radius: 5px; /* Rounded corners */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  cursor: pointer; /* Shows a pointer to indicate it's clickable */
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  justify-content: flex-start; /* Align title text to the left */
+  padding: 8px 12px;
+  background-color: #f4f4f4; /* Slightly more neutral background */
+  border-radius: 4px;
+  box-shadow: none; /* Remove shadow if it's not needed for static headers */
+  cursor: default; /* No pointer if not clickable */
+  transition: none; /* No hover needed for static sections */
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ion-color-medium);
+  margin-top: 16px;
 }
+
+
 
 ion-list-header:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow on hover */
