@@ -65,19 +65,34 @@ ion-list-header {
 
   
 .taxonomy-table {
-  font-size: 0.75rem; /* Smaller text */
-  width: auto; /* Shrink to content if needed */
-  max-width: 100%;
+  width: 100%;
+  table-layout: fixed; /* Forces equal column widths */
+  font-size: 0.75rem;
+  border-collapse: collapse;
 }
 
 .taxonomy-table th,
 .taxonomy-table td {
-  padding: 4px 6px; /* Tighter spacing */
+  padding: 4px 6px;
+  text-align: center;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.table-wrapper {
-  margin: 6px 0; /* Less vertical spacing */
-  overflow-x: auto;
+/* First column ("Code") wider */
+.taxonomy-table th:first-child,
+.taxonomy-table td:first-child {
+  width: 90px;
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+/* Remaining columns equal width */
+.taxonomy-table th:not(:first-child),
+.taxonomy-table td:not(:first-child) {
+  width: calc((100% - 90px) / 6); /* 6 remaining columns */
 }
 
 .taxonomy-table-title {
