@@ -62,3 +62,48 @@ ion-list-header {
     opacity: 1;
     cursor: pointer;
   }
+
+  
+.taxonomy-table {
+  width: 100%;
+  table-layout: fixed; /* Forces equal column widths */
+  font-size: 0.75rem;
+  border-collapse: collapse;
+}
+
+.taxonomy-table th,
+.taxonomy-table td {
+  padding: 4px 6px;
+  text-align: center;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* First column ("Code") wider */
+.taxonomy-table th:first-child,
+.taxonomy-table td:first-child {
+  width: 90px;
+  font-weight: bold;
+  background-color: #f9f9f9;
+}
+
+/* Remaining columns equal width */
+.taxonomy-table th:not(:first-child),
+.taxonomy-table td:not(:first-child) {
+  width: calc((100% - 90px) / 6); /* 6 remaining columns */
+}
+
+.taxonomy-table-title {
+  font-size: 0.85rem; /* Smaller title */
+  margin: 4px 0 8px;
+  color: var(--ion-color-medium);
+  text-align: center;
+}
+
+// .taxonomy-table {
+//   border: 1px solid #ccc;
+//   border-radius: 4px;
+//   box-shadow: none; /* Cleaner, flatter look */
+// }
