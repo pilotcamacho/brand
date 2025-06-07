@@ -10,6 +10,7 @@ import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { SearchBoxComponent } from "../components/search-box/search-box.component";
+import { ScoreTableComponent } from '../components/score-table/score-table.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { SearchBoxComponent } from "../components/search-box/search-box.componen
     HomePageRoutingModule,
     MapComponentComponent,
     BoxPlotComponent,
+    ScoreTableComponent,
     NgxDatatableModule,
     SearchBoxComponent
 ],

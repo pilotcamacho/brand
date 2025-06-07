@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { authGuard } from './auth/auth.guard';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
@@ -10,23 +11,33 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    canActivate: [authGuard],
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
+
+  // {
+  //   path: 'tabs',
+  //   loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+  // },
+  // {
+  //   path: 'test',
+  //   loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
+  // },
+  {
+    path: 'authentication',
+    loadChildren: () => import('./auth/authentication/authentication.module').then(m => m.AuthenticationPageModule)
+  },
+  // {
+  //   path: 'splash',
+  //   loadChildren: () => import('./splash/splash.module').then(m => m.SplashPageModule)
+  // },
+  // {
+  //   path: ':stateId',
+  //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  // },
   {
     path: ':stateId',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  },
-  {
-    path: ':stateId',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
-  },
-  {
-    path: 'test',
-    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
 ];
 

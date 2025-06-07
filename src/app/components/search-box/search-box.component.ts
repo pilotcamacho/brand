@@ -34,11 +34,11 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   /** Detect when `items` change and update `filteredItems` */
   ngOnChanges(changes: SimpleChanges) {
     if (changes['items']) {
-      console.log('SearchBoxComponent::ngOnChanges::this.items: ', this.items);
+      // console.log('SearchBoxComponent::ngOnChanges::this.items: ', this.items);
       this.filteredItems = [...this.items]; // Update filtered list when input items change
     }
     if (changes['disabled']) {
-      console.log('SearchBoxComponent::ngOnChanges::this.disabled: ', this.disabled);
+      // console.log('SearchBoxComponent::ngOnChanges::this.disabled: ', this.disabled);
       this.filteredItems = [...this.items]; // Update filtered list when input items change
       this.valueChangedOrCleared({id: '', name: ''})
     }

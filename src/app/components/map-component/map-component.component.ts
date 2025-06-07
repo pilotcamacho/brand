@@ -6,14 +6,16 @@ import * as L from 'leaflet';
 import { GEOJSON_URLS, GEOJSON_MAP_SETTINGS } from './geojson-urls';
 import { StatesService } from 'src/app/services/states/states.service';
 import { UtilsService } from 'src/app/services/utils.service';
-import { MapInput } from './map-input';
+import { MapInput, Region, RegionType } from './map-input';
 import { GEODATA_COUNTIES } from './geodata-counties';
 import { GEODATA_STATES } from './geodata-states';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-map-component',
   templateUrl: './map-component.component.html',
   styleUrls: ['./map-component.component.scss'],
+  providers: [DecimalPipe],
   standalone: true,
 })
 export class MapComponentComponent implements AfterViewInit, OnChanges {
@@ -22,6 +24,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() hoverOverMap: EventEmitter<Region> = new EventEmitter<Region>();
 
   inUSAView: boolean = true;
 
@@ -36,6 +39,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
   constructor(
     private statesSrv: StatesService,
     private utilsSrv: UtilsService,
+    private decimalPipe: DecimalPipe
     // private cds: CountyDataSrvService
   ) {
     console.log('MapComponent::constructor:: ')
@@ -102,14 +106,22 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.inUSAView = this.mapInput.region.code === 'USA';
 
-    // console.log('MapComponent::initMap::A')
+    // console.log('MapComponent::initMap::A::this.inUSAView: ', this.inUSAView)
+    // console.log('MapComponent::initMap::A::this.mapInput: ', this.mapInput)
+    console.log('MapComponent::initMap::A::this.mapInput.region: ', this.mapInput.region)
 
-    const coorJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].coordinates
-    const zoomJson = GEOJSON_MAP_SETTINGS[this.mapInput.region.code].zoom
-    // console.log('MapComponent::initMap::B')
+    const DEFAULT_SETTINGS = { coordinates: [37.0902, -95.7129], zoom: 4 };
+
+    const regionCode = this.mapInput.region.code;
+    const settings = GEOJSON_MAP_SETTINGS[regionCode] ?? DEFAULT_SETTINGS;
+
+    const coorJson = settings.coordinates;
+    const zoomJson = settings.zoom;
+
+    console.log('MapComponent::initMap::B')
 
     this.map = L.map('map').setView(coorJson, zoomJson);
-    // console.log('MapComponent::initMap::C')
+    console.log('MapComponent::initMap::C')
 
     // NO INTERNET
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -120,7 +132,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
-    const [minV, maxV, format] = this.mapInput.min_and_max_values()
+    const [minV, maxV, format] = this.mapInput.min_max_format_values()
     // this.isRedGreen = this.mapInput.isRedGreen
     let decimals = 0
     if (format === "0.00%") {
@@ -180,7 +192,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var fillOpacity = 0.9; // Ensures solid color
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
-        var valor: [number | null, number | null, string] = [null, null, '']
+        var valor: [number | null, number | null, string, boolean, string] = [null, null, '', false, '']
         // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
@@ -229,7 +241,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     this.map.addControl(new TitleControl());
   }
 
-  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number, palette_id:string): void {
+  private addColorScaleLegend(minV: number | null, maxV: number | null, decimals: number, palette_id: string): void {
     const LegendControl = L.Control.extend({
       options: { position: 'bottomright' },
       onAdd: () => {
@@ -318,7 +330,13 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
       if (feature.properties && feature.properties.NAME) {
         // layer.bindTooltip(feature.properties.name + ": " + formatNumber(cds.val_norm_from_string(feature.properties.name, c)[1], '#.00'));
         const values = mapInput.valuesFromSubRegionName(feature.properties.NAME)
-        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
+        // layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
+        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' :
+          this.decimalPipe.transform(values[1], values[2])
+        ));
+
+
+
         // layer.on('click', function (e: any) {
         //   console.log('County clicked: ' + feature.properties.name);
         //   // Optionally, change style on click or do something else
@@ -329,9 +347,30 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         //   });
 
         //   // Zoom to the clicked county
-        //   // this.map.fitBounds(layer.getBounds());
+        //   // this.map.fitBounds(layer.getBounds());ll
         // });
-        layer.on('click', this.onCountyClick.bind(this))
+        layer.on({
+          click: (e: { target: any; }) => this.onCountyClick(e),
+          mouseover: (e: { target: any; }) => {
+            const layer = e.target;
+            layer.setStyle({
+              weight: 3,
+              color: '#666',
+              fillOpacity: 0.7
+            });
+            const countyName = feature.properties.NAME;
+            const thisSubRegion: Region = { name: countyName, type: this.inUSAView ? RegionType.STATE : RegionType.COUNTY, code: '', codeFP: '' }
+            this.hoverOverMap.emit(thisSubRegion);  // Emit the hover event with the county name
+          },
+          mouseout: (e: { target: any; }) => {
+            const layer = e.target;
+            layer.setStyle({
+              weight: 0.5,
+              color: '#ffffff',
+              fillOpacity: 0.9
+            });
+          }
+        });
       }
 
       // Bind a popup to the feature

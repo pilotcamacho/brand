@@ -1,0 +1,10 @@
+
+User pool DEV:
+us-east-1_pRt9bR3vg
+
+User pool STAGE:
+us-east-1_A09bB2f6F
+
+User pool MASTER:
+us-east-1_P5hihoOFu
+

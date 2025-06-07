@@ -36,6 +36,13 @@ type QueryDataSelectionSet = SelectionSet<Schema['QueryData']['type'], typeof qu
 })
 export class DdbService {
 
+  rfs: Record<string, { ref: string }> = {
+    'USA|default': { ref: '' },
+    'CA|default': { ref: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
+    'CO|default': { ref: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' }
+  };
+
+
   constructor(
     private statesSrv: StatesService,
   ) {
@@ -56,7 +63,7 @@ export class DdbService {
     //     } | null)} | null), createdAt: string, updatedAt: string}[] | null
     //   >  
     Promise<any> {
-    console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${t_i36}, ${taxonomy}, ${bcba_bt}, ${code_tiny} `)
+    // console.log(`DdbService::go() ${variable}, ${region}, ${p_i36}, ${t_i36}, ${taxonomy}, ${bcba_bt}, ${code_tiny} `)
     // const { errors, data: qData } = await client.models.QueryData.create({
     //   variable: 'rate#2',
     //   region: 'CO',
@@ -66,19 +73,19 @@ export class DdbService {
     //   region_data: [{subRegionName: 'Adams2', dataForSubRegion: {q10: 0.1, q50: 0.5}}]
     // })
 
-    const bcbaTaxonomies = new Set(['bcba_bt', '106S00000X', '103K00000X']);
+    const bcbaTaxonomies = new Set(['bcba_bt', '106S00000X', '103K00000X', '103K00000X_D', 'BCaBA']);
 
     if (bcbaTaxonomies.has(taxonomy)) {
       taxonomy = taxonomy === 'bcba_bt' ? 'ZZ' : taxonomy;
       bcba_bt = 'y';
     }
-    
+
 
     const inputQuery = {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
     }
-    console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
+    // console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
 
 
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
@@ -89,13 +96,33 @@ export class DdbService {
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
-    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string): Promise<MapInput> {
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
+    myRate: number | null): Promise<MapInput> {
+
+    const p_i36_ = selectedColumn.byPayerNetwork ? p_i36 : 'ZZ'
+    const t_i36_ = selectedColumn.byPayerNetwork ? t_i36 : 'ZZ'
+
+    const taxonomy_ = selectedColumn.byTaxonomy ? taxonomy : 'ZZ'
+    const bcba_bt_ = selectedColumn.byTaxonomy ? bcba_bt : 'Z'
+    const code_ = selectedColumn.byTaxonomy ? code : '00000'
+
+    return this.getSpecificMapInput(regionType, regionName, selectedColumn, p_i36_, t_i36_, taxonomy_, bcba_bt_, code_, paletteId, myRate)
+  }
+
+  async getSpecificMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
+    p_i36: string, t_i36: string, taxonomy: string, bcba_bt: string, code: string | undefined, paletteId: string,
+    myRate: number | null): Promise<MapInput> {
     // console.log(`Ddb::getMapInput::regionName | regionType::${regionName}, ${regionType}`);
 
     const region: Region = this.getRegion(regionType, regionName);
 
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, bcba_bt, this.getRightMostDigit(code))
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
+
+    const reference = this.getRef(region.code, 'default');
+
+    // console.log(`Ddb::getMapInput::region.code: ${JSON.stringify(region.code)}`)
+    // console.log(`Ddb::getMapInput::reference: ${JSON.stringify(reference)}`)
 
     // Create the data array
     const data: DataPoint[] = []
@@ -115,6 +142,7 @@ export class DdbService {
 
         // console.log(`Ddb::getMapInput::rd.n: ${rd.r}`)
         // console.log(`Ddb::getMapInput::subRegion: ${subRegion}`)
+        // console.log(`Ddb::getMapInput::myRate: ${myRate}`)
 
         if (subRegion !== '') {
           data.push({
@@ -132,8 +160,29 @@ export class DdbService {
               avg: rd.d['avg'],
               change: rd.d['q50'] !== 0
                 ? parseFloat(((rd.d['q75'] - rd.d['q25']) / rd.d['q50']).toFixed(2))
-                : null // Avoid division by zero
-            }
+                : null, // Avoid division by zero
+              myRate: (myRate == null || Number.isNaN(myRate)) ? null : (
+                (myRate > rd.d['q95']) ? 95 : (
+                  (myRate > rd.d['q90']) ? 90 : (
+                    (myRate > rd.d['q85']) ? 85 : (
+                      (myRate > rd.d['q80']) ? 80 : (
+                        (myRate > rd.d['q75']) ? 75 : (
+                          (myRate > rd.d['q70']) ? 70 : (
+                            (myRate > rd.d['q65']) ? 65 : (
+                              (myRate > rd.d['q60']) ? 60 : (
+                                (myRate > rd.d['q55']) ? 55 : (
+                                  (myRate > rd.d['q50']) ? 50 : (
+                                    (myRate > rd.d['q45']) ? 45 : (
+                                      (myRate > rd.d['q40']) ? 40 : (
+                                        (myRate > rd.d['q35']) ? 35 : (
+                                          (myRate > rd.d['q30']) ? 30 : (
+                                            (myRate > rd.d['q25']) ? 25 : (
+                                              (myRate > rd.d['q20']) ? 20 : (
+                                                (myRate > rd.d['q15']) ? 15 : (
+                                                  (myRate > rd.d['q10']) ? 10 : (
+                                                    (myRate > rd.d['q05']) ? 5 : 0)))))))))))))))))))
+            },
+            reference: reference
           })
         }
         ;
@@ -152,7 +201,8 @@ export class DdbService {
       selectedColumn.indicatorName,
       data,
       paletteId,
-      selectedColumn.format
+      // selectedColumn.format
+      false
     );
 
     // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
@@ -160,9 +210,9 @@ export class DdbService {
   }
 
   private getRegion(regionType: RegionType, regionName: string): Region {
-    console.log(`DdbService::getRegion::regionType|regionName: ${regionType}, ${regionName}`);
+    // console.log(`DdbService::getRegion::regionType|regionName: ${regionType}, ${regionName}`);
     if (regionType === RegionType.STATE) {
-      console.log(`DdbService::getRegion::if::regionType|regionName: ${regionType}, ${regionName}`);
+      // console.log(`DdbService::getRegion::if::regionType|regionName: ${regionType}, ${regionName}`);
       const stateDetails = this.statesSrv.getStateDetailsByCode(regionName);
       if (!stateDetails) {
         throw new Error('State not found');
@@ -182,6 +232,11 @@ export class DdbService {
       code: 'USA',
       codeFP: '',
     };
+  }
+
+  getRef(regionCode: string, type: string): string {
+    const key = `${regionCode}|${type}`;
+    return this.rfs[key]?.ref ?? '';
   }
 
   getRightMostDigit(str: string | undefined): number {

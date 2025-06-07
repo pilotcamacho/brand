@@ -1,26 +1,29 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-
-import { signOut } from 'aws-amplify/auth'
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { UsuarioService } from '../services/usuario.service';
-import { DdbService } from '../services/ddb.service';
+// import { DdbService } from '../services/ddb.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
-import { ToastController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { NavController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CODES, Indicator, INDICATORS, NETWORKS, NETWORS_BY_STATE_PAYER, PAYERS, PAYERS_BY_STATE, TAXONOMY } from '../services/data-i';
 import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
+import { Indicators } from '../components/score-table/score-indicators-i';
+import { DataMixService } from '../services/data-mix.service';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements AfterViewInit, OnInit {
+export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild(BoxPlotComponent) boxPlotComponent!: BoxPlotComponent;
+  Number: any;
 
   updateReference(value: number) {
     if (this.boxPlotComponent) {
@@ -28,11 +31,19 @@ export class HomePage implements AfterViewInit, OnInit {
     }
   }
 
+  isLocked: boolean = false
+
   myRate: number | null = null;
+
+  isPopulationChecked: boolean = false;
+
+  isCntEntitiesChecked: boolean = false;
 
   selectedPalette: string = 'camber'; // Default palette
 
   palettes: any = []
+
+  indicatorGroups: Indicators;
 
   //////////  DATA //////////////////////////////////////////////////////////////////////
 
@@ -102,13 +113,19 @@ export class HomePage implements AfterViewInit, OnInit {
 
   isListOpen = {
     ratesList: true,
-    medicaidList: false,
-    commercialList: false,
-    generalList: false
+    medicaidList: true,
+    commercialList: true,
+    generalList: true
   };
 
   toggleList(listName: 'medicaidList' | 'ratesList' | 'commercialList' | 'generalList'): void {
-    this.isListOpen[listName] = !this.isListOpen[listName];
+    if (!this.isListOpen[listName]) {
+      this.isListOpen['medicaidList'] = true
+      this.isListOpen['ratesList'] = true
+      this.isListOpen['commercialList'] = true
+      this.isListOpen['generalList'] = true
+      this.isListOpen[listName] = true
+    }
   }
 
   mapInput: MapInput;
@@ -118,16 +135,19 @@ export class HomePage implements AfterViewInit, OnInit {
     private route: ActivatedRoute,
     private statesSrv: StatesService,
     public usuarioSrv: UsuarioService,
-    public dynamoDB: DdbService,
-    public utilsService: UtilsService
+    public dataMix: DataMixService,
+    public utilsService: UtilsService,
+    public authSrv: AuthService,
+    private navCtrl: NavController,
+    private router: Router,
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '0');
-    this.dynamoDB.getMapInput(RegionType.COUNTRY, 'USA', this.selectedColumn, '06', 'ZZ', 'ZZ', 'Z', this.selCode, 'mono')
-      .then(mi => { this.mapInput = mi })
+
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
+    this.indicatorGroups = { region: '', subRegion: '', columns: [] }
   }
 
   ngOnInit() {
@@ -141,6 +161,7 @@ export class HomePage implements AfterViewInit, OnInit {
     // this.selectedColumn = this.columnsMedicaid[1]
     console.log('HomePage::ngAfterViewInit::Page fully loaded and view initialized');
     // this.selectedColumn = this.columns[0]
+    window.addEventListener('keydown', this.onKeyDown.bind(this));
   }
 
 
@@ -229,28 +250,26 @@ export class HomePage implements AfterViewInit, OnInit {
   }
 
   updateInfo() {
-    console.log("HomePage::updateInfo");
+    // console.log("HomePage::updateInfo");
     if (this.selPayer === 'ZZ') { this.selNetwork = 'ZZ' }
-    console.log(this.selectedRegion)
-    console.log(this.selectedColumn)
-    console.log(this.selCode)
-    console.log(this.selPayer)
-    console.log(this.selTaxonomy)
-    this.dynamoDB.getMapInput(
+    // console.log(this.selectedRegion)
+    // console.log(this.selectedColumn)
+    // console.log(this.selCode)
+    // console.log(this.selPayer)
+    // console.log(this.selTaxonomy)
+
+    ////////// THIS CODE UPDATES THE MAP DATA ////////////////////////////////////////////////////////////////////////
+    this.dataMix.getMapInputRatio(
       this.selectedRegion.type, this.selectedRegion.code, this.selectedColumn,
-      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette)
-      .then(mi => {
+      this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
+      this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
         this.mapInput = mi
-        this.columns = [
-          { name: this.mapInput?.region?.type === 'country' ? 'State' : 'County', prop: 'subRegion', sortable: true },
-          { name: 'Q10', prop: 'quantiles.q10', sortable: true },
-          { name: 'Q25', prop: 'quantiles.q25', sortable: true },
-          { name: 'Q50', prop: 'quantiles.q50', sortable: true },
-          { name: 'Q75', prop: 'quantiles.q75', sortable: true },
-          { name: 'Q90', prop: 'quantiles.q90', sortable: true },
-          { name: 'Change', prop: 'quantiles.change', sortable: true }
-        ]
+      }).then(() => {
+        this.dataMix.updateIndicatorGroupData().then(() => {
+          this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
+        })
       })
+
     this.updateColumnsInfo()
   }
 
@@ -295,7 +314,12 @@ export class HomePage implements AfterViewInit, OnInit {
 
   signOut() {
     console.log('about to signOut ....')
-    signOut().then(() => console.log('signed out!'));
+    console.log('this.router.url: ', this.router.url)
+
+    this.authSrv.signOut().then(() => {
+      console.log('signed out!')
+      this.navCtrl.navigateRoot('/authentication')
+    });
   }
 
   async showErrorMessage(message: string) {
@@ -330,6 +354,59 @@ export class HomePage implements AfterViewInit, OnInit {
     // Emit an event, call a function, or update something here
 
     this.updateReference(this.myRate)
+    this.updateInfo()
+  }
+
+  getColor(value: number | null) {
+    return this.utilsService.getColor((value !== null ? value / 100 : null), this.selectedPalette)
+  }
+
+  getType(value: any): string {
+    if (value === null) return 'null';
+    if (value === undefined) return 'undefined';
+    if (Number.isNaN(value)) return 'NaN';
+    return typeof value;
+  }
+
+  onCheckboxChange(event: any) {
+    console.log('Checkbox changed:', this.isPopulationChecked);
+    this.isCntEntitiesChecked = false;
+    this.updateInfo()
+  }
+
+  onCheckboxChangeCntEntities(event: any) {
+    console.log('Checkbox onCheckboxChangeCntEntities:', this.isCntEntitiesChecked);
+    this.isPopulationChecked = false;
+    this.updateInfo()
+  }
+
+  onHoverOverMap(event: Region) {
+    // console.log('HomePage::onHoverOverMap::', event);
+    if (!this.isLocked) {
+      this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'l' || event.key === 'L') {
+      this.isLocked = !this.isLocked
+    }
+  }
+
+  // Important: Don't forget to remove the listener when the component is destroyed
+  ngOnDestroy(): void {
+    window.removeEventListener('keydown', this.onKeyDown.bind(this));
+  }
+
+  onIndicatorChange(event: any) {
+    console.log('HomePage::onIndicatorChange: ', event);
+    const si = this.indicators.find(i => { return i.indicatorCode === event })
+    console.log('HomePage::OUT::si: ', si);
+    if (si) {
+      console.log('HomePage::IN::si: ', si);
+      this.selectedColumn = si
+    }
+    console.log('HomePage::this.selectedColumn: ', this.selectedColumn);
     this.updateInfo()
   }
 
