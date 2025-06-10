@@ -153,7 +153,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
 
-    this.isCoaba = emailSrv.isEmailAuthorized(usuarioSrv.email)
+    this.isCoaba = this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
   }
 
   ngOnInit() {
@@ -204,7 +204,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.usuarioSrv.email.endsWith('peopleart.co') ||
       this.usuarioSrv.email === 'rupowell@7dbh.com' ||
       this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
-      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com') {
+      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+    ) {
 
       this.selectedCountyFromChild = county;
 
@@ -219,7 +221,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       }
 
     } else {
-      this.showErrorMessage('Available only for Juniper users.')
+      this.showErrorMessage('Available to subscribed users only.')
     }
     this.updateInfo()
   }
@@ -333,7 +335,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       message: message,
       duration: 3000,
       position: 'top',
-      color: 'danger'
+      color: 'warning'
     });
     toast.present();
   }
