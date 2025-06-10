@@ -284,5 +284,6 @@ export const EMAILS: string[] = [
     'hteichman@byoursideac.com',
     'dejzasims@gmail.com',
     'trevor@hopelightbh.org',
-    'Lcurtin@POSITIVEMOMENTUMABA.COM'
+    'Lcurtin@POSITIVEMOMENTUMABA.COM',
+    'f.camacho@peopleart.co'
 ]

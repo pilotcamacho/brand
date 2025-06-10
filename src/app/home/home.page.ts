@@ -13,6 +13,7 @@ import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
 import { Indicators } from '../components/score-table/score-indicators-i';
 import { DataMixService } from '../services/data-mix.service';
 import { AuthService } from '../services/auth.service';
+import { EmailsService } from '../services/emails/emails.service';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.boxPlotComponent.updateReferenceLine(value);
     }
   }
+
+  isCoaba: boolean = false
 
   isLocked: boolean = false
 
@@ -140,6 +143,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     public authSrv: AuthService,
     private navCtrl: NavController,
     private router: Router,
+    private emailSrv: EmailsService
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
@@ -148,6 +152,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
+
+    this.isCoaba = emailSrv.isEmailAuthorized(usuarioSrv.email)
   }
 
   ngOnInit() {
