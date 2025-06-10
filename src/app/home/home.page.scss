@@ -156,3 +156,91 @@ app-q-chart {
   margin: 12px 0;
 }
 
+
+// .logo-card {
+//   background: #ffffffcc;
+//   padding: 1rem;
+//   border-radius: 16px;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+//   margin-bottom: 1rem;
+//   text-align: center;
+// }
+
+// .logo {
+//   display: block;
+//   max-width: 220px;
+//   height: auto;
+//   margin: 0 auto;
+// }
+
+// div.logo-subcard {
+//   background: #BED5D6; // same as --background in .camber-background
+//   padding: 1rem;
+//   border-radius: 12px;
+// }
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; // space between logos
+  margin-bottom: 1rem;
+  flex-wrap: wrap; // optional: wrap on small screens
+}
+
+.logo-subcard {
+  padding: 1rem;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 45%; // allows resizing
+  max-width: 180px;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Custom backgrounds */
+.camber-bg {
+  background-color: #BED5D6;
+}
+
+.coaba-bg {
+  background-color: #ffffff;
+}
+
+
+
+
+
+.camber-background-alone {
+  background-color: #BED5D6; /* replaces --background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px; /* Rounded corners */
+  overflow: hidden;    /* Optional: to clip child content */
+}
+
+
+.login-container-alone {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  padding: 1rem;
+  background: #ffffffcc;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.logo-alone {
+  display: block;
+  max-width: 220px;
+  height: auto;
+  margin: 0 auto 2rem auto;
+}
+

@@ -148,6 +148,21 @@
 
       <ion-col class="fixed-width" size-xs="3" size-sm="3" size-md="3" size-lg="3">
 
+        <div class="camber-background-alone" style="padding: 1rem;" *ngIf="!isCoaba">
+          <div class="login-container-alone">
+            <img src="assets/camber_logo.svg" alt="Camber Logo" class="logo-alone" />
+          </div>
+        </div>
+
+
+        <div class="logo-container" *ngIf="isCoaba">
+          <div class="logo-subcard camber-bg">
+            <img src="assets/camber_logo_top_new_2.svg" alt="Camber Logo" class="logo" />
+          </div>
+          <div class="logo-subcard coaba-bg">
+            <img src="assets/coaba-logo.png" alt="Coaba Logo" class="logo" />
+          </div>
+        </div>
 
         <ion-list class="scrollable-list">
 
