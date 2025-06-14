@@ -272,11 +272,12 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.selPayer, this.selNetwork, this.selTaxonomy, this.selBcbaBt, this.selCode, this.selectedPalette,
       this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
         this.mapInput = mi
-      }).then(() => {
-        this.dataMix.updateIndicatorGroupData().then(() => {
-          this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
-        })
       })
+      // .then(() => {
+      //   this.dataMix.updateIndicatorGroupData().then(() => {
+      //     this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
+      //   })
+      // })
 
     this.updateColumnsInfo()
   }
