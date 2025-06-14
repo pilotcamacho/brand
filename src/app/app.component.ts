@@ -9,8 +9,19 @@ import { AuthenticatorService } from '@aws-amplify/ui-angular';
 import { getCurrentUser } from '@aws-amplify/auth';
 
 
-Amplify.configure(outputs)
-
+Amplify.configure(
+  {
+    ...outputs,
+    Auth: {
+      Cognito: {
+        identityPoolId: outputs.auth?.identity_pool_id,
+        userPoolClientId: outputs.auth?.user_pool_client_id,
+        userPoolId: outputs.auth?.user_pool_id,
+        allowGuestAccess: true,
+      },
+    },
+  }
+);
 
 @Component({
   selector: 'app-root',
@@ -24,7 +35,9 @@ export class AppComponent implements OnInit {
     private navCtrl: NavController
   ) {
     console.log('AppComponent::constructor()');
-    Amplify.configure(outputs);
+
+    // Amplify.configure(outputs);
+
     // this.authenticator.subscribe((state) => {
     //   console.log('AppComponent::constructor.subscribe::state: ', state);
     //   this.userSrv.updateUser(state.authStatus);
@@ -41,7 +54,8 @@ export class AppComponent implements OnInit {
 
     } catch {
       this.userSrv.updateUser('notAuthenticated');
-      this.navCtrl.navigateRoot('/authentication'); // or login
+      // this.navCtrl.navigateRoot('/authentication'); // or login
+      this.navCtrl.navigateRoot('/home'); // or login
     }
   }
 }

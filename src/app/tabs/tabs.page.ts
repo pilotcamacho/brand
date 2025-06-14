@@ -11,7 +11,7 @@ import { DataService } from '../services/data.service';
 import { MapInput, Region, RegionType } from '../components/map-component/map-input';
 import { EntitiesService } from '../services/entities/entities.service';
 // import { CountyInfo } from '../services/county-data/county-info';
-import { getCurrentUser, signOut } from 'aws-amplify/auth'
+import { signOut } from 'aws-amplify/auth'
 import { StatesService } from '../services/states/states.service';
 import { UsuarioService } from '../services/usuario.service';
 import { DdbService } from '../services/ddb.service';

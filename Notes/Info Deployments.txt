@@ -2,8 +2,15 @@
 User pool DEV:
 us-east-1_pRt9bR3vg
 
+Identity pool DEV:
+amplifyAuthIdentityPool3FDE84CC_eJSAQn10qTbq
+
+
+
 User pool STAGE:
 us-east-1_A09bB2f6F
+
+
 
 User pool MASTER:
 us-east-1_P5hihoOFu

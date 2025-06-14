@@ -22,9 +22,9 @@ const schema = a.schema({
     q80: a.float(),
     q85: a.float(),
     q90: a.float(),
-    q95: a.float(),    
+    q95: a.float(),
     max: a.float(),
-    
+
     avg: a.float(),
     sum: a.integer(),
     cnt: a.integer()
@@ -53,6 +53,10 @@ const schema = a.schema({
     })
     .identifier(['variable', 'region', 'p_i36', 't_i36', 'taxonomy', 'bcba_bt', 'd_read'])
     .authorization((allow) => [allow.group('Admin'), allow.authenticated()]),
+    // .authorization((allow) => [allow.publicApiKey(), allow.guest().to(["read"]), allow.group('Admin'), allow.owner(), allow.authenticated()])
+    // .authorization((allow) => [allow.guest()])
+    // .authorization((allow) => [allow.publicApiKey()])
+
 
   // CountyData: a
   //   .model({
@@ -67,7 +71,7 @@ const schema = a.schema({
   //   })
   //   .authorization((allow) => [allow.group('Admin'), allow.authenticated()]),
 
-    
+
   // ColumnData: a
   //   .model({
   //     code: a.string().required(),  // Type of `keyof CountyInfo` can't be directly translated in Amplify, so we use string.
@@ -117,5 +121,6 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
+    // defaultAuthorizationMode: 'apiKey',
   },
 });
