@@ -10,8 +10,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'home/:email',
-    // canActivate: [authGuard],
+    path: 'home/:email/:hash',
+    canActivate: [authGuard],
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
 
