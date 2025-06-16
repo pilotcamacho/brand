@@ -46,16 +46,16 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     console.log('AppComponent::ngOnInit()');
-    try {
-      const user = await getCurrentUser();
-      console.log('AppComponent::user: ', user);
-      this.userSrv.updateUser('authenticated');
-      this.navCtrl.navigateRoot('/home');
+    // try {
+    //   const user = await getCurrentUser();
+    //   console.log('AppComponent::user: ', user);
+    //   this.userSrv.updateUser('authenticated');
+    //   this.navCtrl.navigateRoot('/home');
 
-    } catch {
-      this.userSrv.updateUser('notAuthenticated');
-      // this.navCtrl.navigateRoot('/authentication'); // or login
-      this.navCtrl.navigateRoot('/home'); // or login
-    }
+    // } catch {
+    //   this.userSrv.updateUser('notAuthenticated');
+    //   // this.navCtrl.navigateRoot('/authentication'); // or login
+    //   this.navCtrl.navigateRoot('/home'); // or login
+    // }
   }
 }

@@ -85,14 +85,21 @@ export class DdbService {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
     }
-    // console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
 
-
-    const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
+    console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
+    // if (inputQuery.variable === 'rate') {
+      await this.sleep(Math.floor(Math.random() * 1000)); // delay of 1000 ms (1 second)
+      const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
+      return qData;
+    // }
 
     // console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
 
-    return qData;
+    // return null;
+  }
+
+  async sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,

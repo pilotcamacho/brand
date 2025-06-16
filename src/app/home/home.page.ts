@@ -32,6 +32,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  theEmail: string = ''
+
   isCoaba: boolean = false
 
   isLocked: boolean = false
@@ -137,7 +139,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     private toastController: ToastController,
     private route: ActivatedRoute,
     private statesSrv: StatesService,
-    public usuarioSrv: UsuarioService,
+    // public usuarioSrv: UsuarioService,
     public dataMix: DataMixService,
     public utilsService: UtilsService,
     public authSrv: AuthService,
@@ -153,13 +155,15 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
 
-    this.isCoaba = this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+    this.theEmail = this.route.snapshot.paramMap.get('email') ?? '';
+    this.isCoaba = this.emailSrv.isEmailAuthorized(this.theEmail)
   }
 
   ngOnInit() {
     console.log('HomePage::ngOnInit');
     const stateId = this.route.snapshot.paramMap.get('stateId');
     console.log('HomePage::ngOnInit::stateId: ' + stateId)
+
   }
 
   ngAfterViewInit() {
@@ -199,13 +203,15 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // This method is called by the map.
     console.log('HomePage::onSelectedCountyChange::county: ' + county)
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com') ||
-      this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
-      this.usuarioSrv.email.endsWith('peopleart.co') ||
-      this.usuarioSrv.email === 'rupowell@7dbh.com' ||
-      this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
-      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
-      this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+    if (
+      // this.usuarioSrv.email.endsWith('juniperplatform.com') ||
+      // this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
+      // this.usuarioSrv.email.endsWith('peopleart.co') ||
+      // this.usuarioSrv.email === 'rupowell@7dbh.com' ||
+      // this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
+      // this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      // this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+      true
     ) {
 
       this.selectedCountyFromChild = county;
@@ -273,11 +279,11 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.myRate, this.isPopulationChecked, this.isCntEntitiesChecked).then(mi => {
         this.mapInput = mi
       })
-      // .then(() => {
-      //   this.dataMix.updateIndicatorGroupData().then(() => {
-      //     this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
-      //   })
-      // })
+    // .then(() => {
+    //   this.dataMix.updateIndicatorGroupData().then(() => {
+    //     this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, this.selectedRegion)
+    //   })
+    // })
 
     this.updateColumnsInfo()
   }

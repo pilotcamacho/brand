@@ -10,7 +10,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'home',
+    path: 'home/:email',
     // canActivate: [authGuard],
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
@@ -23,10 +23,10 @@ const routes: Routes = [
   //   path: 'test',
   //   loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   // },
-  {
-    path: 'authentication',
-    loadChildren: () => import('./auth/authentication/authentication.module').then(m => m.AuthenticationPageModule)
-  },
+  // {
+  //   path: 'authentication',
+  //   loadChildren: () => import('./auth/authentication/authentication.module').then(m => m.AuthenticationPageModule)
+  // },
   // {
   //   path: 'splash',
   //   loadChildren: () => import('./splash/splash.module').then(m => m.SplashPageModule)
@@ -35,10 +35,10 @@ const routes: Routes = [
   //   path: ':stateId',
   //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   // },
-  {
-    path: ':stateId',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  },
+  // {
+  //   path: ':stateId',
+  //   loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  // },
 ];
 
 @NgModule({

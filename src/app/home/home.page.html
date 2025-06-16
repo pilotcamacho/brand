@@ -15,12 +15,11 @@
 
             <!-- Email + Sign Out on the right -->
             <ion-buttons slot="end" class="toolbar-buttons">
-              <ion-text class="email-text">{{ usuarioSrv.email }}</ion-text>
-              <ion-button (click)="signOut()" fill="clear" shape="round">
+              <ion-text class="email-text">{{ theEmail }}</ion-text>
+              <!-- <ion-button (click)="signOut()" fill="clear" shape="round">
                 <ion-icon slot="end" [name]="countiesVisible ? 'close-outline' : 'open-outline'"></ion-icon>
                 Sign Out
-              </ion-button>
-
+              </ion-button> -->
             </ion-buttons>
 
           </ion-toolbar>
