@@ -8,12 +8,12 @@ export const authGuard: CanActivateFn = async (route: ActivatedRouteSnapshot) =>
   const email = route.paramMap.get('email');
   const hash = route.paramMap.get('hash');
 
-  console.log('authGuard::email|hash: ', email, hash);
+  // console.log('authGuard::email|hash: ', email, hash);
 
-  const hasE = await hashEmail(email ?? '')
-  console.log('authGuard::hasE: ', hasE);
-  
-  return isValidEmail(email) && hash ===hasE;
+  const hasE = await hashEmail('key' + (email ?? ''))
+  // console.log('authGuard::hasE: ', hasE);
+
+  return isValidEmail(email) && hash === hasE;
 };
 
 function isValidEmail(email: string | null): boolean {

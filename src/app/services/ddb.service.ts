@@ -87,15 +87,15 @@ export class DdbService {
     }
 
     console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
-    if (inputQuery.variable === 'cnt_payers') {
+    // if (inputQuery.variable === 'cnt_payers') {
       await this.sleep(Math.floor(Math.random() * 1000)); // delay of 1000 ms (1 second)
       const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
       return qData;
-    }
+    // }
 
     // console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
 
-    return null;
+    // return null;
   }
 
   async sleep(ms: number): Promise<void> {
