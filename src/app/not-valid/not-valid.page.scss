@@ -1,0 +1,28 @@
+
+
+.camber-background-alone {
+  background-color: #BED5D6; /* replaces --background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px; /* Rounded corners */
+  overflow: hidden;    /* Optional: to clip child content */
+}
+
+
+.login-container-alone {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  padding: 1rem;
+  background: #ffffffcc;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.logo-alone {
+  display: block;
+  max-width: 220px;
+  height: auto;
+  margin: 0 auto 2rem auto;
+}

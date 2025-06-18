@@ -6,7 +6,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'not-valid',
     pathMatch: 'full'
   },
   {
@@ -14,6 +14,11 @@ const routes: Routes = [
     canActivate: [authGuard],
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
+  {
+    path: 'not-valid',
+    loadChildren: () => import('./not-valid/not-valid.module').then( m => m.NotValidPageModule)
+  },
+
 
   // {
   //   path: 'tabs',
