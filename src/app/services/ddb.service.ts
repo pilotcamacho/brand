@@ -36,10 +36,13 @@ type QueryDataSelectionSet = SelectionSet<Schema['QueryData']['type'], typeof qu
 })
 export class DdbService {
 
-  rfs: Record<string, { ref: string }> = {
-    'USA|default': { ref: '' },
-    'CA|default': { ref: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
-    'CO|default': { ref: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' }
+  references: Record<string, { reference: string }> = {
+    'default|Unknown': { reference: '' },
+    'medicaid|Unknown': { reference: '' },
+    'commercial|Unknown': { reference: '' }, // https://www.serifhealth.com/
+    'general|Unknown': { reference: 'https://www.census.gov/' },
+    'medicaid|CA': { reference: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
+    'medicaid|CO': { reference: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' },
   };
 
 
@@ -85,14 +88,21 @@ export class DdbService {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
     }
-    // console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
 
-
+    console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
+    // if (inputQuery.variable === 'cnt_payers') {
+    await this.sleep(Math.floor(Math.random() * 1000)); // delay of 1000 ms (1 second)
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
+    return qData;
+    // }
 
     // console.log(`DdbService::go()::qData|errors: ${JSON.stringify(qData)}, ${errors}`)
 
-    return qData;
+    // return null;
+  }
+
+  async sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async getMapInput(regionType: RegionType, regionName: string, selectedColumn: Indicator,
@@ -119,7 +129,7 @@ export class DdbService {
     const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, bcba_bt, this.getRightMostDigit(code))
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
-    const reference = this.getRef(region.code, 'default');
+    const reference = this.getReference(selectedColumn.indicatorGroup, region.code);
 
     // console.log(`Ddb::getMapInput::region.code: ${JSON.stringify(region.code)}`)
     // console.log(`Ddb::getMapInput::reference: ${JSON.stringify(reference)}`)
@@ -234,9 +244,13 @@ export class DdbService {
     };
   }
 
-  getRef(regionCode: string, type: string): string {
-    const key = `${regionCode}|${type}`;
-    return this.rfs[key]?.ref ?? '';
+  getReference(indicatorGroup: string, regionCode: string): string {
+    const keyGC = `${indicatorGroup}|${regionCode}`;
+    const keyGU = `${indicatorGroup}|Unknown`;
+    const keyUC = `default|${regionCode}`;
+    const keyUU = `default|Unknown`;
+    const theReference = this.references[keyGC]?? this.references[keyGU]?? this.references[keyUC]?? this.references[keyUU];
+    return theReference.reference ?? '';
   }
 
   getRightMostDigit(str: string | undefined): number {
@@ -249,7 +263,4 @@ export class DdbService {
 
     return isNaN(digit) ? -1 : digit; // Return the digit or null if not a number
   }
-
-
-
 }

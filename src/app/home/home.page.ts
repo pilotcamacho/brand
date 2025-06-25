@@ -287,7 +287,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   // updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
   updateColumnsInfo() {
-    this.columnsMedicaid = this.indicators.filter(col => (col.indicatorGroup === 'medicare'))
+    this.columnsMedicaid = this.indicators.filter(col => (col.indicatorGroup === 'medicaid'))
     this.columnsRates = this.indicators.filter(col => (col.indicatorGroup === 'rates'))
     this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
