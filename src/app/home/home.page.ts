@@ -205,6 +205,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.usuarioSrv.email === 'rupowell@7dbh.com' ||
       this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
       this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      this.usuarioSrv.email === 'julie@asdhopesource.com' ||
+      this.usuarioSrv.email === 'ljana@acesaba.com' ||
+      this.usuarioSrv.email === 'rick@gracentcares.com' ||      
       this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
     ) {
 
