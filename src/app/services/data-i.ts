@@ -2,7 +2,7 @@ export interface Indicator {
   indicatorCode: string;
   indicatorName: string;
   indicatorDescription: string;
-  indicatorGroup: 'medicare' | 'rates' | 'commercial' | 'general';
+  indicatorGroup: 'medicaid' | 'rates' | 'commercial' | 'general';
   aggregation: string;
   selected: boolean;
   format: string;
@@ -26,9 +26,9 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcaba", indicatorName: "bcaba count", indicatorDescription: "bcaba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "rbt", indicatorName: "rbt count", indicatorDescription: "rbt count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
 
-    { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicare", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.00", byPayerNetwork: false, byTaxonomy: true },
-    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
-    { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicare", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+    { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicaid", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.00", byPayerNetwork: false, byTaxonomy: true },
+    { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+    { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
 
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "pop_under_18", indicatorName: "Population under 18", indicatorDescription: "population under 18 ", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },

@@ -205,6 +205,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.usuarioSrv.email === 'rupowell@7dbh.com' ||
       this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
       this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      this.usuarioSrv.email === 'julie@asdhopesource.com' ||
+      this.usuarioSrv.email === 'ljana@acesaba.com' ||
+      this.usuarioSrv.email === 'rick@gracentcares.com' ||      
+      this.usuarioSrv.email === 'augustomas@nimble.la' ||      
       this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
     ) {
 
@@ -284,7 +288,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   // updateColumnsInfo(countyInfo: { type: RegionType, name: string, code: string, codeFP: string }) {
   updateColumnsInfo() {
-    this.columnsMedicaid = this.indicators.filter(col => (col.indicatorGroup === 'medicare'))
+    this.columnsMedicaid = this.indicators.filter(col => (col.indicatorGroup === 'medicaid'))
     this.columnsRates = this.indicators.filter(col => (col.indicatorGroup === 'rates'))
     this.columnsCommercial = this.indicators.filter(col => (col.indicatorGroup === 'commercial'))
     this.columnsGeneral = this.indicators.filter(col => (col.indicatorGroup === 'general'))
