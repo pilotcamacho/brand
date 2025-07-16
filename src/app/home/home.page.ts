@@ -213,6 +213,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.usuarioSrv.email === 'brandon@kindbh.com' ||      
       this.usuarioSrv.email === 'keith@kindbh.com' ||      
       this.usuarioSrv.email === 'ryan@kindbh.com' ||      
+      this.usuarioSrv.email === 'admin@virginiaaba.org' ||      
       this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
     ) {
 
