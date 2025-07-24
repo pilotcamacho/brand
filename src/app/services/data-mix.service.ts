@@ -77,6 +77,11 @@ export class DataMixService {
     const medicaid_enrolled_lbasV = getValuePair('medicaid_enrolled_lbas');
     const medicaid_pop_totalV = getValuePair('medicaid_pop_total');
 
+    const medicaid_enrollmentV = getValuePair('medicaid_enrollment');
+    const chip_enrollmentV = getValuePair('chip_enrollment');
+    const medicaid_total_chipV = getValuePair('medicaid_total_chip');
+    const medicaid_child_chipV = getValuePair('medicaid_child_chip');
+
     const populationV = getValuePair('population');
     const pop_under_18V = getValuePair('pop_under_18');
     const areaV = getValuePair('area');
@@ -107,6 +112,11 @@ export class DataMixService {
             { code: 'medicaid_rate', title: 'Medicaid Rates', value: medicaid_rateV[1], pColor: medicaid_rateV[0], format: medicaid_rateV[2], help: medicaid_rateV[4] },
             { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: medicaid_enrolled_lbasV[1], pColor: medicaid_enrolled_lbasV[0], format: medicaid_enrolled_lbasV[2], help: medicaid_enrolled_lbasV[4] },
             { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: medicaid_pop_totalV[1], pColor: medicaid_pop_totalV[0], format: medicaid_pop_totalV[2], help: medicaid_pop_totalV[4] },
+  
+            { code: 'medicaid_enrollment', title: 'Medicaid Enrollment', value: medicaid_enrollmentV[1], pColor: medicaid_enrollmentV[0], format: medicaid_enrollmentV[2], help: medicaid_enrollmentV[4] },
+            { code: 'chip_enrollment', title: 'CHIP Enrollment', value: chip_enrollmentV[1], pColor: chip_enrollmentV[0], format: chip_enrollmentV[2], help: chip_enrollmentV[4] },
+            { code: 'medicaid_total_chip', title: 'Total Medicaid and CHIP Enrollment', value: medicaid_total_chipV[1], pColor: medicaid_total_chipV[0], format: medicaid_total_chipV[2], help: medicaid_total_chipV[4] },
+            { code: 'medicaid_child_chip', title: 'Child Enrollment (Medicaid Child + CHIP Enrollment)', value: medicaid_child_chipV[1], pColor: medicaid_child_chipV[0], format: medicaid_child_chipV[2], help: medicaid_child_chipV[4] },
           ]
         },
         {
