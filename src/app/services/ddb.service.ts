@@ -41,8 +41,58 @@ export class DdbService {
     'medicaid|Unknown': { reference: '' },
     'commercial|Unknown': { reference: '' }, // https://www.serifhealth.com/
     'general|Unknown': { reference: 'https://www.census.gov/' },
+
+    'medicaid|AK': { reference: 'https://www.azahcccs.gov/PlansProviders/RatesAndBilling/FFS/ABARates.html' },
+    'medicaid|AL': { reference: 'https://health.mil/Reference-Center/Publications/2024/04/15/ABA-Maximum-Allowed-Rates-Effective-May-1-2024' },
+    'medicaid|AR': { reference: 'https://humanservices.arkansas.gov/wp-content/uploads/ABATHERAPY-fees.pdf' },
+    'medicaid|AZ': { reference: 'https://www.azahcccs.gov/PlansProviders/RatesAndBilling/FFS/ABARates.html' },
     'medicaid|CA': { reference: 'https://www.in.gov/fssa/files/ABA-Reimbursement-Provider-Meeting-09.20.23.pdf' },
     'medicaid|CO': { reference: 'https://hcpf.colorado.gov/sites/hcpf/files/01_CO_Fee%20Schedule_Health%20First%20Colorado_01012025%20v1.2.pdf' },
+    'medicaid|CT': { reference: 'https://www.ctdssmap.com/CTPortal/Portals/0/StaticContent/Publications/CMAP_Addendum_B_01012025_Changes.pdf' },
+    'medicaid|DE': { reference: 'https://medicaidpublications.dhss.delaware.gov/docs/DesktopModules/Bring2mind/DMX/API/Entries/Download?Command=Core_Download&EntryId=1424&language=en-US&PortalId=0&TabId=94' },
+    'medicaid|FL': { reference: 'https://ahca.myflorida.com/content/download/25137/file/Behavior%20Analysis%20Fee%20Schedule%20October%201,%202024.pdf' },
+    'medicaid|GA': { reference: 'https://www.mmis.georgia.gov/portal/Portals/0/StaticContent/Public/ALL/FEE%20SCHEDULES/Maximum%20Allw%20Pymt%20Physician%20Fee%20Schedule%20-%20April%202025%2020250321165838.pdf' },
+    'medicaid|HI': { reference: 'https://medquest.hawaii.gov/content/dam/formsanddocuments/plans-and-providers/Fee_Schedule_20250228.pdf' },
+    'medicaid|IA': { reference: 'https://secureapp.dhs.state.ia.us/IMPA/Information/ViewDocument.aspx?viewdocument=497e2fa3-f199-4f95-bdad-461a28ff9d83' },
+    'medicaid|ID': { reference: 'https://publicdocuments.dhw.idaho.gov/WebLink/Browse.aspx?id=32189&dbid=0&repo=PUBLIC-DOCUMENTS' },
+    'medicaid|IL': { reference: 'https://hfs.illinois.gov/content/dam/soi/en/web/hfs/sitecollectiondocuments/01262022absfeeschedulerbtupdatefinal.xlsx' },
+    'medicaid|IN': { reference: 'https://www.in.gov/medicaid/providers/files/bulletins/BT2023169.pdf?utm_source=chatgpt.com' },
+    'medicaid|KS': { reference: 'https://portal.kmap-state-ks.us/PublicPage/ProviderPricing/FeeSchedules' },
+    'medicaid|KY': { reference: 'https://www.chfs.ky.gov/agencies/dms/DMSFeeRateSchedules/Copy%20of%202024%20Behavioral%20Health%20%20Fee%20Schedule_04012024%20FINAL%20updated%20032724.pdf' },
+    'medicaid|LA': { reference: 'https://www.lamedicaid.com/provweb1/fee_schedules/ABA_FS_Current.pdf' },
+    'medicaid|MA': { reference: 'https://www.mass.gov/doc/rates-for-applied-behavior-analysis-effective-october-1-2024-0/download' },
+    'medicaid|MD': { reference: 'https://maryland.optum.com/content/dam/ops-maryland/documents/provider/information/pbhs/fee-schedules-eff--7-1-24/FY2025-ABA-Fee-Schedule-Eff%20-7.1.2024.pdf' },
+    'medicaid|ME': { reference: 'https://mainecare.maine.gov/Provider%20Fee%20Schedules/Rate%20Setting/Section%20065%20-%20Behavioral%20Health%20Services/Section%2065%20-%20Behavioral%20Health%20Services%202025.pdf' },
+    'medicaid|MI': { reference: 'https://www.michigan.gov/mdhhs/-/media/Project/Websites/mdhhs/Keeping-Michigan-Healthy/BH-DD/Reporting-Requirements/BH_Comparison_Rate_Development_Report_SFY_2023.pdf' },
+    'medicaid|MN': { reference: 'https://mn.gov/dhs/assets/mhcp-fee-schedule_tcm1053-294225.pdf' },
+    'medicaid|MO': { reference: 'https://mydss.mo.gov/media/pdf/fy2023-comprehensive-rates-june-2022' },
+    'medicaid|MS': { reference: 'https://medicaid.ms.gov/wp-content/uploads/2022/04/Autism-Spectrum-Disorder-ASD-Fee-Schedule-Print-Date-04-05-2022.pdf' },
+    'medicaid|MT': { reference: 'https://medicaidprovider.mt.gov/docs/feeschedules/2024/ABAFeeSchedule07012024.pdf' },
+    'medicaid|NC': { reference: 'https://www.alliancehealthplan.org/document-library/80817' },
+    'medicaid|ND': { reference: 'https://www.hhs.nd.gov/sites/www/files/documents/2024-7-1-autism-fee-schedule.pdf' },
+    'medicaid|NE': { reference: 'https://dhhs.ne.gov/Medicaid%20Practitioner%20Fee%20Schedules/Mental%20Health%20and%20Substance%20Use%20July%201,%202022%20-%20Revised%208.10.2022.pdf' },
+    'medicaid|NH': { reference: 'https://www.nhmmis.nh.gov/portals/wps/wcm/connect/af3f2487-7ff8-4485-bef6-2eed2cc9ed76/2024+Medicaid+to+Schools+Fee+Schedule+as+of+07-01-2024.pdf?MOD=AJPERES&CVID=p4fiEWl' },
+    'medicaid|NJ': { reference: 'https://www.njmmis.com/downloadDocuments/OperationalManual.pdf' },
+    'medicaid|NM': { reference: 'https://www.hca.nm.gov/wp-content/uploads/FInal-LOD-53-Applied-Behavioral-Analysis-ABA-Fee-Schedule-Rates.pdf' },
+    'medicaid|NV': { reference: 'https://dhcfp.nv.gov/uploadedFiles/dhcfpnvgov/content/Resources/Rates/PT%2085%20Fee%20Schedule%20042025.xlsx' },
+    'medicaid|NY': { reference: 'https://www.emedny.org/ProviderManuals/ABA/PDFS/ABA_Fee_Schedule.xls' },
+    'medicaid|OH': { reference: 'https://dam.assets.ohio.gov/image/upload/medicaid.ohio.gov/Stakeholders%2C%20Partners/LegalandContracts/Rules/DR-NonBIA/ERF188422.pdf' },
+    'medicaid|OK': { reference: 'https://oklahoma.gov/content/dam/ok/en/okhca/documents/a0300/24259.docx' },
+    'medicaid|OR': { reference: 'https://www.oregon.gov/oha/hsd/ohp/pages/fee-schedule.aspx?wp6426=se:%22Behavioral+%22' },
+    'medicaid|PA': { reference: 'https://www.humanservices.state.pa.us/OUTPATIENTFEESCHEDULE/Search/Submit' },
+    'medicaid|RI': { reference: 'https://eohhs.ri.gov/sites/g/files/xkgbur226/files/2024-08/APC%20Fee%20Schedule%2020240822.pdf' },
+    'medicaid|SC': { reference: 'https://www.scdhhs.gov/sites/default/files/ASD%20Fee%20Schedule%20-%207.1.2024.pdf' },
+    'medicaid|SD': { reference: 'https://dss.sd.gov/docs/medicaid/providers/feeschedules/Other_Services/Applied_Behavior_Analysis_SFY25.pdf' },
+    'medicaid|TN': { reference: 'https://health.mil/Reference-Center/Publications/2024/04/15/ABA-Maximum-Allowed-Rates-Effective-May-1-2024' },
+    'medicaid|TX': { reference: 'https://pfd.hhs.texas.gov/sites/default/files/documents/2022/02-01-2022-policy-fee-review-autism-services.pdf' },
+    'medicaid|UT': { reference: 'https://medicaid-documents.dhhs.utah.gov/Documents/manuals/pdfs/Medicaid%20Information%20Bulletins/Traditional%20Medicaid%20Program/2021/July2021-MIB.pdf' },
+    'medicaid|VA': { reference: 'https://www.dmas.virginia.gov/media/ggudgw1q/final-billing-sheet.pdf' },
+    'medicaid|VT': { reference: 'https://dvha.vermont.gov/providers/codesfee-schedules/opps-fee-schedules/2025-opps-fee-schedule' },
+    'medicaid|WA': { reference: 'https://www.hca.wa.gov/assets/billers-and-providers/aba-20240101.xlsx' },
+    'medicaid|WI': { reference: 'https://www.forwardhealth.wi.gov/WIPortal/Subsystem/Publications/MaxFeeDownload.aspx#bhic' },
+    'medicaid|WV': { reference: 'https://dhhr.wv.gov/bms/FEES/Pages/Applied-Behavior-Analysis.aspx' },
+    'medicaid|WY': { reference: 'https://www.wyomingmedicaid.com/portal/fee-schedules' },
+
   };
 
 
@@ -263,7 +313,4 @@ export class DdbService {
 
     return isNaN(digit) ? -1 : digit; // Return the digit or null if not a number
   }
-
-
-
 }

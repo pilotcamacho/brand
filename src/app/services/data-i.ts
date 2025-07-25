@@ -14,7 +14,7 @@ export interface Indicator {
 
 export const INDICATORS: Indicator[] =
   [
-
+    /* commercial */
     // { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "rates", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00" },
     { indicatorCode: "rate", indicatorName: "Rates", indicatorDescription: "Rate", indicatorGroup: "commercial", aggregation: "q50", selected: false, pScale: 0, pSymbol: "", format: "0.00", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "cnt_payers", indicatorName: "Payers count", indicatorDescription: "Payers count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
@@ -26,10 +26,17 @@ export const INDICATORS: Indicator[] =
     { indicatorCode: "bcaba", indicatorName: "bcaba count", indicatorDescription: "bcaba count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
     { indicatorCode: "rbt", indicatorName: "rbt count", indicatorDescription: "rbt count: description.", indicatorGroup: "commercial", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: true, byTaxonomy: true },
 
+    /* medicaid */
     { indicatorCode: "medicaid_rate", indicatorName: "Medicaid Rates", indicatorDescription: "Medicataid Rate", indicatorGroup: "medicaid", aggregation: "avg", selected: false, pScale: 0, pSymbol: "", format: "0.00", byPayerNetwork: false, byTaxonomy: true },
     { indicatorCode: "medicaid_enrolled_lbas", indicatorName: "Geographic Distribution of  LBAs", indicatorDescription: "Medicaid Enrolled LBAs", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "medicaid_pop_total", indicatorName: "Medicaid Enrolled Children with Autism", indicatorDescription: "Geographic Distribution of LBA.", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
 
+    { indicatorCode: "medicaid_enrollment", indicatorName: "Medicaid Enrollment", indicatorDescription: "Medicaid Enrollment.", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+    { indicatorCode: "chip_enrollment", indicatorName: "CHIP Enrollment", indicatorDescription: "CHIP Enrollment.", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+    { indicatorCode: "medicaid_total_chip", indicatorName: "Total Medicaid and CHIP Enrollment", indicatorDescription: "Total Medicaid and CHIP Enrollment.", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+    { indicatorCode: "medicaid_child_chip", indicatorName: "Child Enrollment (Medicaid Child + CHIP Enrollment)", indicatorDescription: "Child Enrollment (Medicaid Child + CHIP Enrollment).", indicatorGroup: "medicaid", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
+
+    /* general */
     { indicatorCode: "population", indicatorName: "Population", indicatorDescription: "population", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "pop_under_18", indicatorName: "Population under 18", indicatorDescription: "population under 18 ", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
     { indicatorCode: "area", indicatorName: "Area (km2)", indicatorDescription: "Area of land in km2.", indicatorGroup: "general", aggregation: "cnt", selected: false, pScale: 0, pSymbol: "", format: "0", byPayerNetwork: false, byTaxonomy: false },
