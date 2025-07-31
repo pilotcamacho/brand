@@ -176,7 +176,14 @@ export class DdbService {
 
     const region: Region = this.getRegion(regionType, regionName);
 
-    const qData = await this.go(selectedColumn.indicatorCode, region.code, p_i36, t_i36, taxonomy, bcba_bt, this.getRightMostDigit(code))
+    const qData = await this.go(
+      selectedColumn.indicatorCode,
+      region.code,
+      selectedColumn.payerNetworkFilter ? p_i36 : 'ZZ',
+      selectedColumn.payerNetworkFilter ? t_i36 : 'ZZ',
+      selectedColumn.payerNetworkFilter ? taxonomy: 'ZZ',
+      selectedColumn.payerNetworkFilter ? bcba_bt: 'Z',
+      this.getRightMostDigit(code))
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     const reference = this.getReference(selectedColumn.indicatorGroup, region.code);
@@ -299,7 +306,7 @@ export class DdbService {
     const keyGU = `${indicatorGroup}|Unknown`;
     const keyUC = `default|${regionCode}`;
     const keyUU = `default|Unknown`;
-    const theReference = this.references[keyGC]?? this.references[keyGU]?? this.references[keyUC]?? this.references[keyUU];
+    const theReference = this.references[keyGC] ?? this.references[keyGU] ?? this.references[keyUC] ?? this.references[keyUU];
     return theReference.reference ?? '';
   }
 
