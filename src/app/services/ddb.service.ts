@@ -183,7 +183,8 @@ export class DdbService {
       selectedColumn.payerNetworkFilter ? t_i36 : 'ZZ',
       selectedColumn.payerNetworkFilter ? taxonomy: 'ZZ',
       selectedColumn.payerNetworkFilter ? bcba_bt: 'Z',
-      this.getRightMostDigit(code))
+      selectedColumn.payerNetworkFilter ? this.getRightMostDigit(code) : -1
+    )
     // console.log(`Ddb::getMapInput::qData: ${JSON.stringify(qData)}`)
 
     const reference = this.getReference(selectedColumn.indicatorGroup, region.code);
