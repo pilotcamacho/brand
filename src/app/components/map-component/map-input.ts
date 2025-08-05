@@ -33,13 +33,13 @@ export class MapInput {
     format: string;
     isPercentage: boolean;
 
-    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, isPercentage: boolean
+    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, format: string, isPercentage: boolean
     ) {
         this.region = region;
         this.title = title;
         this.data = data;
         this.paletteId = paletteId;
-        this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }));
+        this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }), format);
         this.isPercentage = isPercentage;
     }
     /**

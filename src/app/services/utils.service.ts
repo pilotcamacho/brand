@@ -147,7 +147,7 @@ export class UtilsService {
   }
 
 
-  static formatForDataset(data: number[]): string {
+  static formatForDataset(data: number[], formatOrig: string): string {
     const maxValue = Math.max(...data);
     // console.log("HomePage::updateInfo::maxValue: " + maxValue)
 
@@ -158,7 +158,7 @@ export class UtilsService {
     const roundE10 = Math.max(1, this.roundToExponent10(inverse));
     // console.log("HomePage::updateInfo::roundE10: " + roundE10)
 
-    return this.getFormatFromRound(roundE10);
+    return this.getFormatFromRound(roundE10, formatOrig);
   }
 
 
@@ -168,10 +168,14 @@ export class UtilsService {
     return Math.pow(10, power);
   }
 
-  static getFormatFromRound(roundE10: number): string {
-    if (roundE10 <= 1) return '1.0-0'; // no decimals
+  static getFormatFromRound(roundE10: number, formatOrig: string): string {
+    console.log("UtilsService::getFormatFromRound::roundE10: " + roundE10)
+    console.log("UtilsService::getFormatFromRound::formatOrig: " + formatOrig)
+
+    if (roundE10 <= 1) return formatOrig; // no decimals ... needs to change when data has decimals... or other format is wanted.
+    
     const decimalPlaces = Math.abs(Math.log10(roundE10)) + 1;
-    return "1.0-" + decimalPlaces
+    return ((formatOrig === '1.2-2' && decimalPlaces < 2) ? '1.2-2' : "1.0-" + decimalPlaces)
     // return '0.' + '0'.repeat(decimalPlaces);
   }
 

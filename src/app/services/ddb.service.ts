@@ -269,7 +269,7 @@ export class DdbService {
       selectedColumn.indicatorName,
       data,
       paletteId,
-      // selectedColumn.format
+      selectedColumn.format,
       false
     );
 

@@ -189,7 +189,7 @@ export class DataMixService {
   }
 
   getMapInputR(mapInput: MapInput, isPopulationChecked: boolean, isCntEntitiesChecked: boolean): MapInput {
-    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.isPercentage)
+    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.format, mapInput.isPercentage)
     const mapInputPopulation: MapInput = this.currentData['population'];
     const mapInputCntEntities: MapInput = this.currentData['cnt_entities'];
 
@@ -225,7 +225,7 @@ export class DataMixService {
         };
       });
 
-      mi.format = UtilsService.formatForDataset(mi.data.map(dp => { return dp.value }))
+      mi.format = UtilsService.formatForDataset(mi.data.map(dp => { return dp.value }), mi.format)
       // console.log("HomePage::updateInfo:mi.format: " + mi.format)
     }
 

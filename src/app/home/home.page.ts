@@ -150,7 +150,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
 
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '1.3-3', false);
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
 
     this.isCoaba = this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
