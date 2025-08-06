@@ -169,8 +169,8 @@ export class UtilsService {
   }
 
   static getFormatFromRound(roundE10: number, formatOrig: string): string {
-    console.log("UtilsService::getFormatFromRound::roundE10: " + roundE10)
-    console.log("UtilsService::getFormatFromRound::formatOrig: " + formatOrig)
+    // console.log("UtilsService::getFormatFromRound::roundE10: " + roundE10)
+    // console.log("UtilsService::getFormatFromRound::formatOrig: " + formatOrig)
 
     if (roundE10 <= 1) return formatOrig; // no decimals ... needs to change when data has decimals... or other format is wanted.
     

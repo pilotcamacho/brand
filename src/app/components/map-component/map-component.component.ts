@@ -192,7 +192,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         var fillOpacity = 0.9; // Ensures solid color
         var borderColor = "#ffffff"; // White border color
         var borderWeight = 0.5; // Thin border
-        var valor: [number | null, number | null, string, boolean, string] = [null, null, '', false, '']
+        var valor: { pColor: number | null, value: number | null, valueOriginal: number | null, format: string, isPercentage: boolean, reference: string } = { pColor: null, value: null, valueOriginal: null, format: 'KF2', isPercentage: false, reference: '' }
         // console.log('MapComponent::style::feature: ' + feature?.properties.NAME)
         if (feature) {
           valor = mapInput.valuesFromSubRegionName(feature.properties.NAME)
@@ -205,7 +205,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         // console.log('MapComponent::valor:: ' + valor)
         return {
           color: borderColor,
-          fillColor: us.getColor(valor[0], mapInput.paletteId),
+          fillColor: us.getColor(valor['pColor'], mapInput.paletteId),
           weight: borderWeight,
           opacity: opacity,
           fillOpacity: fillOpacity
@@ -331,8 +331,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         // layer.bindTooltip(feature.properties.name + ": " + formatNumber(cds.val_norm_from_string(feature.properties.name, c)[1], '#.00'));
         const values = mapInput.valuesFromSubRegionName(feature.properties.NAME)
         // layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
-        layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' :
-          this.decimalPipe.transform(values[1], values[2])
+        layer.bindTooltip(feature.properties.NAME + ": " + (values['value'] === null ? 'NA' :
+          this.decimalPipe.transform(values['value'], values['format'])
         ));
 
 

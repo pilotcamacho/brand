@@ -36,6 +36,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   isLocked: boolean = false
 
+  theRate: number | null = null;
+
   myRate: number | null = null;
 
   isPopulationChecked: boolean = false;

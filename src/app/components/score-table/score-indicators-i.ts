@@ -7,6 +7,7 @@ export interface Indicators {
             code: string;
             title: string;
             value: number;
+            valueOriginal: number;
             pColor: number;
             format: string;
             help: string;
