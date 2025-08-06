@@ -45,7 +45,7 @@ export class DataService {
       title,
       dataNoMinus,
       paletteId,
-      // selectedColumn.format
+      selectedColumn.format,
       false
     );
 

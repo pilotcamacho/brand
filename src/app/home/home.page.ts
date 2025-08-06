@@ -400,9 +400,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   }
 
   onHoverOverMap(event: Region) {
-    // console.log('HomePage::onHoverOverMap::', event);
+    console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
       this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
+      this.theRate = this.dataMix.getMedicadidRate(this.selectedRegion, event)
     }
   }
 

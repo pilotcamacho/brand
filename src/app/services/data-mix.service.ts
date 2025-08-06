@@ -244,7 +244,17 @@ export class DataMixService {
       })
   }
 
+  getMedicadidRate(region: Region, event: any): number | null {
+    console.log("DataMixService::getMedicadidRate::region: " + JSON.stringify(region));
+    console.log("DataMixService::getMedicadidRate::event: " + JSON.stringify(event));
+    // console.log("DataMixService::getMedicadidRate::currentData: " + JSON.stringify(this.currentData));
 
+    const arizona = this.currentData.medicaid_rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
+    const value = arizona ? arizona.value : null;
+    console.log("DataMixService::getMedicadidRate::value: " + JSON.stringify(value));
+
+    return value;
+  }
 
 
 
