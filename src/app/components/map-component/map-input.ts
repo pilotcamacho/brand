@@ -66,9 +66,9 @@ export class MapInput {
      * @param subRegion - The name of the sub-region
      * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region 
      */
-    valuesFromSubRegionName(subRegion: string): { pColor: number | null, value: number | null, valueOriginal: number | null, format: string, isPercentage: boolean, reference: string } {
+    valuesFromSubRegionName(subRegion: string): { pColor: number | null, value: number | null, format: string, isPercentage: boolean, reference: string } {
         if (!this.data || this.data.length === 0) {
-            return { pColor: null, value: null, valueOriginal: null, format: 'KF2', isPercentage: false, reference: '' }
+            return { pColor: null, value: null, format: 'KF2', isPercentage: false, reference: '' }
         }
 
         const subRegionData = this.data.filter(dp => (dp.subRegion === subRegion));
@@ -77,7 +77,6 @@ export class MapInput {
             return {
                 pColor: null,
                 value: null,
-                valueOriginal: null,
                 format: 'KF2',
                 isPercentage: false,
                 reference: ''
@@ -86,11 +85,10 @@ export class MapInput {
 
         const [min, max, format, isPercentage]: [number | null, number | null, string, boolean] = this.min_max_format_values();
 
-        if (min === null || max === null) return { pColor: null, value: null, valueOriginal: null, format: format, isPercentage: isPercentage, reference: subRegionData[0].reference };
+        if (min === null || max === null) return { pColor: null, value: null, format: format, isPercentage: isPercentage, reference: subRegionData[0].reference };
         return {
             pColor: (subRegionData[0].value - min) / (max - min),
             value: subRegionData[0].value,
-            valueOriginal: null,
             format: format,
             isPercentage: isPercentage,
             reference: subRegionData[0].reference
