@@ -244,13 +244,25 @@ export class DataMixService {
       })
   }
 
+  getCommercialRate(region: Region, event: any): number | null {
+    // console.log("DataMixService::getCommercialRate::region: " + JSON.stringify(region));
+    // console.log("DataMixService::getCommercialRate::event: " + JSON.stringify(event));
+    // console.log("DataMixService::getCommercialRate::currentData: " + JSON.stringify(this.currentData));
+
+    const rate = this.currentData.rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
+    const value = rate ? rate.value : null;
+    console.log("DataMixService::getCommercialRate::value: " + JSON.stringify(value));
+
+    return value;
+  }
+
   getMedicadidRate(region: Region, event: any): number | null {
-    console.log("DataMixService::getMedicadidRate::region: " + JSON.stringify(region));
-    console.log("DataMixService::getMedicadidRate::event: " + JSON.stringify(event));
+    // console.log("DataMixService::getMedicadidRate::region: " + JSON.stringify(region));
+    // console.log("DataMixService::getMedicadidRate::event: " + JSON.stringify(event));
     // console.log("DataMixService::getMedicadidRate::currentData: " + JSON.stringify(this.currentData));
 
-    const arizona = this.currentData.medicaid_rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
-    const value = arizona ? arizona.value : null;
+    const medicaid_rate = this.currentData.medicaid_rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
+    const value = medicaid_rate ? medicaid_rate.value : null;
     console.log("DataMixService::getMedicadidRate::value: " + JSON.stringify(value));
 
     return value;

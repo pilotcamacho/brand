@@ -32,6 +32,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  isMedicaid: boolean = true;
+  selectedRateType: 'medicaid' | 'commercial' = 'medicaid';
+
   isCoaba: boolean = false
 
   isLocked: boolean = false
@@ -209,13 +212,13 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
       this.usuarioSrv.email === 'julie@asdhopesource.com' ||
       this.usuarioSrv.email === 'ljana@acesaba.com' ||
-      this.usuarioSrv.email === 'rick@gracentcares.com' ||      
+      this.usuarioSrv.email === 'rick@gracentcares.com' ||
       this.usuarioSrv.email === 'augustomas@nimble.la' ||
-      this.usuarioSrv.email === 'Lucy@kindbh.com' ||      
-      this.usuarioSrv.email === 'brandon@kindbh.com' ||      
-      this.usuarioSrv.email === 'keith@kindbh.com' ||      
-      this.usuarioSrv.email === 'ryan@kindbh.com' ||      
-      this.usuarioSrv.email === 'admin@virginiaaba.org' ||      
+      this.usuarioSrv.email === 'Lucy@kindbh.com' ||
+      this.usuarioSrv.email === 'brandon@kindbh.com' ||
+      this.usuarioSrv.email === 'keith@kindbh.com' ||
+      this.usuarioSrv.email === 'ryan@kindbh.com' ||
+      this.usuarioSrv.email === 'admin@virginiaaba.org' ||
       this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
     ) {
 
@@ -403,7 +406,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
       this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
-      this.theRate = this.dataMix.getMedicadidRate(this.selectedRegion, event)
+      this.updateTheRate(event)
     }
   }
 
@@ -428,6 +431,19 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     }
     console.log('HomePage::this.selectedColumn: ', this.selectedColumn);
     this.updateInfo()
+  }
+
+  toggleRateType() {
+    this.selectedRateType = this.isMedicaid ? 'medicaid' : 'commercial';
+    // here you can also update `theRate` depending on the selection
+    this.updateTheRate(this.selectedRegion)
+
+  }
+
+  updateTheRate(event: Region) {
+    this.theRate = this.selectedRateType === 'medicaid'
+      ? this.dataMix.getMedicadidRate(this.selectedRegion, event)
+      : this.dataMix.getCommercialRate(this.selectedRegion, event)
   }
 
 }
