@@ -204,22 +204,24 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // This method is called by the map.
     console.log('HomePage::onSelectedCountyChange::county: ' + county)
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com') ||
-      this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
-      this.usuarioSrv.email.endsWith('peopleart.co') ||
-      this.usuarioSrv.email === 'rupowell@7dbh.com' ||
-      this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
-      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
-      this.usuarioSrv.email === 'julie@asdhopesource.com' ||
-      this.usuarioSrv.email === 'ljana@acesaba.com' ||
-      this.usuarioSrv.email === 'rick@gracentcares.com' ||
-      this.usuarioSrv.email === 'augustomas@nimble.la' ||
-      this.usuarioSrv.email === 'Lucy@kindbh.com' ||
-      this.usuarioSrv.email === 'brandon@kindbh.com' ||
-      this.usuarioSrv.email === 'keith@kindbh.com' ||
-      this.usuarioSrv.email === 'ryan@kindbh.com' ||
-      this.usuarioSrv.email === 'admin@virginiaaba.org' ||
-      this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+    if (
+      // this.usuarioSrv.email.endsWith('juniperplatform.com') ||
+      // this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
+      // this.usuarioSrv.email.endsWith('peopleart.co') ||
+      // this.usuarioSrv.email === 'rupowell@7dbh.com' ||
+      // this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
+      // this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      // this.usuarioSrv.email === 'julie@asdhopesource.com' ||
+      // this.usuarioSrv.email === 'ljana@acesaba.com' ||
+      // this.usuarioSrv.email === 'rick@gracentcares.com' ||
+      // this.usuarioSrv.email === 'augustomas@nimble.la' ||
+      // this.usuarioSrv.email === 'Lucy@kindbh.com' ||
+      // this.usuarioSrv.email === 'brandon@kindbh.com' ||
+      // this.usuarioSrv.email === 'keith@kindbh.com' ||
+      // this.usuarioSrv.email === 'ryan@kindbh.com' ||
+      // this.usuarioSrv.email === 'admin@virginiaaba.org' ||
+      // this.emailSrv.isEmailAuthorized(this.usuarioSrv.email) ||
+      true
     ) {
 
       this.selectedCountyFromChild = county;
