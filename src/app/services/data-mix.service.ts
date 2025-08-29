@@ -95,38 +95,38 @@ export class DataMixService {
         {
           col_title: 'Commercial',
           rows: [
-            { code: 'rate', title: 'Rates', value: rateV[1], pColor: rateV[0], format: rateV[2], help: rateV[4] },
-            { code: 'cnt_payers', title: 'Payers count', value: cnt_payersV[1], pColor: cnt_payersV[0], format: cnt_payersV[2], help: cnt_payersV[4] },
-            { code: 'cnt_networks', title: 'Networks count', value: cnt_networksV[1], pColor: cnt_networksV[0], format: cnt_networksV[2], help: cnt_networksV[4] },
-            { code: 'cnt_entities', title: 'Entities count', value: cnt_entitiesV[1], pColor: cnt_entitiesV[0], format: cnt_entitiesV[2], help: cnt_entitiesV[4] },
+            { code: 'rate', title: 'Rates', value: rateV['value'], pColor: rateV['pColor'], format: rateV['format'], help: rateV['reference'] },
+            { code: 'cnt_payers', title: 'Payers count', value: cnt_payersV['value'], pColor: cnt_payersV['pColor'], format: cnt_payersV['format'], help: cnt_payersV['reference'] },
+            { code: 'cnt_networks', title: 'Networks count', value: cnt_networksV['value'], pColor: cnt_networksV['pColor'], format: cnt_networksV['format'], help: cnt_networksV['reference'] },
+            { code: 'cnt_entities', title: 'Entities count', value: cnt_entitiesV['value'], pColor: cnt_entitiesV['pColor'], format: cnt_entitiesV['format'], help: cnt_entitiesV['reference'] },
 
-            { code: 'bcba_d', title: 'bcba_d count', value: bcba_d[1], pColor: bcba_d[0], format: bcba_d[2], help: bcba_d[4] },
-            { code: 'bcba', title: 'bcba count', value: bcba[1], pColor: bcba[0], format: bcba[2], help: bcba[4] },
-            { code: 'bcaba', title: 'bcaba count', value: bcaba[1], pColor: bcaba[0], format: bcaba[2], help: bcaba[4] },
-            { code: 'rbt', title: 'rbt count', value: rbt[1], pColor: rbt[0], format: rbt[2], help: rbt[4] },
+            { code: 'bcba_d', title: 'bcba_d count', value: bcba_d['value'], pColor: bcba_d['pColor'], format: bcba_d['format'], help: bcba_d['reference'] },
+            { code: 'bcba', title: 'bcba count', value: bcba['value'], pColor: bcba['pColor'], format: bcba['format'], help: bcba['reference'] },
+            { code: 'bcaba', title: 'bcaba count', value: bcaba['value'], pColor: bcaba['pColor'], format: bcaba['format'], help: bcaba['reference'] },
+            { code: 'rbt', title: 'rbt count', value: rbt['value'], pColor: rbt['pColor'], format: rbt['format'], help: rbt['reference'] },
           ]
         },
         {
           col_title: 'Medicaid',
           rows: [
-            { code: 'medicaid_rate', title: 'Medicaid Rates', value: medicaid_rateV[1], pColor: medicaid_rateV[0], format: medicaid_rateV[2], help: medicaid_rateV[4] },
-            { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: medicaid_enrolled_lbasV[1], pColor: medicaid_enrolled_lbasV[0], format: medicaid_enrolled_lbasV[2], help: medicaid_enrolled_lbasV[4] },
-            { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: medicaid_pop_totalV[1], pColor: medicaid_pop_totalV[0], format: medicaid_pop_totalV[2], help: medicaid_pop_totalV[4] },
-  
-            { code: 'medicaid_enrollment', title: 'Medicaid Enrollment', value: medicaid_enrollmentV[1], pColor: medicaid_enrollmentV[0], format: medicaid_enrollmentV[2], help: medicaid_enrollmentV[4] },
-            { code: 'chip_enrollment', title: 'CHIP Enrollment', value: chip_enrollmentV[1], pColor: chip_enrollmentV[0], format: chip_enrollmentV[2], help: chip_enrollmentV[4] },
-            { code: 'medicaid_total_chip', title: 'Total Medicaid and CHIP Enrollment', value: medicaid_total_chipV[1], pColor: medicaid_total_chipV[0], format: medicaid_total_chipV[2], help: medicaid_total_chipV[4] },
-            { code: 'medicaid_child_chip', title: 'Child Enrollment (Medicaid Child + CHIP Enrollment)', value: medicaid_child_chipV[1], pColor: medicaid_child_chipV[0], format: medicaid_child_chipV[2], help: medicaid_child_chipV[4] },
+            { code: 'medicaid_rate', title: 'Medicaid Rates', value: medicaid_rateV['value'], pColor: medicaid_rateV['pColor'], format: medicaid_rateV['format'], help: medicaid_rateV['reference'] },
+            { code: 'medicaid_enrolled_lbas', title: 'Geographic Distribution of  LBAs', value: medicaid_enrolled_lbasV['value'], pColor: medicaid_enrolled_lbasV['pColor'], format: medicaid_enrolled_lbasV['format'], help: medicaid_enrolled_lbasV['reference'] },
+            { code: 'medicaid_pop_total', title: 'Medicaid Enrolled Children with Autism', value: medicaid_pop_totalV['value'], pColor: medicaid_pop_totalV['pColor'], format: medicaid_pop_totalV['format'], help: medicaid_pop_totalV['reference'] },
+
+            { code: 'medicaid_enrollment', title: 'Medicaid Enrollment', value: medicaid_enrollmentV['value'], pColor: medicaid_enrollmentV['pColor'], format: medicaid_enrollmentV['format'], help: medicaid_enrollmentV['reference'] },
+            { code: 'chip_enrollment', title: 'CHIP Enrollment', value: chip_enrollmentV['value'], pColor: chip_enrollmentV['pColor'], format: chip_enrollmentV['format'], help: chip_enrollmentV['reference'] },
+            { code: 'medicaid_total_chip', title: 'Total Medicaid and CHIP Enrollment', value: medicaid_total_chipV['value'], pColor: medicaid_total_chipV['pColor'], format: medicaid_total_chipV['format'], help: medicaid_total_chipV['reference'] },
+            { code: 'medicaid_child_chip', title: 'Child Enrollment (Medicaid Child + CHIP Enrollment)', value: medicaid_child_chipV['value'], pColor: medicaid_child_chipV['pColor'], format: medicaid_child_chipV['format'], help: medicaid_child_chipV['reference'] },
           ]
         },
         {
           col_title: 'General',
           rows: [
-            { code: 'population', title: 'Population', value: populationV[1], pColor: populationV[0], format: populationV[2], help: populationV[4] },
-            { code: 'pop_under_18', title: 'Population under 18', value: pop_under_18V[1], pColor: pop_under_18V[0], format: pop_under_18V[2], help: pop_under_18V[4] },
-            { code: 'area', title: 'Area (km2)', value: areaV[1], pColor: areaV[0], format: areaV[2], help: areaV[4] },
-            { code: 'hhi', title: 'Household Income', value: hhiV[1], pColor: hhiV[0], format: hhiV[2], help: hhiV[4] },
-            { code: 'phi', title: 'Private Health Insurance', value: phiV[1], pColor: phiV[0], format: phiV[2], help: phiV[4] },
+            { code: 'population', title: 'Population', value: populationV['value'], pColor: populationV['pColor'], format: populationV['format'], help: populationV['reference'] },
+            { code: 'pop_under_18', title: 'Population under 18', value: pop_under_18V['value'], pColor: pop_under_18V['pColor'], format: pop_under_18V['format'], help: pop_under_18V['reference'] },
+            { code: 'area', title: 'Area (km2)', value: areaV['value'], pColor: areaV['pColor'], format: areaV['format'], help: areaV['reference'] },
+            { code: 'hhi', title: 'Household Income', value: hhiV['value'], pColor: hhiV['pColor'], format: hhiV['format'], help: hhiV['reference'] },
+            { code: 'phi', title: 'Private Health Insurance', value: phiV['value'], pColor: phiV['pColor'], format: phiV['format'], help: phiV['reference'] },
           ]
         }
       ]
@@ -189,7 +189,7 @@ export class DataMixService {
   }
 
   getMapInputR(mapInput: MapInput, isPopulationChecked: boolean, isCntEntitiesChecked: boolean): MapInput {
-    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.isPercentage)
+    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.format, mapInput.isPercentage)
     const mapInputPopulation: MapInput = this.currentData['population'];
     const mapInputCntEntities: MapInput = this.currentData['cnt_entities'];
 
@@ -225,7 +225,7 @@ export class DataMixService {
         };
       });
 
-      mi.format = UtilsService.formatForDataset(mi.data.map(dp => { return dp.value }))
+      mi.format = UtilsService.formatForDataset(mi.data.map(dp => { return dp.value }), mi.format)
       // console.log("HomePage::updateInfo:mi.format: " + mi.format)
     }
 
@@ -244,7 +244,29 @@ export class DataMixService {
       })
   }
 
+  getCommercialRate(region: Region, event: any): number | null {
+    // console.log("DataMixService::getCommercialRate::region: " + JSON.stringify(region));
+    // console.log("DataMixService::getCommercialRate::event: " + JSON.stringify(event));
+    // console.log("DataMixService::getCommercialRate::currentData: " + JSON.stringify(this.currentData));
 
+    const rate = this.currentData.rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
+    const value = rate ? rate.value : null;
+    console.log("DataMixService::getCommercialRate::value: " + JSON.stringify(value));
+
+    return value;
+  }
+
+  getMedicadidRate(region: Region, event: any): number | null {
+    // console.log("DataMixService::getMedicadidRate::region: " + JSON.stringify(region));
+    // console.log("DataMixService::getMedicadidRate::event: " + JSON.stringify(event));
+    // console.log("DataMixService::getMedicadidRate::currentData: " + JSON.stringify(this.currentData));
+
+    const medicaid_rate = this.currentData.medicaid_rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
+    const value = medicaid_rate ? medicaid_rate.value : null;
+    console.log("DataMixService::getMedicadidRate::value: " + JSON.stringify(value));
+
+    return value;
+  }
 
 
 

@@ -32,9 +32,14 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  isMedicaid: boolean = true;
+  selectedRateType: 'medicaid' | 'commercial' = 'medicaid';
+
   isCoaba: boolean = false
 
   isLocked: boolean = false
+
+  theRate: number | null = null;
 
   myRate: number | null = null;
 
@@ -150,7 +155,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
 
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', false);
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '1.2-2', false);
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
 
     this.isCoaba = this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
@@ -199,22 +204,24 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     // This method is called by the map.
     console.log('HomePage::onSelectedCountyChange::county: ' + county)
 
-    if (this.usuarioSrv.email.endsWith('juniperplatform.com') ||
-      this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
-      this.usuarioSrv.email.endsWith('peopleart.co') ||
-      this.usuarioSrv.email === 'rupowell@7dbh.com' ||
-      this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
-      this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
-      this.usuarioSrv.email === 'julie@asdhopesource.com' ||
-      this.usuarioSrv.email === 'ljana@acesaba.com' ||
-      this.usuarioSrv.email === 'rick@gracentcares.com' ||      
-      this.usuarioSrv.email === 'augustomas@nimble.la' ||
-      this.usuarioSrv.email === 'Lucy@kindbh.com' ||      
-      this.usuarioSrv.email === 'brandon@kindbh.com' ||      
-      this.usuarioSrv.email === 'keith@kindbh.com' ||      
-      this.usuarioSrv.email === 'ryan@kindbh.com' ||      
-      this.usuarioSrv.email === 'admin@virginiaaba.org' ||      
-      this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+    if (
+      // this.usuarioSrv.email.endsWith('juniperplatform.com') ||
+      // this.usuarioSrv.email.endsWith('intercaretherapy.com') ||
+      // this.usuarioSrv.email.endsWith('peopleart.co') ||
+      // this.usuarioSrv.email === 'rupowell@7dbh.com' ||
+      // this.usuarioSrv.email === 'emilyiceaba@gmail.com' ||
+      // this.usuarioSrv.email === 'alexandra.tomei@bluesprigpediatrics.com' ||
+      // this.usuarioSrv.email === 'julie@asdhopesource.com' ||
+      // this.usuarioSrv.email === 'ljana@acesaba.com' ||
+      // this.usuarioSrv.email === 'rick@gracentcares.com' ||
+      // this.usuarioSrv.email === 'augustomas@nimble.la' ||
+      // this.usuarioSrv.email === 'Lucy@kindbh.com' ||
+      // this.usuarioSrv.email === 'brandon@kindbh.com' ||
+      // this.usuarioSrv.email === 'keith@kindbh.com' ||
+      // this.usuarioSrv.email === 'ryan@kindbh.com' ||
+      // this.usuarioSrv.email === 'admin@virginiaaba.org' ||
+      // this.emailSrv.isEmailAuthorized(this.usuarioSrv.email) ||
+      true
     ) {
 
       this.selectedCountyFromChild = county;
@@ -398,9 +405,10 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   }
 
   onHoverOverMap(event: Region) {
-    // console.log('HomePage::onHoverOverMap::', event);
+    console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
       this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
+      this.updateTheRate(event)
     }
   }
 
@@ -425,6 +433,19 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     }
     console.log('HomePage::this.selectedColumn: ', this.selectedColumn);
     this.updateInfo()
+  }
+
+  toggleRateType() {
+    this.selectedRateType = this.isMedicaid ? 'medicaid' : 'commercial';
+    // here you can also update `theRate` depending on the selection
+    this.updateTheRate(this.selectedRegion)
+
+  }
+
+  updateTheRate(event: Region) {
+    this.theRate = this.selectedRateType === 'medicaid'
+      ? this.dataMix.getMedicadidRate(this.selectedRegion, event)
+      : this.dataMix.getCommercialRate(this.selectedRegion, event)
   }
 
 }

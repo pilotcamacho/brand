@@ -33,13 +33,13 @@ export class MapInput {
     format: string;
     isPercentage: boolean;
 
-    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, isPercentage: boolean
+    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, format: string, isPercentage: boolean
     ) {
         this.region = region;
         this.title = title;
         this.data = data;
         this.paletteId = paletteId;
-        this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }));
+        this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }), format);
         this.isPercentage = isPercentage;
     }
     /**
@@ -64,22 +64,34 @@ export class MapInput {
     /**
      * Get the min and max values for a specific sub-region
      * @param subRegion - The name of the sub-region
-     * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region
+     * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region 
      */
-    valuesFromSubRegionName(subRegion: string): [number | null, number | null, string, boolean, string] {
+    valuesFromSubRegionName(subRegion: string): { pColor: number | null, value: number | null, format: string, isPercentage: boolean, reference: string } {
         if (!this.data || this.data.length === 0) {
-            return [null, null, 'KF2', false, ''];
+            return { pColor: null, value: null, format: 'KF2', isPercentage: false, reference: '' }
         }
 
         const subRegionData = this.data.filter(dp => (dp.subRegion === subRegion));
 
         if (subRegionData.length === 0) {
-            return [null, null, 'KF3', false, ''];
+            return {
+                pColor: null,
+                value: null,
+                format: 'KF2',
+                isPercentage: false,
+                reference: ''
+            }
         }
 
         const [min, max, format, isPercentage]: [number | null, number | null, string, boolean] = this.min_max_format_values();
 
-        if (min === null || max === null) return [null, null, format, isPercentage, subRegionData[0].reference];
-        return [(subRegionData[0].value - min) / (max - min), subRegionData[0].value, format, isPercentage, subRegionData[0].reference];
+        if (min === null || max === null) return { pColor: null, value: null, format: format, isPercentage: isPercentage, reference: subRegionData[0].reference };
+        return {
+            pColor: (subRegionData[0].value - min) / (max - min),
+            value: subRegionData[0].value,
+            format: format,
+            isPercentage: isPercentage,
+            reference: subRegionData[0].reference
+        }
     }
 }
