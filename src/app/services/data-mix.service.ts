@@ -4,6 +4,7 @@ import { Indicator, INDICATORS } from './data-i';
 import { DdbService } from './ddb.service';
 import { Indicators } from '../components/score-table/score-indicators-i';
 import { UtilsService } from './utils.service';
+import { StatesService } from './states/states.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,7 @@ export class DataMixService {
 
   constructor(
     public dynamoDB: DdbService,
+    public stateS: StatesService
     // public utilsSrv: UtilsService
   ) {
     this.updateCurrentDataRatio(RegionType.COUNTRY, 'USA', 'ZZ', 'ZZ', 'ZZ', 'Z', '00000', 'mono', 0, false, false)
@@ -268,7 +270,10 @@ export class DataMixService {
     return value;
   }
 
-
-
+  getReference(indicatorGroup: string, event: any, code: string): string {
+    const r = this.stateS.getStateDetailsByName(event.name);
+    console.log("DataMixService::getReference::indicatorGroup|event.name|code: " + indicatorGroup + '::' + r?.state_code + '::' + code);
+    return this.dynamoDB.getReference(indicatorGroup, r?.state_code ?? 'USA', code)
+  }
 
 }

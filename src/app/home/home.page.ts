@@ -41,6 +41,8 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   theRate: number | null = null;
 
+  theReference: string = ''
+
   myRate: number | null = null;
 
   isPopulationChecked: boolean = false;
@@ -446,6 +448,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     this.theRate = this.selectedRateType === 'medicaid'
       ? this.dataMix.getMedicadidRate(this.selectedRegion, event)
       : this.dataMix.getCommercialRate(this.selectedRegion, event)
+
+    this.theReference = this.dataMix.getReference(this.selectedColumn.indicatorGroup, event, this.selCode)
+    console.log('HomePage::updateTheRate::theReference: ', this.theReference);
   }
 
 }

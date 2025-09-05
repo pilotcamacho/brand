@@ -200,7 +200,7 @@
           </ion-item>
 
 <!-- Rate Section -->
-<!-- <ion-list-header class="rate-header">
+<ion-list-header class="rate-header">
   <div class="header-content">
     <span>{{ selectedRateType | titlecase }} Rate</span>
     <ion-toggle [(ngModel)]="isMedicaid" (ionChange)="toggleRateType()"></ion-toggle>
@@ -208,8 +208,8 @@
 </ion-list-header>
 
 <ion-item>
-  ${{ theRate | number: '1.2-2' }}
-</ion-item> -->
+  ${{ theRate | number: '1.2-2' }}  [{{theReference}}]
+</ion-item>
 
           <!-- My rate Section -->
           <ion-list-header>

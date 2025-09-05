@@ -332,7 +332,7 @@ export class DdbService {
     const keyUC = `default|${regionCode}|00000`;
     const keyUU = `default|Unknown|00000`;
     const theReference = this.references[keyGCC] ?? this.references[keyGC] ?? this.references[keyGU] ?? this.references[keyUC] ?? this.references[keyUU];
-    console.log(`DdbService::getReference::theReference: ${theReference}`);
+    console.log(`DdbService::getReference::theReference: ${JSON.stringify(theReference)}`);
     return theReference.reference ?? '';
   }
 
