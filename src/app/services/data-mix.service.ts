@@ -191,7 +191,7 @@ export class DataMixService {
   }
 
   getMapInputR(mapInput: MapInput, isPopulationChecked: boolean, isCntEntitiesChecked: boolean): MapInput {
-    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.format, mapInput.isPercentage)
+    const mi: MapInput = new MapInput(mapInput.region, mapInput.title, mapInput.data, mapInput.paletteId, mapInput.format, mapInput.isPercentage, 'reference 20250910')
     const mapInputPopulation: MapInput = this.currentData['population'];
     const mapInputCntEntities: MapInput = this.currentData['cnt_entities'];
 
@@ -265,14 +265,14 @@ export class DataMixService {
 
     const medicaid_rate = this.currentData.medicaid_rate.data.find((d: { subRegion: string; }) => d.subRegion === event.name);
     const value = medicaid_rate ? medicaid_rate.value : null;
-    console.log("DataMixService::getMedicadidRate::value: " + JSON.stringify(value));
+    // console.log("DataMixService::getMedicadidRate::value: " + JSON.stringify(value));
 
     return value;
   }
 
-  getReference(indicatorGroup: string, event: any, code: string): string {
-    const r = this.stateS.getStateDetailsByName(event.name);
-    console.log("DataMixService::getReference::indicatorGroup|event.name|code: " + indicatorGroup + '::' + r?.state_code + '::' + code);
+  getReference(indicatorGroup: string, name: string, code: string): string {
+    const r = this.stateS.getStateDetailsByName(name);
+    // console.log("DataMixService::getReference::indicatorGroup|event.name|code: " + indicatorGroup + '::' + r?.state_code + '::' + code);
     return this.dynamoDB.getReference(indicatorGroup, r?.state_code ?? 'USA', code)
   }
 

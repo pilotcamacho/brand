@@ -161,7 +161,7 @@ export class DdbService {
       region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-02-01'
     }
 
-    console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
+    // console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
     // if (inputQuery.variable === 'cnt_payers') {
     await this.sleep(Math.floor(Math.random() * 1000)); // delay of 1000 ms (1 second)
     const { errors, data: qData } = await client.models.QueryData.get(inputQuery)
@@ -292,7 +292,8 @@ export class DdbService {
       data,
       paletteId,
       selectedColumn.format,
-      false
+      false,
+      'requereference reference20250910'
     );
 
     // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);
@@ -325,14 +326,14 @@ export class DdbService {
   }
 
   getReference(indicatorGroup: string, regionCode: string, code: string): string {
-    console.log(`DdbService::getReference::indicatorGroup|regionCode|code: ${indicatorGroup}, ${regionCode}, ${code}`);
+    // console.log(`DdbService::getReference::indicatorGroup|regionCode|code: ${indicatorGroup}, ${regionCode}, ${code}`);
     const keyGCC = `${indicatorGroup}|${regionCode}|${code}`;
     const keyGC = `${indicatorGroup}|${regionCode}|00000`;
     const keyGU = `${indicatorGroup}|Unknown|00000`;
     const keyUC = `default|${regionCode}|00000`;
     const keyUU = `default|Unknown|00000`;
     const theReference = this.references[keyGCC] ?? this.references[keyGC] ?? this.references[keyGU] ?? this.references[keyUC] ?? this.references[keyUU];
-    console.log(`DdbService::getReference::theReference: ${JSON.stringify(theReference)}`);
+    // console.log(`DdbService::getReference::theReference: ${JSON.stringify(theReference)}`);
     return theReference.reference ?? '';
   }
 

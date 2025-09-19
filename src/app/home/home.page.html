@@ -166,6 +166,32 @@
 
         <ion-list class="scrollable-list">
 
+          <!-- Reference inset -->
+          <ion-list-header>
+            <ion-label>Reference</ion-label>
+          </ion-list-header>
+
+
+          <!-- Mini webpage (embedded) -->
+          <ion-card>
+            <!-- <ion-card-header>
+              <ion-card-title>{{theReferenceFileForSelction}}</ion-card-title>
+            </ion-card-header> -->
+
+            <ion-card-content class="mini-webpage-card">
+              <img [src]="theReferenceFileForSelction" alt="Thumbnail preview"
+                style="width:100%; height:auto; border-radius:8px; display:block;" (error)="setDefaultImage($event)" />
+
+              <div class="iframe-fallback" style="margin-top:8px; font-size:14px;">
+                Click to open in new page,
+                <a [href]="theReferenceForSelction" target="_blank" rel="noopener noreferrer">open the site in a new
+                  tab</a>.
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+
+
           <!-- Filters Section -->
           <ion-list-header>
             <ion-label>Filters</ion-label>
@@ -199,17 +225,17 @@
             </ion-select>
           </ion-item>
 
-<!-- Rate Section -->
-<ion-list-header class="rate-header">
-  <div class="header-content">
-    <span>{{ selectedRateType | titlecase }} Rate</span>
-    <ion-toggle [(ngModel)]="isMedicaid" (ionChange)="toggleRateType()"></ion-toggle>
-  </div>
-</ion-list-header>
+          <!-- Rate Section -->
+          <ion-list-header class="rate-header">
+            <div class="header-content">
+              <span>{{ selectedRateType | titlecase }} Rate</span>
+              <ion-toggle [(ngModel)]="isMedicaid" (ionChange)="toggleRateType()"></ion-toggle>
+            </div>
+          </ion-list-header>
 
-<ion-item>
-  ${{ theRate | number: '1.2-2' }}  [{{theReference}}]
-</ion-item>
+          <ion-item>
+            ${{ theRate | number: '1.2-2' }} [{{theReference}}]
+          </ion-item>
 
           <!-- My rate Section -->
           <ion-list-header>

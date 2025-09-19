@@ -15,6 +15,8 @@ import { DataMixService } from '../services/data-mix.service';
 import { AuthService } from '../services/auth.service';
 import { EmailsService } from '../services/emails/emails.service';
 
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,9 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   theRate: number | null = null;
 
   theReference: string = ''
+  theReferenceFileForSelction: string = ''
+  theReferenceForSelction: string = ''
+  // safeReferenceUrl!: SafeResourceUrl;
 
   myRate: number | null = null;
 
@@ -150,18 +155,27 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     public authSrv: AuthService,
     private navCtrl: NavController,
     private router: Router,
-    private emailSrv: EmailsService
+    private emailSrv: EmailsService,
+    private sanitizer: DomSanitizer
   ) {
     this.palettes = utilsService.palettes
     this.updateColumnsInfo();
     this.selectedColumn = this.indicators[0]
     this.updateInfo()
 
-    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '1.2-2', false);
+    this.mapInput = new MapInput({ type: RegionType.COUNTRY, name: 'NA', code: 'NA', codeFP: 'NA' }, 'NA', [], 'mono', '1.2-2', false, 'rereference 20250910');
     this.indicatorGroups = { region: '', subRegion: '', columns: [] }
 
     this.isCoaba = this.emailSrv.isEmailAuthorized(this.usuarioSrv.email)
+
+    // this.updateSafeUrl(this.theReferenceForSelction);
   }
+
+  //   // Call this whenever the variable changes
+  // updateSafeUrl(url: string) {
+  //   this.theReferenceForSelction = url;
+  //   this.safeReferenceUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  // }
 
   ngOnInit() {
     console.log('HomePage::ngOnInit');
@@ -229,6 +243,25 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       this.selectedCountyFromChild = county;
 
       console.log('HomePage::onSelectedCountyChange::Selected county from child: ', this.selectedCountyFromChild);
+
+      console.log('HomePage::onSelectedCountyChange::this.selectedColumn.indicatorGroup: ', this.selectedColumn.indicatorGroup);
+      console.log('HomePage::onSelectedCountyChange::this.selectedCountyFromChild: ', this.selectedCountyFromChild);
+      console.log('HomePage::onSelectedCountyChange::this.selCode: ', this.selCode);
+
+      const path = 'assets/referencesThumbs/';
+      const indic = this.selectedColumn.indicatorGroup;
+      const regionCode = indic == 'general' ? 'unknown' : (this.statesSrv.getStateDetailsByName(this.selectedCountyFromChild)?.state_code)?.toLowerCase();
+      const practCode = indic == 'general' ? '00000' : this.selCode;
+
+      this.theReferenceFileForSelction = path
+        + indic + '_'
+        + regionCode + '_'
+        + practCode + '.png'
+
+      this.theReferenceForSelction = this.dataMix.getReference(this.selectedColumn.indicatorGroup, this.selectedCountyFromChild, this.selCode)
+      // this.updateSafeUrl(this.theReferenceForSelction)
+      console.log('HomePage::onSelectedCountyChange::this.theReferenceFileForSelction: ', this.theReferenceFileForSelction);
+
 
       const out = this.statesSrv.getStateDetailsByName(county)
 
@@ -407,7 +440,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
   }
 
   onHoverOverMap(event: Region) {
-    console.log('HomePage::onHoverOverMap::', event);
+    // console.log('HomePage::onHoverOverMap::', event);
     if (!this.isLocked) {
       this.indicatorGroups = this.dataMix.getIndicatorGroups(this.selectedRegion, event)
       this.updateTheRate(event)
@@ -449,8 +482,13 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
       ? this.dataMix.getMedicadidRate(this.selectedRegion, event)
       : this.dataMix.getCommercialRate(this.selectedRegion, event)
 
-    this.theReference = this.dataMix.getReference(this.selectedColumn.indicatorGroup, event, this.selCode)
-    console.log('HomePage::updateTheRate::theReference: ', this.theReference);
+    this.theReference = this.dataMix.getReference(this.selectedColumn.indicatorGroup, event.name, this.selCode)
+    // console.log('HomePage::updateTheRate::theReference: ', this.theReference);
+  }
+
+  setDefaultImage(event: Event) {
+    const element = event.target as HTMLImageElement;
+    element.src = 'assets/camber-logo.png'; // <-- fallback image in assets
   }
 
 }
