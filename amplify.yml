@@ -11,7 +11,7 @@ frontend:
       commands:
         - npm install -g @ionic/cli
         - npm install aws-amplify
-        - npm install @aws-amplify/ui-angular
+        - npm install @aws-amplify/ui-angular@5.0.33
         - ionic build --prod
   artifacts:
     baseDirectory: www
