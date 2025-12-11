@@ -119,25 +119,34 @@ export class BoxPlotComponent implements OnInit, OnChanges {
 
     // { min: 2, q1: 10, median: 15, q3: 18, max: 20, outliers: [90] }, // B with an outlier
     // { min: 20, q1: 30, median: 45, q3: 60, max: 70 }, // C
+
+    console.log('BoxPlotComponent::readData', this.data)
+
     return this.data
       .sort((a, b) => a.subRegion.localeCompare(b.subRegion))
       .map(dp => {
-        // return {
-        //   min: dp.quantiles.q10,
-        //   q1: dp.quantiles.q25,
-        //   median: dp.quantiles.q50,
-        //   q3: dp.quantiles.q75,
-        //   max: dp.quantiles.q90
-        // }
+
+        const q = dp.quantiles;
+
+        // Condition for fallback to avg
+        const useAvg = (q.q05 == null && q.q50 == null);
+
+        const min = useAvg ? q.avg : q.q05;
+        const q1 = useAvg ? q.avg : q.q25;
+        const median = useAvg ? q.avg : q.q50;
+        const q3 = useAvg ? q.avg : q.q75;
+        const max = useAvg ? q.avg : q.q95;
+
         return {
-          min: dp.quantiles.q05,
-          q1: dp.quantiles.q25,
-          median: dp.quantiles.q50,
-          q3: dp.quantiles.q75,
-          max: dp.quantiles.q95,
-          mean: dp.quantiles.avg
-        }        
-      })
+          min,
+          q1,
+          median,
+          q3,
+          max,
+          mean: q.avg
+        };
+      });
+
   }
 
 
@@ -184,7 +193,7 @@ export class BoxPlotComponent implements OnInit, OnChanges {
   public updateReferenceLine(value: number) {
     if (this.boxPlotChartOptions.plugins?.annotation?.annotations) {
       const referenceLine = (this.boxPlotChartOptions.plugins.annotation.annotations as any).referenceLine;
-  
+
       if (isNaN(value)) {
         referenceLine.display = false;  // Hide the line
       } else {
@@ -194,9 +203,9 @@ export class BoxPlotComponent implements OnInit, OnChanges {
         referenceLine.label.content = "My rate: " + value;
       }
     }
-  
+
     console.log('Updated reference line to:', isNaN(value) ? 'HIDDEN' : value);
     this.chart?.update();
   }
-  
+
 }

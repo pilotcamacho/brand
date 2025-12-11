@@ -20,7 +20,7 @@ export class UsuarioService {
   constructor() { }
 
   async updateUser(authStatus: string) {
-    console.log('UsuarioService::updateUser::authenticator.authStatus: ', JSON.stringify(authStatus));
+    // console.log('UsuarioService::updateUser::authenticator.authStatus: ', JSON.stringify(authStatus));
 
     if (authStatus === "authenticated") {
       const u = await getCurrentUser()

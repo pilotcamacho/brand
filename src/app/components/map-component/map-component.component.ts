@@ -42,7 +42,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     private decimalPipe: DecimalPipe
     // private cds: CountyDataSrvService
   ) {
-    console.log('MapComponent::constructor:: ')
+    // console.log('MapComponent::constructor:: ')
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -108,7 +108,7 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
 
     // console.log('MapComponent::initMap::A::this.inUSAView: ', this.inUSAView)
     // console.log('MapComponent::initMap::A::this.mapInput: ', this.mapInput)
-    console.log('MapComponent::initMap::A::this.mapInput.region: ', this.mapInput.region)
+    // console.log('MapComponent::initMap::A::this.mapInput.region: ', this.mapInput.region)
 
     const DEFAULT_SETTINGS = { coordinates: [37.0902, -95.7129], zoom: 4 };
 
@@ -121,14 +121,14 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
     console.log('MapComponent::initMap::B')
 
     this.map = L.map('map').setView(coorJson, zoomJson);
-    console.log('MapComponent::initMap::C')
+    // console.log('MapComponent::initMap::C')
 
     // NO INTERNET
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(this.map);
-    console.log('MapComponent::initMap::D')
+    // console.log('MapComponent::initMap::D')
 
     this.addTitle(this.mapTitle);
     // this.addColorScaleLegend(-1.0, 1.0, 2);
@@ -332,8 +332,8 @@ export class MapComponentComponent implements AfterViewInit, OnChanges {
         const values = mapInput.valuesFromSubRegionName(feature.properties.NAME)
         // layer.bindTooltip(feature.properties.NAME + ": " + (values[1] === null ? 'NA' : this.utilsSrv.formatNumber(values[1], values[2])));
         layer.bindTooltip(feature.properties.NAME + ": " + (values['value'] === null ? 'NA' :
-          this.decimalPipe.transform(values['value'], values['format'])
-        ));
+          this.decimalPipe.transform(values['value'], values['format']))
+        );
 
 
 
