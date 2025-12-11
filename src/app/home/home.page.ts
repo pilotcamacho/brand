@@ -10,6 +10,7 @@ import { StatesService } from '../services/states/states.service';
 import { ColumnData } from '../services/county-data/county-data-i';
 import { UtilsService } from '../services/utils.service';
 import { BoxPlotComponent } from '../components/box-plot/box-plot.component';
+import { BarChartComponent } from '../components/bar-chart/bar-chart.component';
 import { Indicators } from '../components/score-table/score-indicators-i';
 import { DataMixService } from '../services/data-mix.service';
 import { AuthService } from '../services/auth.service';

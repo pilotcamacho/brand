@@ -57,15 +57,25 @@
         </ion-row>
 
 
-
-
-
-        <ion-row *ngIf="mapInput.title === 'Rates'">
+        <ion-row *ngIf="(mapInput.title === 'Rates')">
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <div class="custom-card">
               <div class="box-plot-section">
                 <div id="box-plot">
                   <app-box-plot [data]="mapInput.data"></app-box-plot>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="(mapInput.title === 'Medicaid Rates')">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <div class="custom-card">
+              <div class="box-plot-section">
+                <div id="box-plot">
+                  <app-bar-chart [data]="mapInput.data"
+                    [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
                 </div>
               </div>
             </div>
@@ -234,7 +244,10 @@
           </ion-list-header>
 
           <ion-item>
-            ${{ theRate | number: '1.2-2' }} [{{theReference}}]
+            <ion-label>${{ theRate | number: '1.2-2' }}</ion-label>
+            <ion-button fill="clear" [href]="theReference" target="_blank">
+              go to source
+            </ion-button>
           </ion-item>
 
           <!-- My rate Section -->
