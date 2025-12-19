@@ -32,8 +32,10 @@ export class MapInput {
     paletteId: string;
     format: string;
     isPercentage: boolean;
+    reference: string;
 
-    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, format: string, isPercentage: boolean
+    constructor(region: Region, title: string, data: DataPoint[], paletteId: string, format: string,
+        isPercentage: boolean, reference: string
     ) {
         this.region = region;
         this.title = title;
@@ -41,6 +43,7 @@ export class MapInput {
         this.paletteId = paletteId;
         this.format = UtilsService.formatForDataset(data.map(dp => { return dp.value }), format);
         this.isPercentage = isPercentage;
+        this.reference = reference;
     }
     /**
      * Get the minimum and maximum values from the data array
@@ -66,7 +69,10 @@ export class MapInput {
      * @param subRegion - The name of the sub-region
      * @returns A tuple with [value_normalized_0_1, value, formatted default, isPercentage] for the sub-region 
      */
-    valuesFromSubRegionName(subRegion: string): { pColor: number | null, value: number | null, format: string, isPercentage: boolean, reference: string } {
+    valuesFromSubRegionName(subRegion: string): {
+        pColor: number | null, value: number | null,
+        format: string, isPercentage: boolean, reference: string
+    } {
         if (!this.data || this.data.length === 0) {
             return { pColor: null, value: null, format: 'KF2', isPercentage: false, reference: '' }
         }
