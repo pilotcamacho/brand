@@ -290,7 +290,8 @@ export class DdbService {
       data,
       paletteId,
       selectedColumn.format,
-      false
+      false,
+      'requereference reference20250910'
     );
 
     // console.log(`DataService::getMapInput::mapInput::${JSON.stringify(mapInput)}`);

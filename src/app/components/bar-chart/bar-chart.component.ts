@@ -8,6 +8,8 @@ import { ColumnData } from 'src/app/services/county-data/county-data-i';
 // import { CountyInfo } from 'src/app/services/county-data/county-info';
 import { IonToggle } from "@ionic/angular/standalone";
 import { FormsModule } from '@angular/forms';
+import { DataPoint } from '../map-component/map-input';
+
 
 @Component({
   selector: 'app-bar-chart',
@@ -18,9 +20,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
 
-  sordByValue: boolean = false;
+  sortedByValue: boolean = false;
 
-  @Input() selectedColumn!: ColumnData;
+  @Input() data: DataPoint[] = [];
 
   @Input() selectedCounty: string = 'Los Angeles';
 
@@ -50,8 +52,8 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('BarChartComponent::ngOnChanges')
-    if (changes['selectedColumn']) {
-      console.log('Data selectedColumnbar-chart:', this.selectedColumn);
+    if (changes['data']) {
+      console.log('Data selectedColumnbar-chart:', this.data);
       this.updateData()
     }
     if (changes['selectedCounty']) {
@@ -62,7 +64,7 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
 
   private initChart(): void {
     console.log('BarChartComponent::initChart')
-    console.log('this.selectedColumn:' + this.selectedColumn)
+    console.log('this.data:' + this.data)
   }
 
 
@@ -72,10 +74,10 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
   public barChartPlugins = [];
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['casa', '2007', '2008', '2009', '2010', '2011', '2012'],
+    labels: [],
     datasets: [
       {
-        data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'
+        data: [], label: 'Medicaid Rate'
         , backgroundColor: [
           'rgba(0, 0, 132, 0.2)'
         ],
@@ -89,17 +91,30 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
 
 
   public updateData(): void {
-    // const countyMap = this.cds.values_by_county('CA', this.selectedColumn.code as keyof CountyInfo, this.sordByValue)
 
-    // this.barChartData.labels = Array.from(countyMap.keys());
-    // this.barChartData.datasets[0].data = Array.from(countyMap.values());
-    // this.barChartData.datasets[0].label = this.selectedColumn.name;
-    // this.barChartData.datasets[0].backgroundColor = Array.from(countyMap.keys()).map(x => this.getColorForSelected(x));
-    // this.barChartData.datasets[0].borderColor = Array.from(countyMap.keys()).map(x => this.getColorForSelected(x));
+    // 1. Choose sorting method based on the boolean flag
+    const sorted = [...this.data].sort((a, b) => {
+      if (this.sortedByValue) {
+        return a.value - b.value;              // sort by value (numeric)
+      } else {
+        return a.subRegion.localeCompare(b.subRegion);   // sort by label
+      }
+    });
 
+    // 2. Extract labels and values
+    const labels = sorted.map(dp => dp.subRegion);
+    const values = sorted.map(dp => dp.value);
 
+    // 3. Populate chart data
+    this.barChartData.labels = labels;
+    this.barChartData.datasets[0].data = values;
+
+    // 4. Update chart
     this.chart?.update();
   }
+
+
+
 
   getColorForSelected(county: string) {
     return county == this.selectedCounty ? 'rgba(192, 64, 0, 1)' : 'rgba(0, 0, 255, 0.27)'
@@ -161,10 +176,10 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges {
     // You can add any logic here to handle the change
     if (isChecked) {
       console.log('Notifications enabled');
-      this.sordByValue = true
+      this.sortedByValue = true
     } else {
       console.log('Notifications disabled');
-      this.sordByValue = false
+      this.sortedByValue = false
     }
     this.updateData()
 

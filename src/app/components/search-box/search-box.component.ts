@@ -27,7 +27,7 @@ export class SearchBoxComponent implements OnInit, OnChanges { // Implement OnCh
   }
 
   ngOnInit() {
-    console.log('SearchBoxComponent::ngOnInit');
+    // console.log('SearchBoxComponent::ngOnInit');
     this.filteredItems = [...this.items]; // Initialize with input items
   }
 

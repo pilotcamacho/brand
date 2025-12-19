@@ -251,3 +251,9 @@ app-q-chart {
   width: 100%;
   align-items: center;
 }
+
+.mini-webpage-card iframe {
+  min-height: 300px;
+  max-height: 70vh;
+  height: 420px; /* default */
+}

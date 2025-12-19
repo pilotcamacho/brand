@@ -56,15 +56,25 @@
         </ion-row>
 
 
-
-
-
-        <ion-row *ngIf="mapInput.title === 'Rates'">
+        <ion-row *ngIf="(mapInput.title === 'Rates')">
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <div class="custom-card">
               <div class="box-plot-section">
                 <div id="box-plot">
                   <app-box-plot [data]="mapInput.data"></app-box-plot>
+                </div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="(mapInput.title === 'Medicaid Rates')">
+          <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
+            <div class="custom-card">
+              <div class="box-plot-section">
+                <div id="box-plot">
+                  <app-bar-chart [data]="mapInput.data"
+                    [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
                 </div>
               </div>
             </div>
@@ -165,6 +175,32 @@
 
         <ion-list class="scrollable-list">
 
+          <!-- Reference inset -->
+          <ion-list-header>
+            <ion-label>Reference</ion-label>
+          </ion-list-header>
+
+
+          <!-- Mini webpage (embedded) -->
+          <ion-card>
+            <!-- <ion-card-header>
+              <ion-card-title>{{theReferenceFileForSelction}}</ion-card-title>
+            </ion-card-header> -->
+
+            <ion-card-content class="mini-webpage-card">
+              <img [src]="theReferenceFileForSelction" alt="Thumbnail preview"
+                style="width:100%; height:auto; border-radius:8px; display:block;" (error)="setDefaultImage($event)" />
+
+              <div class="iframe-fallback" style="margin-top:8px; font-size:14px;">
+                Click to open in new page,
+                <a [href]="theReferenceForSelction" target="_blank" rel="noopener noreferrer">open the site in a new
+                  tab</a>.
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+
+
           <!-- Filters Section -->
           <ion-list-header>
             <ion-label>Filters</ion-label>
@@ -198,6 +234,21 @@
             </ion-select>
           </ion-item>
 
+          <!-- Rate Section -->
+          <ion-list-header class="rate-header">
+            <div class="header-content">
+              <span>{{ selectedRateType | titlecase }} Rate</span>
+              <ion-toggle [(ngModel)]="isMedicaid" (ionChange)="toggleRateType()"></ion-toggle>
+            </div>
+          </ion-list-header>
+
+          <ion-item>
+            <ion-label>${{ theRate | number: '1.2-2' }}</ion-label>
+            <ion-button fill="clear" [href]="theReference" target="_blank">
+              go to source
+            </ion-button>
+          </ion-item>
+
           <!-- My rate Section -->
           <ion-list-header>
             <ion-label>My rate</ion-label>
@@ -208,6 +259,8 @@
             <ion-input [(ngModel)]="myRate" type="number" step="0.01" min="0" (ionChange)="onRateChange($event)">
             </ion-input>
           </ion-item>
+
+
 
           <!-- Ratios Section -->
           <ion-list-header>
