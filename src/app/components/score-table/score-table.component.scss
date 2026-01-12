@@ -107,3 +107,21 @@ ion-list-header {
 //   border-radius: 4px;
 //   box-shadow: none; /* Cleaner, flatter look */
 // }
+
+.title-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-btn {
+  position: absolute;
+  right: 8px;
+}
