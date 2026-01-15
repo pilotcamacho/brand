@@ -3,24 +3,32 @@
 
   <!-- Title row -->
   <ion-row>
-    <ion-col size="12" class="table-title"
-      style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+    <ion-col size="12" class="table-title title-container">
 
-      {{indicatorGroups.subRegion}}
-      (<em>{{indicatorGroups.region}}</em>)
+      <!-- Centered content -->
+      <div class="title-center">
+        {{ indicatorGroups.subRegion }}
+        (<em>{{ indicatorGroups.region }}</em>)
 
-      <a href="https://example.com" target="_blank" rel="noopener" class="subtle-link">
-        more info
-      </a>
+        <!-- <a href="https://example.com" target="_blank" rel="noopener" class="subtle-link">
+          more info
+        </a> -->
 
-      <ion-icon [name]="isLocked ? 'lock-closed-outline' : 'lock-open-outline'" style="font-size: 20px;">
-      </ion-icon>
+        <ion-icon [name]="isLocked ? 'lock-closed-outline' : 'lock-open-outline'" style="font-size: 20px;">
+        </ion-icon>
+      </div>
+
+      <!-- Right-aligned download -->
+      <ion-button class="download-btn" fill="clear" size="small" (click)="download()">
+        <ion-icon slot="icon-only" name="download-outline"></ion-icon>
+      </ion-button>
 
     </ion-col>
   </ion-row>
 
 
-<!-- <ion-row>
+
+  <!-- <ion-row>
   <ion-col size="6" id="ionCol">
     <div class="custom-card">
       <h4 class="taxonomy-table-title">Commercial Rate by Taxonomy vs Code Table</h4>

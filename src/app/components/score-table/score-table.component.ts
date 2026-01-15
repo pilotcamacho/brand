@@ -7,6 +7,13 @@ import { Indicators } from './score-indicators-i';
 import { PopoverController } from '@ionic/angular';
 import { HelpPopoverComponent } from '../help-popover/help-popover.component';
 
+interface FlatIndicatorRow {
+  col_title: string;
+  code: string;
+  title: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-score-table',
   templateUrl: './score-table.component.html',
@@ -88,5 +95,72 @@ export class ScoreTableComponent implements OnInit, OnChanges {
     });
     await popover.present();
   }
+
+
+  download(): void {
+
+    console.log("ScoreTableComponent::download")
+    // this.utilsService.downloadCSV(this.indicatorGroups, this.selectedPalette);
+    // console.log("ScoreTableComponent::download()::this.indicatorGroups::" + JSON.stringify(this.indicatorGroups))
+
+    const data = this.flattenIndicators(this.indicatorGroups);
+
+    // console.log("ScoreTableComponent::download()::data::" + JSON.stringify(data))
+
+
+    const csv = this.jsonToCsv(data);
+    if (!csv) {
+      return;
+    }
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'indicators.csv';
+    a.style.display = 'none';
+
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
+
+
+  private jsonToCsv(data: any[]): string {
+    if (!data || !data.length) {
+      return '';
+    }
+
+    const headers = Object.keys(data[0]);
+
+    const csvRows = [
+      headers.join(','), // header row
+      ...data.map(row =>
+        headers.map(h => {
+          const val = row[h] ?? '';
+          // Escape quotes and wrap fields containing commas/newlines
+          const escaped = String(val).replace(/"/g, '""');
+          return /[",\n]/.test(escaped) ? `"${escaped}"` : escaped;
+        }).join(',')
+      )
+    ];
+
+    return csvRows.join('\n');
+  }
+
+  flattenIndicators(indicators: Indicators): FlatIndicatorRow[] {
+    return indicators.columns.flatMap(column =>
+      column.rows.map(row => ({
+        col_title: column.col_title,
+        code: row.code,
+        title: row.title,
+        value: row.value
+      }))
+    );
+  }
+
 
 }
