@@ -492,4 +492,7 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
     element.src = 'assets/camber-logo.png'; // <-- fallback image in assets
   }
 
+  downloadRates(event: Event): void {
+    console.log("HomePage::downloadRates::" + event)
+  }
 }
