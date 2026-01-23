@@ -156,7 +156,7 @@ export class DdbService {
 
     const inputQuery = {
       variable: (code_tiny > -1 ? (variable + '#' + code_tiny) : variable),
-      region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2025-11-01'
+      region: region, p_i36: p_i36, t_i36: t_i36, taxonomy: taxonomy, bcba_bt: bcba_bt, d_read: '2026-01-20'
     }
 
     // console.log(`DdbService::go()::inputQuery:  ${JSON.stringify(inputQuery)}`)
