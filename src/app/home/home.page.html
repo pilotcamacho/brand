@@ -52,7 +52,8 @@
           <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" id="ionCol">
             <app-score-table [selectedPalette]="selectedPalette" [isLocked]="isLocked"
               [indicatorGroups]="indicatorGroups" [selectedRow]="selectedColumn.indicatorCode"
-              (selectedCountyChange)="onIndicatorChange($event)"></app-score-table>
+              (selectedCountyChange)="onIndicatorChange($event)"
+              (selectedIndicatorToDownload)="downloadRow($event)"></app-score-table>
           </ion-col>
         </ion-row>
 
@@ -74,8 +75,7 @@
             <div class="custom-card">
               <div class="box-plot-section">
                 <div id="box-plot">
-                  <app-bar-chart [data]="mapInput.data"
-                    [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
+                  <app-bar-chart [data]="mapInput.data" [selectedCounty]="selectedCountyFromChild"></app-bar-chart>
                 </div>
               </div>
             </div>
@@ -84,7 +84,11 @@
 
         <ion-card *ngIf="mapInput.title === 'Rates'">
           <ion-card-header>
-            <ion-card-title>{{ mapInput.title }}</ion-card-title>
+            <ion-card-title class="card-title-with-icon">
+              {{ mapInput.title }}
+              <ion-icon name="download-outline" class="download-icon" (click)="downloadRates($event)">
+              </ion-icon>
+            </ion-card-title>
           </ion-card-header>
 
           <ion-card-content>

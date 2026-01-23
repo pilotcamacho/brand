@@ -34,6 +34,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectedIndicatorToDownload: EventEmitter<string> = new EventEmitter<string>();
 
 
   constructor(
@@ -55,7 +56,6 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   onSelectIndicator(code: string) {
     // console.log("ScoreTableComponent::onSelectIndicator::code: " + code)
     this.selectedCountyChange.emit(code)
-
   }
 
 
@@ -97,7 +97,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   }
 
 
-  download(): void {
+  downloadMapInfo(): void {
 
     console.log("ScoreTableComponent::download")
     // this.utilsService.downloadCSV(this.indicatorGroups, this.selectedPalette);
@@ -107,49 +107,15 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
     // console.log("ScoreTableComponent::download()::data::" + JSON.stringify(data))
 
-
-    const csv = this.jsonToCsv(data);
-    if (!csv) {
-      return;
-    }
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'indicators.csv';
-    a.style.display = 'none';
-
-    document.body.appendChild(a);
-    a.click();
-
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+    this.utilsService.downloadCSV(data, 'indicators.csv');
   }
 
-
-  private jsonToCsv(data: any[]): string {
-    if (!data || !data.length) {
-      return '';
-    }
-
-    const headers = Object.keys(data[0]);
-
-    const csvRows = [
-      headers.join(','), // header row
-      ...data.map(row =>
-        headers.map(h => {
-          const val = row[h] ?? '';
-          // Escape quotes and wrap fields containing commas/newlines
-          const escaped = String(val).replace(/"/g, '""');
-          return /[",\n]/.test(escaped) ? `"${escaped}"` : escaped;
-        }).join(',')
-      )
-    ];
-
-    return csvRows.join('\n');
+  downloadRow(column: string, row: { code: string, title: string }) {
+    console.log("ScoreTableComponent::downloadRow::row: ")
+    // this.utilsService.downloadCSV(data, 'indicators.csv');
+    this.selectedIndicatorToDownload.emit(row.code);
   }
+
 
   flattenIndicators(indicators: Indicators): FlatIndicatorRow[] {
     return indicators.columns.flatMap(column =>
