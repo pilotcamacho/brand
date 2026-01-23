@@ -194,7 +194,7 @@ export class UtilsService {
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'indicators.csv';
+    a.download = filename;
     a.style.display = 'none';
 
     document.body.appendChild(a);

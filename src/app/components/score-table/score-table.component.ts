@@ -34,6 +34,7 @@ export class ScoreTableComponent implements OnInit, OnChanges {
 
   // Output property to send the selected country to the parent
   @Output() selectedCountyChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() selectedIndicatorToDownload: EventEmitter<string> = new EventEmitter<string>();
 
 
   constructor(
@@ -55,7 +56,6 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   onSelectIndicator(code: string) {
     // console.log("ScoreTableComponent::onSelectIndicator::code: " + code)
     this.selectedCountyChange.emit(code)
-
   }
 
 
@@ -111,9 +111,10 @@ export class ScoreTableComponent implements OnInit, OnChanges {
   }
 
   downloadRow(column: string, row: { code: string, title: string }) {
-    console.log("ScoreTableComponent::downloadRow::row: " + row)
+    console.log("ScoreTableComponent::downloadRow::row: ")
+    // this.utilsService.downloadCSV(data, 'indicators.csv');
+    this.selectedIndicatorToDownload.emit(row.code);
   }
-
 
 
   flattenIndicators(indicators: Indicators): FlatIndicatorRow[] {

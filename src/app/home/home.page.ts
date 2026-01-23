@@ -494,5 +494,12 @@ export class HomePage implements AfterViewInit, OnInit, OnDestroy {
 
   downloadRates(event: Event): void {
     console.log("HomePage::downloadRates::" + event)
+    console.log("HomePage::downloadRates::this.mapInput::" + JSON.stringify(this.mapInput))
+  }
+
+  downloadRow(event: any): void {
+    console.log("HomePage::downloadRow::" + event)
+    console.log("HomePage::downloadRow::this.mapInput::" + JSON.stringify(this.mapInput))
+    this.utilsService.downloadCSV(this.mapInput.data.map(row => ({subRegion: row.subRegion, value: row.value })), this.mapInput.title + '.csv');
   }
 }
